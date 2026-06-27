@@ -337,10 +337,6 @@ function googleTranslateElementInit(){
 <meta name="google-site-verification" content="3d_yJhqe1AoN73_pDy-0TYBKghbMoeCNL8IWUC8yj4Q" />
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%230B2A4A' stroke='none'/><path d='M8 32 Q20 18 32 32 Q44 46 56 32' fill='none' stroke='%23C8860A' stroke-width='4' stroke-linecap='round'/></svg>">
-<link rel="alternate" hreflang="fr" href="https://poros-aidant.netlify.app/"/>
-<link rel="alternate" hreflang="en" href="https://poros-aidant.netlify.app/?lang=en"/>
-<link rel="alternate" hreflang="ar" href="https://poros-aidant.netlify.app/?lang=ar"/>
-<link rel="alternate" hreflang="x-default" href="https://poros-aidant.netlify.app/"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -445,22 +441,22 @@ function googleTranslateElementInit(){
 
       <!-- Badge mythologique -->
       <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,134,10,0.15);border:1px solid rgba(200,134,10,0.3);border-radius:20px;padding:6px 16px;margin-bottom:32px">
-        <span style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px">Portail Méditerranéen · 2026</span>
+        <span id="tx-badge" style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px">Portail Méditerranéen · 2026</span>
       </div>
 
       <!-- Titre -->
       <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:600;color:#fff;line-height:1.1;margin-bottom:16px;letter-spacing:-1px;max-width:800px">
-        Trouver le passage<br><em style="color:#7AAFD4;font-style:italic">vers les ressources qui accompagnent.</em>
+        <span id="tx-h1">Trouver le passage</span><br><em id="tx-h1-sub" style="color:#7AAFD4;font-style:italic">vers les ressources qui accompagnent.</em>
       </h1>
 
       <!-- Sous-titre -->
       <p style="font-size:clamp(14px,2vw,18px);color:rgba(255,255,255,0.55);max-width:560px;line-height:1.8;margin-bottom:48px;font-weight:300">
-        Le portail méditerranéen dédié aux aidants familiaux.
+        <span id="tx-sub">Le portail méditerranéen dédié aux aidants familiaux.</span>
       </p>
 
       <!-- CTA principal -->
       <button onclick="entrerAnnuaire()" style="background:#C8860A;color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;padding:16px 40px;border-radius:50px;cursor:pointer;transition:all 0.2s;box-shadow:0 8px 32px rgba(200,134,10,0.3);margin-bottom:16px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 40px rgba(200,134,10,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow='0 8px 32px rgba(200,134,10,0.3)'">
-        Accéder à l'annuaire →
+        <span id="tx-cta">Accéder à l'annuaire →</span>
       </button>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px">
         <span style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:5px">
@@ -480,22 +476,22 @@ function googleTranslateElementInit(){
       <div style="display:flex;gap:40px;margin-top:64px;flex-wrap:wrap;justify-content:center">
         <div style="text-align:center">
           <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#fff" id="stat-prat-landing">0</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Praticiens</div>
+          <div id="tx-stat-prat" style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Praticiens</div>
         </div>
         <div style="width:1px;background:rgba(255,255,255,0.1);align-self:stretch"></div>
         <div style="text-align:center">
           <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#fff" id="stat-asso-landing">0</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Associations</div>
+          <div id="tx-stat-asso" style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Associations</div>
         </div>
         <div style="width:1px;background:rgba(255,255,255,0.1);align-self:stretch"></div>
         <div style="text-align:center">
           <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#fff">9</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Pays</div>
+          <div id="tx-stat-pays" style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Pays</div>
         </div>
         <div style="width:1px;background:rgba(255,255,255,0.1);align-self:stretch"></div>
         <div style="text-align:center">
           <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#fff" id="stat-ecoute-landing">0</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Lignes d'écoute</div>
+          <div id="tx-stat-ecoute" style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Lignes d'écoute</div>
         </div>
       </div>
     </div>
@@ -506,47 +502,47 @@ function googleTranslateElementInit(){
 
         <div style="text-align:center;margin-bottom:48px">
           <div style="display:inline-block;background:rgba(200,134,10,0.1);border:1px solid rgba(200,134,10,0.25);border-radius:20px;padding:5px 16px;margin-bottom:16px">
-            <span style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px;text-transform:uppercase">Guide aidant</span>
+            <span id="tx-guide-label" style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px;text-transform:uppercase">Guide aidant</span>
           </div>
-          <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;color:#fff;margin-bottom:12px">Je suis aidant — par où commencer ?</h2>
-          <p style="font-size:14px;color:rgba(255,255,255,0.45);max-width:480px;margin:0 auto;line-height:1.7">Vous accompagnez un proche malade ou dépendant et vous ne savez pas vers qui vous tourner. Voici les 5 premières étapes.</p>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;color:#fff;margin-bottom:12px"><span id="tx-guide-h2">Je suis aidant — par où commencer ?</span></h2>
+          <p style="font-size:14px;color:rgba(255,255,255,0.45);max-width:480px;margin:0 auto;line-height:1.7"><span id="tx-guide-sub">Vous accompagnez un proche malade ou dépendant et vous ne savez pas vers qui vous tourner. Voici les 5 premières étapes.</span></p>
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
 
           <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;border-top:3px solid #2E6DA4">
             <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:rgba(255,255,255,0.15);line-height:1;margin-bottom:12px">01</div>
-            <div style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">Parlez-en à votre médecin</div>
+            <div id="tx-s1t" style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">Parlez-en à votre médecin</div>
             <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">Le médecin traitant est le premier interlocuteur. Il peut orienter vers les spécialistes, demander une ALD et coordonner les soins à domicile.</p>
           </div>
 
           <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;border-top:3px solid #1E7D6B">
             <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:rgba(255,255,255,0.15);line-height:1;margin-bottom:12px">02</div>
-            <div style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">Contactez l'association de la pathologie</div>
+            <div id="tx-s2t" style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">Contactez l'association de la pathologie</div>
             <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">France Alzheimer, France Parkinson, Ligue contre le Cancer… chaque association propose une ligne d'écoute, des groupes de parole et des formations gratuites pour les aidants.</p>
           </div>
 
           <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;border-top:3px solid #C8860A">
             <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:rgba(255,255,255,0.15);line-height:1;margin-bottom:12px">03</div>
-            <div style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">Renseignez-vous sur les aides financières</div>
+            <div id="tx-s3t" style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">Renseignez-vous sur les aides financières</div>
             <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">En France : APA, PCH, AJPA, congé proche aidant. En Tunisie : CNSS, CNRPS, Ministère des Affaires Sociales. Ces aides peuvent financer une aide à domicile ou vous permettre de réduire votre travail.</p>
           </div>
 
           <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;border-top:3px solid #534AB7">
             <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:rgba(255,255,255,0.15);line-height:1;margin-bottom:12px">04</div>
-            <div style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">Prenez soin de vous aussi</div>
+            <div id="tx-s4t" style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">Prenez soin de vous aussi</div>
             <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">L'épuisement de l'aidant est réel et documenté. Sophrologie, groupes de parole, plateformes d'écoute — prendre soin de soi n'est pas un luxe, c'est une nécessité pour durer.</p>
           </div>
 
           <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;border-top:3px solid #A32D2D">
             <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:rgba(255,255,255,0.15);line-height:1;margin-bottom:12px">05</div>
-            <div style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">En cas de crise — vous n'êtes pas seul</div>
+            <div id="tx-s5t" style="font-size:15px;font-weight:500;color:#fff;margin-bottom:8px">En cas de crise — vous n'êtes pas seul</div>
             <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">Si vous ressentez un épuisement sévère ou une détresse psychologique, sachez qu'il existe dans chaque pays des lignes téléphoniques dédiées, gratuites et accessibles 24h/24, animées par des professionnels de santé mentale. Consultez l'onglet <em style="color:rgba(255,255,255,0.7)">Plateformes d'écoute</em> de l'annuaire pour trouver le numéro adapté à votre pays.</p>
           </div>
 
           <div style="background:rgba(200,134,10,0.06);border:1px solid rgba(200,134,10,0.2);border-radius:14px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px">
             <div style="font-size:28px">🧭</div>
-            <div style="font-size:15px;font-weight:500;color:#C8860A">Prêt à trouver le bon professionnel ?</div>
+            <div id="tx-cta2" style="font-size:15px;font-weight:500;color:#C8860A">Prêt à trouver le bon professionnel ?</div>
             <p style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6">Utilisez l'annuaire Poros pour trouver praticiens, associations et ressources près de chez vous.</p>
             <button onclick="entrerAnnuaire()" style="background:#C8860A;color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:10px 24px;border-radius:20px;cursor:pointer">Accéder à l'annuaire →</button>
           </div>
@@ -563,9 +559,9 @@ function googleTranslateElementInit(){
         <!-- Titre section -->
         <div style="text-align:center;margin-bottom:56px">
           <div style="display:inline-block;background:rgba(200,134,10,0.1);border:1px solid rgba(200,134,10,0.25);border-radius:20px;padding:5px 16px;margin-bottom:16px">
-            <span style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px;text-transform:uppercase">Qui sommes-nous</span>
+            <span id="tx-who-label" style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px;text-transform:uppercase">Qui sommes-nous</span>
           </div>
-          <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;color:#fff;margin-bottom:12px">Une initiative née du terrain</h2>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;color:#fff;margin-bottom:12px"><span id="tx-who-h2">Une initiative née du terrain</span></h2>
           <p style="font-size:14px;color:rgba(255,255,255,0.45);max-width:520px;margin:0 auto;line-height:1.7">Poros est né d'un constat simple : les aidants familiaux manquent cruellement de repères pour naviguer dans les systèmes de santé méditerranéens.</p>
         </div>
 
@@ -574,7 +570,7 @@ function googleTranslateElementInit(){
           <!-- Carte fondatrice -->
           <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px;border-top:3px solid #C8860A">
             <div style="width:48px;height:48px;border-radius:12px;background:rgba(200,134,10,0.15);border:1px solid rgba(200,134,10,0.3);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px">👩‍⚕️</div>
-            <div style="font-size:12px;color:#C8860A;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Fondatrice</div>
+            <div id="tx-fondatrice" style="font-size:12px;color:#C8860A;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Fondatrice</div>
             <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;margin-bottom:4px">Laetitia Mallet-Fraoua</div>
             <div style="font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:12px;line-height:1.5">Psychogérontologue · Psychopraticienne<br>Consultante & Formatrice</div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
@@ -588,7 +584,7 @@ function googleTranslateElementInit(){
           <!-- Carte AMGG -->
           <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px;border-top:3px solid #2E6DA4">
             <div style="width:48px;height:48px;border-radius:12px;background:rgba(46,109,164,0.15);border:1px solid rgba(46,109,164,0.3);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px">🌊</div>
-            <div style="font-size:12px;color:#7AAFD4;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Structure porteuse</div>
+            <div id="tx-amgg-label" style="font-size:12px;color:#7AAFD4;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Structure porteuse</div>
             <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;margin-bottom:4px">AMGG</div>
             <div style="font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:12px;line-height:1.5">Association Méditerranéenne<br>de Gériatrie et Gérontologie</div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
@@ -602,7 +598,7 @@ function googleTranslateElementInit(){
           <!-- Carte Mission -->
           <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px;border-top:3px solid #1E7D6B">
             <div style="width:48px;height:48px;border-radius:12px;background:rgba(30,125,107,0.15);border:1px solid rgba(30,125,107,0.3);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px">🧭</div>
-            <div style="font-size:12px;color:#4AC9B0;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Notre mission</div>
+            <div id="tx-mission-label" style="font-size:12px;color:#4AC9B0;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Notre mission</div>
             <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;margin-bottom:12px">Trouver le passage</div>
             <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:14px">Poros est une plateforme gratuite, sans publicité, créée par et pour les aidants familiaux. Chaque fiche est vérifiée avant publication. Notre engagement : offrir une information fiable, humaine et accessible dans 9 pays méditerranéens.</p>
             <!-- Version gratuite -->
@@ -823,19 +819,19 @@ function googleTranslateElementInit(){
             <circle cx="6" cy="70" r="5" fill="#1A4A7A" opacity="0.5"/>
             <circle cx="134" cy="70" r="5" fill="#1A4A7A" opacity="0.5"/>
           </svg>POROS
-      <em>Le passage vers les ressources pour accompagner votre proche</em>
+      <em id="tx-ann-em">Le passage vers les ressources pour accompagner votre proche</em>
     </h1>
-    <p class="header-sub">Poros guide les aidants familiaux du bassin méditerranéen vers les praticiens, les associations et les ressources dont ils ont besoin.</p>
+    <p id="tx-ann-sub" class="header-sub">Poros guide les aidants familiaux du bassin méditerranéen vers les praticiens, les associations et les ressources dont ils ont besoin.</p>
     <div class="header-stats">
-      <div class="stat"><span class="stat-n" id="s-prat">0</span><span class="stat-l">Praticiens</span></div>
+      <div class="stat"><span class="stat-n" id="s-prat">0</span><span id="tx-ann-prat" class="stat-l">Praticiens</span></div>
       <div class="stat-sep"></div>
-      <div class="stat"><span class="stat-n" id="s-hop">0</span><span class="stat-l">Hôpitaux</span></div>
+      <div class="stat"><span class="stat-n" id="s-hop">0</span><span id="tx-ann-hop" class="stat-l">Hôpitaux</span></div>
       <div class="stat-sep"></div>
-      <div class="stat"><span class="stat-n" id="s-douce">0</span><span class="stat-l">Médecine douce</span></div>
+      <div class="stat"><span class="stat-n" id="s-douce">0</span><span id="tx-ann-douce" class="stat-l">Médecine douce</span></div>
       <div class="stat-sep"></div>
-      <div class="stat"><span class="stat-n" id="s-asso">0</span><span class="stat-l">Associations</span></div>
+      <div class="stat"><span class="stat-n" id="s-asso">0</span><span id="tx-ann-asso" class="stat-l">Associations</span></div>
       <div class="stat-sep"></div>
-      <div class="stat"><span class="stat-n" id="s-ecoute">0</span><span class="stat-l">Écoute</span></div>
+      <div class="stat"><span class="stat-n" id="s-ecoute">0</span><span id="tx-ann-ecoute" class="stat-l">Écoute</span></div>
       <div class="stat-sep"></div>
       <div class="stat"><span class="stat-n">9</span><span class="stat-l">Pays</span></div>
     </div>
@@ -1096,7 +1092,7 @@ function googleTranslateElementInit(){
   <strong>POROS — Πόρος</strong><br>
   Plateforme méditerranéenne dédiée aux aidants familiaux<br>
   Praticiens libéraux · Services hospitaliers · Plateformes d'écoute · Médecine douce · Associations · Ministères<br>
-  <em>"Trouver le passage vers les ressources qui accompagnent."</em><br>
+  <em id="tx-footer-slogan">"Trouver le passage vers les ressources qui accompagnent."</em><br>
   <br>
   <span style="color:rgba(255,255,255,0.3);font-size:12px">
     Les informations sont données à titre indicatif · Contactez directement les praticiens pour confirmer leur disponibilité<br>
@@ -2157,66 +2153,311 @@ function triggerGT(lang) {
 function applyLang(lang) {
   var T = {
     fr: {
-      tab_prat: "👨‍⚕️ Praticiens libéraux",
-      tab_hop: "🏥 Services hospitaliers",
-      tab_ecoute: "📞 Plateformes d'écoute",
-      tab_douce: "🌿 Médecine douce",
-      tab_asso: "🤝 Associations",
-      tab_min: "🏛️ Ministères",
-      tab_carte: "🗺️ Carte",
-      pays_label: "Sélectionner un pays",
-      sq: "Rechercher nom, ville…",
-      sq_hop: "Rechercher un service, un hôpital…",
-      sq_ecoute: "Rechercher une plateforme…",
-      sq_douce: "Rechercher un praticien…",
-      sq_asso: "Rechercher une association…",
-      sq_min: "Rechercher un ministère, un service…"
+      // Onglets
+      tab_prat:"👨‍⚕️ Praticiens libéraux", tab_hop:"🏥 Services hospitaliers",
+      tab_ecoute:"📞 Plateformes d'écoute", tab_douce:"🌿 Médecine douce",
+      tab_asso:"🤝 Associations", tab_min:"🏛️ Ministères", tab_carte:"🗺️ Carte",
+      pays_label:"Sélectionner un pays",
+      // Recherche globale
+      sq_global:"🔍 Rechercher dans tout l'annuaire… (ex: sophrologie Sfax, neurologue Tunis, Alzheimer France)",
+      search_global:"🔍  Rechercher dans tout l'annuaire — praticien, association, ville, pathologie…",
+      // Placeholders
+      sq:"Rechercher nom, ville…", sq_hop:"Rechercher un service, un hôpital…",
+      sq_ecoute:"Rechercher une plateforme…", sq_douce:"Rechercher un praticien…",
+      sq_asso:"Rechercher une association…", sq_min:"Rechercher un ministère, un service…",
+      // Filtres selects
+      all_spe:"Toutes spécialités", all_profils:"Tous profils", all_regions:"Toutes régions",
+      all_depts:"Tous départements", all_pathos:"Toutes pathologies",
+      all_services:"Tous services", all_ecoute:"Toutes", all_domaines:"Tous domaines",
+      // Options spécialités
+      spe_aide:"Aide-soignant(e)", spe_aux:"Auxiliaire de vie",
+      spe_avo:"Avocat & juriste — Droit des personnes âgées",
+      spe_cardio:"Cardio-gériatrie", spe_ergo:"Ergothérapie", spe_ger:"Gériatrie",
+      spe_inf:"Infirmier(e) libéral(e)", spe_kine:"Kinésithérapie",
+      spe_med:"Médecine générale", spe_nephro:"Néphro-gériatrie",
+      spe_neuro:"Neurologie", spe_neuropsycho:"Neuropsychologie",
+      spe_nutri:"Nutrition & diététique", spe_onco:"Onco-gériatrie",
+      spe_ortho:"Orthophonie", spe_podo:"Podologie", spe_psy:"Psychiatrie",
+      spe_psycho:"Psychologie clinique", spe_psychomot:"Psychomotricien(ne)",
+      spe_sexo:"Sexologie", spe_soins:"Soins palliatifs", spe_social:"Travail social",
+      // Options hôpitaux
+      srv_neuro:"Neurologie", srv_ger:"Gériatrie", srv_psy:"Psychiatrie",
+      srv_soins:"Soins palliatifs", srv_onco:"Oncologie", srv_med:"Médecine interne",
+      // Options écoute
+      ec_aidants:"Aidants familiaux", ec_deuil:"Deuil",
+      ec_crise:"Crise psychologique", ec_ages:"Personnes âgées",
+      // Options associations
+      asso_alz:"Alzheimer", asso_par:"Parkinson", asso_can:"Cancer",
+      asso_psy:"Troubles psychiatriques", asso_sep:"Sclérose en plaques",
+      // Options ministères
+      min_sante:"Santé", min_social:"Social & handicap",
+      min_droits:"Droits & justice", min_finances:"Finances & aides",
+      // Carte
+      carte_prat:"👨‍⚕️ Praticiens", carte_hop:"🏥 Hôpitaux", carte_tous:"Tous",
+      // Boutons référencer
+      btn_ref_prat:"➕ Référencer mon cabinet / ma pratique",
+      btn_ref_hop:"➕ Référencer un service hospitalier",
+      btn_ref_ecoute:"➕ Référencer une plateforme d'écoute",
+      btn_ref_douce:"➕ Référencer ma pratique de médecine douce",
+      btn_ref_asso:"➕ Référencer mon association",
+      btn_ref_centre:"🏠 Référencer mon centre",
+      disc_label:"Choisir une discipline",
+      // Landing
+      badge:"Portail Méditerranéen · 2026",
+      h1:"Trouver le passage", h1_sub:"vers les ressources qui accompagnent.",
+      sub:"Le portail méditerranéen dédié aux aidants familiaux.",
+      cta:"Accéder à l'annuaire →", cta2:"Prêt à trouver le bon professionnel ?",
+      stat_prat:"Praticiens", stat_asso:"Associations", stat_pays:"Pays", stat_ecoute:"Lignes d'écoute",
+      guide_label:"Guide aidant", guide_h2:"Je suis aidant — par où commencer ?",
+      guide_sub:"Vous accompagnez un proche malade ou dépendant et vous ne savez pas vers qui vous tourner. Voici les 5 premières étapes.",
+      s1t:"Parlez-en à votre médecin", s2t:"Contactez l'association de la pathologie",
+      s3t:"Renseignez-vous sur les aides financières", s4t:"Prenez soin de vous aussi",
+      s5t:"En cas de crise — vous n'êtes pas seul",
+      who_label:"Qui sommes-nous", who_h2:"Une initiative née du terrain",
+      fondatrice:"Fondatrice", amgg_label:"Structure porteuse", mission_label:"Notre mission",
+      ann_sub:"Poros guide les aidants familiaux du bassin méditerranéen vers les praticiens, les associations et les ressources dont ils ont besoin.",
+      ann_em:"Le passage vers les ressources pour accompagner votre proche",
+      ann_prat:"Praticiens", ann_hop:"Hôpitaux", ann_douce:"Médecine douce",
+      ann_asso:"Associations", ann_ecoute:"Écoute",
+      footer_slogan:"\"Trouver le passage vers les ressources qui accompagnent.\""
     },
     en: {
-      tab_prat: "👨‍⚕️ Private practitioners",
-      tab_hop: "🏥 Hospital services",
-      tab_ecoute: "📞 Listening platforms",
-      tab_douce: "🌿 Complementary medicine",
-      tab_asso: "🤝 Associations",
-      tab_min: "🏛️ Ministries",
-      tab_carte: "🗺️ Map",
-      pays_label: "Select a country",
-      sq: "Search by name, city…",
-      sq_hop: "Search a service or hospital…",
-      sq_ecoute: "Search a platform…",
-      sq_douce: "Search a practitioner…",
-      sq_asso: "Search an association…",
-      sq_min: "Search a ministry or service…"
+      tab_prat:"👨‍⚕️ Private practitioners", tab_hop:"🏥 Hospital services",
+      tab_ecoute:"📞 Listening platforms", tab_douce:"🌿 Complementary medicine",
+      tab_asso:"🤝 Associations", tab_min:"🏛️ Ministries", tab_carte:"🗺️ Map",
+      pays_label:"Select a country",
+      sq_global:"🔍 Search the directory… (e.g. physiotherapy Sfax, neurologist Tunis, Alzheimer France)",
+      search_global:"🔍  Search the directory — practitioner, association, city, condition…",
+      sq:"Search by name, city…", sq_hop:"Search a service or hospital…",
+      sq_ecoute:"Search a platform…", sq_douce:"Search a practitioner…",
+      sq_asso:"Search an association…", sq_min:"Search a ministry or service…",
+      all_spe:"All specialties", all_profils:"All profiles", all_regions:"All regions",
+      all_depts:"All areas", all_pathos:"All conditions",
+      all_services:"All services", all_ecoute:"All", all_domaines:"All domains",
+      spe_aide:"Care assistant", spe_aux:"Home help",
+      spe_avo:"Lawyer — Elderly law",
+      spe_cardio:"Cardio-geriatrics", spe_ergo:"Occupational therapy", spe_ger:"Geriatrics",
+      spe_inf:"Nurse practitioner", spe_kine:"Physiotherapy",
+      spe_med:"General medicine", spe_nephro:"Nephro-geriatrics",
+      spe_neuro:"Neurology", spe_neuropsycho:"Neuropsychology",
+      spe_nutri:"Nutrition & dietetics", spe_onco:"Onco-geriatrics",
+      spe_ortho:"Speech therapy", spe_podo:"Podiatry", spe_psy:"Psychiatry",
+      spe_psycho:"Clinical psychology", spe_psychomot:"Psychomotor therapy",
+      spe_sexo:"Sexology", spe_soins:"Palliative care", spe_social:"Social work",
+      srv_neuro:"Neurology", srv_ger:"Geriatrics", srv_psy:"Psychiatry",
+      srv_soins:"Palliative care", srv_onco:"Oncology", srv_med:"Internal medicine",
+      ec_aidants:"Family caregivers", ec_deuil:"Bereavement",
+      ec_crise:"Psychological crisis", ec_ages:"Elderly people",
+      asso_alz:"Alzheimer", asso_par:"Parkinson", asso_can:"Cancer",
+      asso_psy:"Psychiatric disorders", asso_sep:"Multiple sclerosis",
+      min_sante:"Health", min_social:"Social & disability",
+      min_droits:"Rights & justice", min_finances:"Finances & support",
+      carte_prat:"👨‍⚕️ Practitioners", carte_hop:"🏥 Hospitals", carte_tous:"All",
+      btn_ref_prat:"➕ List my practice",
+      btn_ref_hop:"➕ List a hospital service",
+      btn_ref_ecoute:"➕ List a listening platform",
+      btn_ref_douce:"➕ List my complementary medicine practice",
+      btn_ref_asso:"➕ List my association",
+      btn_ref_centre:"🏠 List my centre",
+      disc_label:"Choose a discipline",
+      badge:"Mediterranean Portal · 2026",
+      h1:"Finding the way", h1_sub:"to the resources that support you.",
+      sub:"The Mediterranean portal dedicated to family caregivers.",
+      cta:"Access the directory →", cta2:"Ready to find the right professional?",
+      stat_prat:"Practitioners", stat_asso:"Associations", stat_pays:"Countries", stat_ecoute:"Helplines",
+      guide_label:"Caregiver guide", guide_h2:"I am a caregiver — where do I start?",
+      guide_sub:"You are caring for an ill or dependent loved one and don't know where to turn. Here are the first 5 steps.",
+      s1t:"Talk to your doctor", s2t:"Contact the relevant association",
+      s3t:"Find out about financial support", s4t:"Take care of yourself too",
+      s5t:"In a crisis — you are not alone",
+      who_label:"Who we are", who_h2:"An initiative born from the field",
+      fondatrice:"Founder", amgg_label:"Supporting structure", mission_label:"Our mission",
+      ann_sub:"Poros guides family caregivers across the Mediterranean basin to the practitioners, associations and resources they need.",
+      ann_em:"Finding the way to resources for accompanying your loved one",
+      ann_prat:"Practitioners", ann_hop:"Hospitals", ann_douce:"Complementary medicine",
+      ann_asso:"Associations", ann_ecoute:"Listening",
+      footer_slogan:"\"Finding the way to the resources that support you.\""
     },
     ar: {
-      tab_prat: "👨‍⚕️ الممارسون الخاصون",
-      tab_hop: "🏥 الخدمات المستشفوية",
-      tab_ecoute: "📞 منصات الاستماع",
-      tab_douce: "🌿 الطب التكميلي",
-      tab_asso: "🤝 الجمعيات",
-      tab_min: "🏛️ الوزارات",
-      tab_carte: "🗺️ الخريطة",
-      pays_label: "اختر بلداً",
-      sq: "البحث بالاسم أو المدينة…",
-      sq_hop: "البحث عن خدمة أو مستشفى…",
-      sq_ecoute: "البحث عن منصة…",
-      sq_douce: "البحث عن ممارس…",
-      sq_asso: "البحث عن جمعية…",
-      sq_min: "البحث عن وزارة…"
+      tab_prat:"👨‍⚕️ الممارسون الخاصون", tab_hop:"🏥 الخدمات المستشفوية",
+      tab_ecoute:"📞 منصات الاستماع", tab_douce:"🌿 الطب التكميلي",
+      tab_asso:"🤝 الجمعيات", tab_min:"🏛️ الوزارات", tab_carte:"🗺️ الخريطة",
+      pays_label:"اختر بلداً",
+      sq_global:"🔍 البحث في الدليل… (مثال: علاج طبيعي صفاقس، عصبي تونس)",
+      search_global:"🔍  البحث في الدليل — ممارس، جمعية، مدينة، مرض…",
+      sq:"البحث بالاسم أو المدينة…", sq_hop:"البحث عن خدمة أو مستشفى…",
+      sq_ecoute:"البحث عن منصة…", sq_douce:"البحث عن ممارس…",
+      sq_asso:"البحث عن جمعية…", sq_min:"البحث عن وزارة…",
+      all_spe:"جميع التخصصات", all_profils:"جميع الملفات الشخصية",
+      all_regions:"جميع المناطق", all_depts:"جميع المحافظات",
+      all_pathos:"جميع الأمراض",
+      all_services:"جميع الخدمات", all_ecoute:"الكل", all_domaines:"جميع المجالات",
+      spe_aide:"مساعد رعاية", spe_aux:"مساعد منزلي",
+      spe_avo:"محامي — قانون كبار السن",
+      spe_cardio:"قلب وشيخوخة", spe_ergo:"علاج وظيفي", spe_ger:"طب الشيخوخة",
+      spe_inf:"ممرض(ة) مستقل(ة)", spe_kine:"علاج طبيعي",
+      spe_med:"طب عام", spe_nephro:"كلى وشيخوخة",
+      spe_neuro:"أعصاب", spe_neuropsycho:"نفس عصبي",
+      spe_nutri:"تغذية وحمية", spe_onco:"أورام وشيخوخة",
+      spe_ortho:"علاج النطق", spe_podo:"تقويم القدم", spe_psy:"طب نفسي",
+      spe_psycho:"علم النفس السريري", spe_psychomot:"علاج حركي نفسي",
+      spe_sexo:"طب جنسي", spe_soins:"رعاية تلطيفية", spe_social:"عمل اجتماعي",
+      srv_neuro:"أعصاب", srv_ger:"شيخوخة", srv_psy:"طب نفسي",
+      srv_soins:"رعاية تلطيفية", srv_onco:"أورام", srv_med:"طب باطني",
+      ec_aidants:"مقدّمو الرعاية العائليون", ec_deuil:"الحزن",
+      ec_crise:"أزمة نفسية", ec_ages:"كبار السن",
+      asso_alz:"الزهايمر", asso_par:"باركنسون", asso_can:"السرطان",
+      asso_psy:"اضطرابات نفسية", asso_sep:"التصلب المتعدد",
+      min_sante:"الصحة", min_social:"الشؤون الاجتماعية",
+      min_droits:"الحقوق والعدالة", min_finances:"المالية والمساعدات",
+      carte_prat:"👨‍⚕️ ممارسون", carte_hop:"🏥 مستشفيات", carte_tous:"الكل",
+      btn_ref_prat:"➕ تسجيل عيادتي",
+      btn_ref_hop:"➕ تسجيل خدمة مستشفوية",
+      btn_ref_ecoute:"➕ تسجيل منصة استماع",
+      btn_ref_douce:"➕ تسجيل ممارستي للطب التكميلي",
+      btn_ref_asso:"➕ تسجيل جمعيتي",
+      btn_ref_centre:"🏠 تسجيل مركزي",
+      disc_label:"اختر تخصصاً",
+      badge:"بوابة المتوسط · 2026",
+      h1:"إيجاد الطريق", h1_sub:"نحو الموارد التي تدعمك.",
+      sub:"البوابة المتوسطية المخصصة لمقدّمي الرعاية العائليين.",
+      cta:"الدخول إلى الدليل ←", cta2:"هل أنت مستعد للعثور على المختص المناسب؟",
+      stat_prat:"ممارسون", stat_asso:"جمعيات", stat_pays:"دول", stat_ecoute:"خطوط مساعدة",
+      guide_label:"دليل مقدّم الرعاية", guide_h2:"أنا مقدّم رعاية — من أين أبدأ؟",
+      guide_sub:"أنت تعتني بقريب مريض أو معالج ولا تعرف إلى من تتجه. إليك الخطوات الخمس الأولى.",
+      s1t:"تحدّث مع طبيبك", s2t:"اتصل بالجمعية المختصة",
+      s3t:"تعرّف على المساعدات المالية", s4t:"اعتنِ بنفسك أيضاً",
+      s5t:"في حالة أزمة — لست وحدك",
+      who_label:"من نحن", who_h2:"مبادرة وُلدت من الميدان",
+      fondatrice:"المؤسِّسة", amgg_label:"الهيكل الداعم", mission_label:"مهمّتنا",
+      ann_sub:"بوروس يرشد مقدّمي الرعاية العائليين في المتوسط إلى الممارسين والجمعيات والموارد التي يحتاجونها.",
+      ann_em:"إيجاد الطريق نحو الموارد لمرافقة ذويك",
+      ann_prat:"ممارسون", ann_hop:"مستشفيات", ann_douce:"الطب التكميلي",
+      ann_asso:"جمعيات", ann_ecoute:"استماع",
+      footer_slogan:"\"إيجاد الطريق نحو الموارد التي تدعمك.\""
     }
   };
+
   var t = T[lang] || T["fr"];
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
   function st(id,v){ var e=document.getElementById(id); if(e) e.textContent=v; }
   function ph(id,v){ var e=document.getElementById(id); if(e) e.placeholder=v; }
   function ql(sel,v){ var e=document.querySelector(sel); if(e) e.textContent=v; }
-  st("tab-prat", t.tab_prat); st("tab-hop", t.tab_hop);
-  st("tab-ecoute", t.tab_ecoute); st("tab-douce", t.tab_douce);
-  st("tab-asso", t.tab_asso); st("tab-min", t.tab_min); st("tab-carte", t.tab_carte);
-  ql(".pays-label", t.pays_label);
-  ph("sq", t.sq); ph("sq-hop", t.sq_hop); ph("sq-ecoute", t.sq_ecoute);
-  ph("sq-douce", t.sq_douce); ph("sq-asso", t.sq_asso); ph("sq-min", t.sq_min);
+  function qla(sel,v){ document.querySelectorAll(sel).forEach(function(e){ e.textContent=v; }); }
+  function opt(selId,val,txt){ var s=document.getElementById(selId); if(!s) return; var o=Array.from(s.options).find(function(x){return x.value===val;}); if(o) o.textContent=txt; }
+  function opts(selId,map){ var s=document.getElementById(selId); if(!s) return; Array.from(s.options).forEach(function(o){ if(map[o.value]||map[o.textContent]) o.textContent=map[o.value]||map[o.textContent]; }); }
+
+  // ── Onglets
+  st("tab-prat",t.tab_prat); st("tab-hop",t.tab_hop); st("tab-ecoute",t.tab_ecoute);
+  st("tab-douce",t.tab_douce); st("tab-asso",t.tab_asso); st("tab-min",t.tab_min); st("tab-carte",t.tab_carte);
+  qla(".pays-label",t.pays_label);
+
+  // ── Recherche globale
+  ph("sq-global",t.sq_global); ph("search-global",t.search_global);
+
+  // ── Placeholders
+  ph("sq",t.sq); ph("sq-hop",t.sq_hop); ph("sq-ecoute",t.sq_ecoute);
+  ph("sq-douce",t.sq_douce); ph("sq-asso",t.sq_asso); ph("sq-min",t.sq_min);
+
+  // ── Select filtres — option "Toutes"
+  opt("ss","",t.all_spe); opt("ss-profil","",t.all_profils);
+  opt("sg-region","",t.all_regions); opt("sg","",t.all_depts);
+  opt("chip-prat","",t.all_pathos); opt("chip-hop","",t.all_pathos);
+  opt("ss-hop","",t.all_services); opt("sf-ecoute","",t.all_ecoute);
+  opt("sf-asso","",t.all_pathos); opt("sf-asso-region","",t.all_regions);
+  opt("sf-asso-dept","",t.all_depts); opt("sf-min","",t.all_domaines);
+
+  // ── Spécialités
+  var speMap = {
+    "Aide-soignant(e)":t.spe_aide, "Auxiliaire de vie":t.spe_aux,
+    "Avocat & juriste — Droit des personnes âgées":t.spe_avo,
+    "Cardio-gériatrie":t.spe_cardio, "Ergothérapie":t.spe_ergo,
+    "Gériatrie":t.spe_ger, "Infirmier(e) libéral(e)":t.spe_inf,
+    "Kinésithérapie":t.spe_kine, "Médecine générale":t.spe_med,
+    "Néphro-gériatrie":t.spe_nephro, "Neurologie":t.spe_neuro,
+    "Neuropsychologie":t.spe_neuropsycho, "Nutrition & diététique":t.spe_nutri,
+    "Onco-gériatrie":t.spe_onco, "Orthophonie":t.spe_ortho,
+    "Podologie":t.spe_podo, "Psychiatrie":t.spe_psy,
+    "Psychologie clinique":t.spe_psycho, "Psychomotricien(ne)":t.spe_psychomot,
+    "Sexologie":t.spe_sexo, "Soins palliatifs":t.spe_soins, "Travail social":t.spe_social
+  };
+  var ss=document.getElementById("ss");
+  if(ss) Array.from(ss.options).forEach(function(o){ if(speMap[o.textContent]) o.textContent=speMap[o.textContent]; });
+
+  // ── Services hospitaliers
+  var hopMap = {
+    "Neurologie":t.srv_neuro,"Gériatrie":t.srv_ger,"Psychiatrie":t.srv_psy,
+    "Soins palliatifs":t.srv_soins,"Oncologie":t.srv_onco,"Médecine interne":t.srv_med
+  };
+  var ssh=document.getElementById("ss-hop");
+  if(ssh) Array.from(ssh.options).forEach(function(o){ if(hopMap[o.textContent]) o.textContent=hopMap[o.textContent]; });
+
+  // ── Écoute types
+  var ecMap = {
+    "Aidants familiaux":t.ec_aidants,"Deuil":t.ec_deuil,
+    "Crise psychologique":t.ec_crise,"Personnes âgées":t.ec_ages
+  };
+  var sfe=document.getElementById("sf-ecoute");
+  if(sfe) Array.from(sfe.options).forEach(function(o){ if(ecMap[o.textContent]) o.textContent=ecMap[o.textContent]; });
+
+  // ── Associations pathologies
+  var assoMap = {
+    "Alzheimer":t.asso_alz,"Parkinson":t.asso_par,"Cancer":t.asso_can,
+    "Troubles psychiatriques":t.asso_psy,"Sclérose en plaques":t.asso_sep,
+    "Toutes pathologies":t.all_pathos
+  };
+  var sfa=document.getElementById("sf-asso");
+  if(sfa) Array.from(sfa.options).forEach(function(o){ if(assoMap[o.textContent]) o.textContent=assoMap[o.textContent]; });
+
+  // ── Ministères domaines
+  var minMap = {
+    "Santé":t.min_sante,"Social & handicap":t.min_social,
+    "Droits & justice":t.min_droits,"Finances & aides":t.min_finances
+  };
+  var sfm=document.getElementById("sf-min");
+  if(sfm) Array.from(sfm.options).forEach(function(o){ if(minMap[o.textContent]) o.textContent=minMap[o.textContent]; });
+
+  // ── Carte boutons
+  st("carte-btn-prat",t.carte_prat); st("carte-btn-hop",t.carte_hop); st("carte-btn-tous",t.carte_tous);
+
+  // ── Boutons référencer
+  var btnRefPrat=document.querySelector("#section-prat .btn-referer:first-of-type");
+  if(btnRefPrat) btnRefPrat.textContent=t.btn_ref_prat;
+  var btnRefCentre=document.querySelector("#section-prat .btn-referer:nth-of-type(2)");
+  if(btnRefCentre) btnRefCentre.textContent=t.btn_ref_centre;
+  var btnRefHop=document.querySelector("#section-hop .btn-referer");
+  if(btnRefHop) btnRefHop.textContent=t.btn_ref_hop;
+  var btnRefEcoute=document.querySelector("#section-ecoute .btn-referer");
+  if(btnRefEcoute) btnRefEcoute.textContent=t.btn_ref_ecoute;
+  var btnRefDouce=document.querySelector("#section-douce .btn-referer");
+  if(btnRefDouce) btnRefDouce.textContent=t.btn_ref_douce;
+  var btnRefAsso=document.querySelector("#section-asso .btn-referer");
+  if(btnRefAsso) btnRefAsso.textContent=t.btn_ref_asso;
+
+  // ── Label discipline douce
+  var discLabel=document.querySelector("#section-douce .pays-label");
+  if(discLabel) discLabel.textContent=t.disc_label;
+
+  // ── Landing
+  st("tx-badge",t.badge); st("tx-h1",t.h1); st("tx-h1-sub",t.h1_sub);
+  st("tx-sub",t.sub); st("tx-cta",t.cta); st("tx-cta2",t.cta2);
+  st("tx-stat-prat",t.stat_prat); st("tx-stat-asso",t.stat_asso);
+  st("tx-stat-pays",t.stat_pays); st("tx-stat-ecoute",t.stat_ecoute);
+  st("tx-guide-label",t.guide_label); st("tx-guide-h2",t.guide_h2); st("tx-guide-sub",t.guide_sub);
+  st("tx-s1t",t.s1t); st("tx-s2t",t.s2t); st("tx-s3t",t.s3t);
+  st("tx-s4t",t.s4t); st("tx-s5t",t.s5t);
+  st("tx-who-label",t.who_label); st("tx-who-h2",t.who_h2);
+  st("tx-fondatrice",t.fondatrice); st("tx-amgg-label",t.amgg_label); st("tx-mission-label",t.mission_label);
+
+  // ── Annuaire header
+  st("tx-ann-sub",t.ann_sub); st("tx-ann-em",t.ann_em);
+  st("tx-ann-prat",t.ann_prat); st("tx-ann-hop",t.ann_hop); st("tx-ann-douce",t.ann_douce);
+  st("tx-ann-asso",t.ann_asso); st("tx-ann-ecoute",t.ann_ecoute);
+
+  // ── Footer
+  st("tx-footer-slogan",t.footer_slogan);
 }
 
 window.addEventListener('DOMContentLoaded', function(){
