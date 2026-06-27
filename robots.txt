@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://poros-aidant.netlify.app/sitemap.xml
