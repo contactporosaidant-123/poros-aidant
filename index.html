@@ -2859,6 +2859,40 @@ function ajouterDemande(type, data){
   demandes.unshift(obj);
   saveDemandes(demandes);
   try{ window.PorosCloud.insertDemande(obj); }catch(e){}
+  // Notification email via Formspree
+  try{ notifierEmail(type, data); }catch(e){}
+}
+
+function notifierEmail(type, data){
+  var labels = {
+    prat:"Cabinet / Praticien", centre:"Centre / Établissement",
+    hop:"Service hospitalier", douce:"Médecine douce",
+    asso:"Association", ecoute:"Plateforme d'écoute"
+  };
+  var typeLabel = labels[type] || type;
+  // Construire un résumé lisible
+  var resume = "";
+  for(var k in data){
+    if(data[k] && typeof data[k] !== "object"){
+      resume += k + " : " + data[k] + "\n";
+    }
+  }
+  var payload = {
+    _subject: "🔔 Nouvelle demande Poros — " + typeLabel + " : " + (data.nom||""),
+    type: typeLabel,
+    nom: data.nom || "",
+    ville: data.ville || "",
+    pays: data.pays || data.pays_code || "",
+    telephone: data.tel || "",
+    email_contact: data.email || "",
+    details: resume,
+    message: "Nouvelle demande de référencement reçue sur Poros.\n\nType : " + typeLabel + "\n\n" + resume + "\n\nConnectez-vous au panneau admin pour valider ou rejeter cette demande."
+  };
+  fetch("https://formspree.io/f/mgojkjar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(payload)
+  }).catch(function(e){});
 }
 
 function afficherDemandes(){
