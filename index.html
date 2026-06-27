@@ -2673,11 +2673,13 @@ function sauvegarderModif(){
   if(f.mission!==undefined) f.mission=mval; else f.desc=mval;
   var imgEl=document.getElementById("edit-img");
   if(imgEl) f.img=imgEl.value.trim();
-  // Mémoriser la modification
+  // Mémoriser la modification — identifiant STABLE (nom + pays)
   if(!window._poros_modifs) window._poros_modifs=[];
   const arr2=getArray(ficheEditType);
-  const modif={type:ficheEditType,_uid:arr2[ficheEditIndex]._uid,data:{...arr2[ficheEditIndex]}};
-  window._poros_modifs=window._poros_modifs.filter(m=>m._uid!==modif._uid);
+  const cible=arr2[ficheEditIndex];
+  const cleStable=(cible.n||"")+"||"+(cible.pays||"");
+  const modif={type:ficheEditType,cle:cleStable,data:{...cible}};
+  window._poros_modifs=window._poros_modifs.filter(m=>!(m.type===ficheEditType&&m.cle===cleStable));
   window._poros_modifs.push(modif);
   sauvegarderStorage();
   updateStats();renderAll();
@@ -3148,10 +3150,15 @@ function chargerStorage(){
       const idx=arr.findIndex(f=>f.n===s.n&&f.pays===s.pays);
       if(idx>-1) arr.splice(idx,1);
     });
-    // Appliquer les modifications
+    // Appliquer les modifications — par clé stable (nom+pays), avec fallback _uid pour anciennes modifs
     (data.modifs||[]).forEach(m=>{
       const arr=getArray(m.type);
-      const f=arr.find(x=>x._uid===m._uid);
+      let f=null;
+      if(m.cle){
+        f=arr.find(x=>((x.n||"")+"||"+(x.pays||""))===m.cle);
+      } else if(m._uid){
+        f=arr.find(x=>x._uid===m._uid);
+      }
       if(f) Object.assign(f,m.data);
     });
     // Ajouter les nouvelles fiches
