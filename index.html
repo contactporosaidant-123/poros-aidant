@@ -89,8 +89,8 @@ header::before{content:'';position:absolute;top:-60px;right:-80px;width:340px;he
 .pays-btn{font-size:12px;font-weight:500;padding:7px 14px;border-radius:20px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer;transition:all 0.15s}
 .pays-btn:hover{border-color:#2E6DA4;color:#2E6DA4}
 .pays-btn.on{border-color:#0B2A4A;background:#0B2A4A;color:#E8F2FB;box-shadow:0 2px 8px rgba(11,42,74,0.25)}
-.tabs{display:flex;gap:0;margin-bottom:20px;border:1.5px solid #E0D8CC;border-radius:10px;overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
-.tab{font-size:12px;font-weight:500;padding:9px 14px;cursor:pointer;background:#FEFCF8;color:#5A5040;border:none;border-right:1.5px solid #E0D8CC;transition:all 0.15s;white-space:nowrap}
+.tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.tab{font-size:12px;font-weight:500;padding:9px 14px;cursor:pointer;background:#FEFCF8;color:#5A5040;border:1.5px solid #E0D8CC;border-radius:8px;transition:all 0.15s;white-space:nowrap}
 .tab:last-child{border-right:none}
 .tab.on{background:#0B2A4A;color:#E8F2FB;border-bottom:2px solid #C8860A}
 .tab.on.douce{background:#1E7D6B;color:#fff;border-bottom-color:#C8860A}
@@ -274,7 +274,6 @@ footer em{color:rgba(255,255,255,0.6);font-style:italic}
   .header-title{font-size:2rem}
   .header-stats{gap:16px}
   .stat-n{font-size:20px}
-  .tabs{flex-wrap:wrap}
   .tab{font-size:12px;padding:8px 10px}
   .modal{width:95%;max-height:90vh;overflow-y:auto}
 }
