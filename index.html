@@ -110,6 +110,8 @@ header::before{content:'';position:absolute;top:-60px;right:-80px;width:340px;he
 .card:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,0,0,0.09)}
 .card-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
 .ava{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff;flex-shrink:0}
+.ava img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.ava.has-img{background:#fff !important}
 .cname{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#2C2416;line-height:1.2;margin-bottom:3px}
 .ctitle{font-size:12px;color:#9A8E7E}
 .flag-badge{font-size:12px;padding:2px 6px;border-radius:3px;background:#F0EBE0;color:#5A5040;font-weight:500;margin-left:4px}
@@ -1707,6 +1709,13 @@ function construction(paysObj,onglet){
   return `<div class="construction"><div class="construction-icon">🔧</div><h3>${paysObj.flag} ${paysObj.nom} — En cours de construction</h3><p>La section <strong>${onglet}</strong> pour ce pays est en cours de renseignement.<br>Vous connaissez un professionnel ou une structure à référencer ?</p><span class="contrib">✉️ Suggérer un contact</span></div>`;
 }
 
+function avatarHtml(item, bgColor){
+  if(item.img && item.img.trim()){
+    return `<div class="ava has-img" style="background:${bgColor}"><img src="${item.img}" alt="${item.n||''}" onerror="this.parentNode.classList.remove('has-img');this.parentNode.innerHTML='${(item.n?ini(item.n):'?').replace(/'/g,"")}'"></div>`;
+  }
+  return `<div class="ava" style="background:${bgColor}">${ini(item.n)}</div>`;
+}
+
 function renderCard(p, type){
   const col=PRAT_COLS[p.s]||"#1A3C5E";
   const tags=p.p.map(x=>`<span class="ptag ${TC[x]||'t-oth'}">${x}</span>`).join("");
@@ -1721,7 +1730,7 @@ function renderCard(p, type){
     profilBadge=`<span class="profil-badge ${pc} profil-tooltip" data-tip="${tip}">${p.profil} ℹ</span>`;
   }
   return `<div class="card" style="border-top-color:${col}">
-    <div class="card-top"><div class="ava" style="background:${col}">${ini(p.n)}</div>
+    <div class="card-top">${avatarHtml(p, col)}
     <div><div class="cname">${p.n}<span class="flag-badge">${pflag(p.pays)}</span></div><div class="ctitle">${p.t}</div></div></div>
     <span class="cspe ${cspe}">${p.s}</span>${profilBadge}<div class="ptags">${tags}</div>
     <div class="infos"><div class="irow"><span>📍</span><span>${p.str} · ${p.g}</span></div><div class="irow"><span>🗣</span><span>${p.l}</span></div></div>
@@ -1732,7 +1741,7 @@ function renderDouce(p){
   const disc=DISCIPLINES.find(x=>x.id===p.d);
   const contact=p.e?`<a class="btn-c btn-douce" href="mailto:${p.e}">${p.e}</a>`:`<span style="font-size:12px;color:#9A8E7E">Via établissement</span>`;
   return `<div class="card" style="border-top-color:#1E7D6B">
-    <div class="card-top"><div class="ava" style="background:#1E7D6B">${ini(p.n)}</div>
+    <div class="card-top">${avatarHtml(p, "#1E7D6B")}
     <div><div class="cname">${p.n}<span class="flag-badge">${pflag(p.pays)}</span></div><div class="ctitle">${p.t}</div></div></div>
     <span class="cspe cspe-douce">${disc?disc.nom:p.d}</span>
     <div class="desc-box">${p.desc}</div>
@@ -1756,7 +1765,7 @@ function renderAsso(a){
   const verified=a.tel||a.e;
   const verifyBadge=a.dept&&!verified?`<div style="font-size:12px;color:#C8860A;background:#FDF3DC;padding:4px 8px;border-radius:4px;margin-bottom:8px;display:inline-block">⚠️ Coordonnées en cours de vérification</div>`:"";
   return `<div class="card" style="border-top-color:${a.col}">
-    <div class="card-top"><div class="ava" style="background:${a.col}">${ini(a.n)}</div>
+    <div class="card-top">${avatarHtml(a, a.col)}
     <div><div class="cname">${a.n}<span class="flag-badge">${pflag(a.pays)}</span></div><div class="ctitle">📍 ${lieu}</div></div></div>
     <span class="cspe cspe-asso">${scope}</span><div class="ptags">${tags}</div>
     ${verifyBadge}
@@ -2638,6 +2647,7 @@ function editerFiche(type,idx){
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="edit-tel" value="${f.tel||""}"></div>
       <div class="admin-form-full"><label class="admin-label">Email</label><input class="admin-input" id="edit-e" value="${f.e||""}"></div>
       <div class="admin-form-full"><label class="admin-label">Adresse</label><input class="admin-input" id="edit-adresse" value="${f.adresse||""}"></div>
+      <div class="admin-form-full"><label class="admin-label">📷 Photo / Logo (URL de l'image)</label><input class="admin-input" id="edit-img" value="${f.img||""}" placeholder="https://… (lien vers une image)"></div>
       <div class="admin-form-full"><label class="admin-label">Mission / Description</label><textarea class="admin-textarea" id="edit-mission">${f.mission||f.desc||""}</textarea></div>
     </div>
     <button class="admin-btn admin-btn-primary" onclick="sauvegarderModif()">💾 Sauvegarder les modifications</button>
@@ -2658,6 +2668,8 @@ function sauvegarderModif(){
   f.adresse=document.getElementById("edit-adresse").value;
   const mval=document.getElementById("edit-mission").value;
   if(f.mission!==undefined) f.mission=mval; else f.desc=mval;
+  var imgEl=document.getElementById("edit-img");
+  if(imgEl) f.img=imgEl.value.trim();
   // Mémoriser la modification
   if(!window._poros_modifs) window._poros_modifs=[];
   const arr2=getArray(ficheEditType);
@@ -2695,6 +2707,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Site web</label><input class="admin-input" id="a-site" placeholder="www.site.tn"></div>
       <div><label class="admin-label">Téléconsultation</label><select class="admin-select" id="a-tele"><option>Non</option><option>Oui</option><option>Sur demande</option></select></div>
       <div><label class="admin-label">Langues</label><input class="admin-input" id="a-l" placeholder="Français, Arabe…"></div>
+      <div class="admin-form-full"><label class="admin-label">📷 Photo / Logo (URL de l'image)</label><input class="admin-input" id="a-img" placeholder="https://… (lien vers une image)"></div>
       <div class="admin-form-full"><label class="admin-label">Pathologies (séparées par des virgules)</label><input class="admin-input" id="a-p" placeholder="Alzheimer, Parkinson, Toutes pathologies…"></div>
     </div>`;
   } else if(type==="douce"){
@@ -2709,6 +2722,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Email</label><input class="admin-input" id="a-e"></div>
       <div><label class="admin-label">Téléconsultation</label><select class="admin-select" id="a-tele"><option>Non</option><option>Oui</option><option>Sur demande</option></select></div>
       <div><label class="admin-label">Langues</label><input class="admin-input" id="a-l" placeholder="Français, Arabe…"></div>
+      <div class="admin-form-full"><label class="admin-label">📷 Photo / Logo (URL de l'image)</label><input class="admin-input" id="a-img" placeholder="https://… (lien vers une image)"></div>
       <div class="admin-form-full"><label class="admin-label">Description *</label><textarea class="admin-textarea" id="a-desc" placeholder="Décrivez l'apport pour les aidants…"></textarea></div>
       <div class="admin-form-full"><label class="admin-label">Pathologies</label><input class="admin-input" id="a-p" placeholder="Alzheimer, Parkinson, Toutes pathologies…"></div>
     </div>`;
@@ -2724,6 +2738,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Site web</label><input class="admin-input" id="a-site"></div>
       <div><label class="admin-label">Couleur de la fiche</label><select class="admin-select" id="a-col">${colOpts}</select></div>
       <div class="admin-form-full"><label class="admin-label">Adresse</label><input class="admin-input" id="a-adresse"></div>
+      <div class="admin-form-full"><label class="admin-label">🏛️ Logo (URL de l'image)</label><input class="admin-input" id="a-img" placeholder="https://… (lien vers le logo)"></div>
       <div class="admin-form-full"><label class="admin-label">Mission *</label><textarea class="admin-textarea" id="a-mission" placeholder="Description de la mission de l'association…"></textarea></div>
       <div class="admin-form-full"><label class="admin-label">Pathologies (séparées par des virgules)</label><input class="admin-input" id="a-p" placeholder="Alzheimer, Parkinson, Toutes pathologies…"></div>
     </div>`;
@@ -2737,6 +2752,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Site web</label><input class="admin-input" id="a-site"></div>
       <div><label class="admin-label">Horaires *</label><input class="admin-input" id="a-horaires" placeholder="Ex: Lun-Sam 8h30–14h30"></div>
       <div><label class="admin-label">Public concerné</label><select class="admin-select" id="a-type-pub"><option>Aidants familiaux</option><option>Crise psychologique</option><option>Personnes âgées</option><option>Deuil</option><option>Toutes situations</option></select></div>
+      <div class="admin-form-full"><label class="admin-label">📷 Logo (URL de l'image)</label><input class="admin-input" id="a-img" placeholder="https://… (lien vers le logo)"></div>
       <div class="admin-form-full"><label class="admin-label">Description *</label><textarea class="admin-textarea" id="a-desc" placeholder="Décrivez le service d'écoute…"></textarea></div>
     </div>`;
   }
@@ -2765,6 +2781,7 @@ function ajouterFiche(){
       e:(document.getElementById("a-e")||{value:""}).value,
       tele:(document.getElementById("a-tele")||{value:"Non"}).value,
       l:(document.getElementById("a-l")||{value:""}).value,
+      img:(document.getElementById("a-img")||{value:""}).value.trim(),
     };
     fiche._added=true; fiche._uid=Date.now()+Math.random();
     if(type==="prat") ALL_PRAT.push(fiche); else ALL_HOP.push(fiche);
@@ -2780,6 +2797,7 @@ function ajouterFiche(){
       tele:(document.getElementById("a-tele")||{value:"Non"}).value,
       l:(document.getElementById("a-l")||{value:""}).value,
       desc:(document.getElementById("a-desc")||{value:""}).value,
+      img:(document.getElementById("a-img")||{value:""}).value.trim(),
     };
     fiche._added=true; fiche._uid=Date.now()+Math.random();
     ALL_DOUCE.push(fiche);
@@ -2797,6 +2815,7 @@ function ajouterFiche(){
       e:(document.getElementById("a-e")||{value:""}).value,
       site:(document.getElementById("a-site")||{value:""}).value,
       col:(document.getElementById("a-col")||{value:"#534AB7"}).value,
+      img:(document.getElementById("a-img")||{value:""}).value.trim(),
     };
     fiche._added=true; fiche._uid=Date.now()+Math.random();
     ALL_ASSO.push(fiche);
@@ -2811,6 +2830,7 @@ function ajouterFiche(){
       horaires:(document.getElementById("a-horaires")||{value:""}).value,
       desc:(document.getElementById("a-desc")||{value:""}).value,
       col:"#6B2E8A",
+      img:(document.getElementById("a-img")||{value:""}).value.trim(),
     };
     fiche._added=true; fiche._uid=Date.now()+Math.random();
     ALL_ECOUTE.push(fiche);
