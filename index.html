@@ -867,10 +867,12 @@ function googleTranslateElementInit(){
   <div class="tabs" id="annuaire-tabs">
     <button class="tab on" id="tab-prat" onclick="switchTab('prat')">👨‍⚕️ Praticiens libéraux</button>
     <button class="tab" id="tab-hop" onclick="switchTab('hop')">🏥 Services hospitaliers</button>
+    <button class="tab" id="tab-centre" onclick="switchTab('centre')">🏠 Centres</button>
     <button class="tab" id="tab-ecoute" onclick="switchTab('ecoute')">📞 Plateformes d'écoute</button>
     <button class="tab douce" id="tab-douce" onclick="switchTab('douce')">🌿 Médecine douce</button>
     <button class="tab" id="tab-asso" onclick="switchTab('asso')">🤝 Associations</button>
     <button class="tab" id="tab-min" onclick="switchTab('min')">🏛️ Ministères</button>
+    <button class="tab" id="tab-transport" onclick="switchTab('transport')">🚐 Transport adapté</button>
     <button class="tab" id="tab-carte" onclick="switchTab('carte')">🗺️ Carte</button>
   </div>
 
@@ -961,6 +963,45 @@ function googleTranslateElementInit(){
     <div class="chips" id="chips-hop"></div>
     <div class="rcount" id="rcount-hop"></div>
     <div class="grid" id="grid-hop" aria-live="polite" aria-label="Résultats hôpitaux"></div>
+  </div>
+
+  <!-- CENTRES / ÉTABLISSEMENTS -->
+  <div id="section-centre" style="display:none">
+    <button class="btn-referer" onclick="document.getElementById('modal-centre').classList.add('open')" style="background:#1E7D6B;border-color:#1E7D6B">
+      🏠 Référencer mon centre
+    </button>
+    <div class="search-row">
+      <input type="text" id="sq-centre" placeholder="Rechercher un centre, une ville…" oninput="goCentre()">
+      <select id="ss-centre" onchange="goCentre()">
+        <option value="">Tous types</option>
+        <option>Centre de convalescence</option>
+        <option>Centre d'accueil de jour</option>
+        <option>Centre pour senior</option>
+        <option>Centre d'accueil de jour et de nuit</option>
+      </select>
+    </div>
+    <div class="rcount" id="rcount-centre"></div>
+    <div class="grid" id="grid-centre" aria-live="polite" aria-label="Résultats centres"></div>
+  </div>
+
+  <!-- TRANSPORT ADAPTÉ -->
+  <div id="section-transport" style="display:none">
+    <button class="btn-referer" onclick="document.getElementById('modal-transport').classList.add('open')" style="background:#2E6DA4;border-color:#2E6DA4">
+      🚐 Référencer un transport adapté
+    </button>
+    <div class="search-row">
+      <input type="text" id="sq-transport" placeholder="Rechercher un transporteur, une ville…" oninput="goTransport()">
+      <select id="ss-transport" onchange="goTransport()">
+        <option value="">Tous types</option>
+        <option>Ambulance</option>
+        <option>VSL (Véhicule Sanitaire Léger)</option>
+        <option>Taxi conventionné</option>
+        <option>Transport bénévole / associatif</option>
+        <option>Transport adapté PMR</option>
+      </select>
+    </div>
+    <div class="rcount" id="rcount-transport"></div>
+    <div class="grid" id="grid-transport" aria-live="polite" aria-label="Résultats transport"></div>
   </div>
 
   <!-- CARTE GÉOGRAPHIQUE -->
@@ -1667,9 +1708,11 @@ DISCIPLINES.forEach(d=>{
 
 function switchTab(t){
   view=t;
-  ["prat","hop","ecoute","douce","asso","min","carte"].forEach(id=>{
-    document.getElementById("tab-"+id).classList.toggle("on",id===t);
-    document.getElementById("section-"+id).style.display=id===t?"block":"none";
+  ["prat","hop","centre","ecoute","douce","asso","min","transport","carte"].forEach(id=>{
+    var tabEl=document.getElementById("tab-"+id);
+    var secEl=document.getElementById("section-"+id);
+    if(tabEl) tabEl.classList.toggle("on",id===t);
+    if(secEl) secEl.style.display=id===t?"block":"none";
   });
   // Mettre à jour les filtres région/dept selon le pays et l'onglet actif
   const assoRow=document.getElementById("asso-region-row");
@@ -1694,6 +1737,8 @@ function switchTab(t){
   if(t==="douce") goDouce();
   if(t==="hop") goHop();
   if(t==="ecoute") goEcoute();
+  if(t==="centre") goCentre();
+  if(t==="transport") goTransport();
   if(t==="carte") setTimeout(initCarte, 100);
 }
 
@@ -1922,6 +1967,72 @@ document.addEventListener("click",function(e){
 
 
 
+// ── CENTRES & TRANSPORT (alimentés par les inscriptions) ─────────────────
+const ALL_CENTRE=[];
+const ALL_TRANSPORT=[];
+
+function renderCentre(c){
+  const col=c.col||"#1E7D6B";
+  const badge=c.ctype||c.type||"Centre";
+  const tags=(c.p&&c.p.length)?`<div class="ptags">${c.p.map(x=>`<span class="ptag">${x}</span>`).join("")}</div>`:"";
+  const contact=c.tel?`<a class="btn-c" href="tel:${c.tel}">${c.tel}</a>`:c.e?`<a class="btn-c" href="mailto:${c.e}">Email</a>`:c.site?`<a class="btn-c" href="https://${(c.site||"").replace(/^https?:\/\//,"")}" target="_blank" rel="noopener noreferrer">Site web</a>`:"";
+  const places=c.places?`<div class="irow"><span>🛏️</span><span>${c.places} places</span></div>`:"";
+  const adr=c.adresse?`<div class="irow"><span>🏠</span><span>${c.adresse}</span></div>`:"";
+  return `<div class="card" style="border-top-color:${col}">
+    <div class="card-top">${avatarHtml(c, col)}
+    <div><div class="cname">${c.n}<span class="flag-badge">${pflag(c.pays)}</span></div><div class="ctitle">📍 ${c.g||""}</div></div></div>
+    <span class="cspe" style="background:#E1F5EE;color:#0F6E56">${badge}</span>${tags}
+    ${c.desc?`<div class="desc-box">${c.desc}</div>`:""}
+    <div class="infos">${adr}${places}</div>
+    <div class="foot" style="margin-top:8px"><span></span>${contact}</div></div>`;
+}
+
+function renderTransport(c){
+  const col=c.col||"#2E6DA4";
+  const badge=c.ttype||c.type||"Transport";
+  const contact=c.tel?`<a class="btn-c" href="tel:${c.tel}">${c.tel}</a>`:c.e?`<a class="btn-c" href="mailto:${c.e}">Email</a>`:c.site?`<a class="btn-c" href="https://${(c.site||"").replace(/^https?:\/\//,"")}" target="_blank" rel="noopener noreferrer">Site web</a>`:"";
+  const zone=c.zone?`<div class="irow"><span>🗺️</span><span>Zone : ${c.zone}</span></div>`:"";
+  return `<div class="card" style="border-top-color:${col}">
+    <div class="card-top">${avatarHtml(c, col)}
+    <div><div class="cname">${c.n}<span class="flag-badge">${pflag(c.pays)}</span></div><div class="ctitle">📍 ${c.g||""}</div></div></div>
+    <span class="cspe" style="background:#E6F1FB;color:#0C447C">${badge}</span>
+    ${c.desc?`<div class="desc-box">${c.desc}</div>`:""}
+    <div class="infos">${zone}</div>
+    <div class="foot" style="margin-top:8px"><span></span>${contact}</div></div>`;
+}
+
+function goCentre(){
+  const q=(document.getElementById("sq-centre")||{value:""}).value.toLowerCase();
+  const ss=(document.getElementById("ss-centre")||{value:""}).value;
+  const f=ALL_CENTRE.filter(c=>{
+    if(c.pays&&c.pays!==pays)return false;
+    const txt=((c.n||"")+(c.g||"")+(c.adresse||"")+(c.desc||"")+(c.ctype||c.type||"")).toLowerCase();
+    if(q&&!txt.includes(q))return false;
+    if(ss&&(c.ctype||c.type||"")!==ss)return false;
+    return true;
+  });
+  const rc=document.getElementById("rcount-centre");
+  if(rc) rc.innerHTML=`<strong>${f.length}</strong> centre${f.length>1?"s":""} trouvé${f.length>1?"s":""}`;
+  const g=document.getElementById("grid-centre");
+  if(g) g.innerHTML=f.length?f.map(renderCentre).join(""):`<div class="empty">Aucun centre référencé pour ce pays pour le moment.</div>`;
+}
+
+function goTransport(){
+  const q=(document.getElementById("sq-transport")||{value:""}).value.toLowerCase();
+  const ss=(document.getElementById("ss-transport")||{value:""}).value;
+  const f=ALL_TRANSPORT.filter(c=>{
+    if(c.pays&&c.pays!==pays)return false;
+    const txt=((c.n||"")+(c.g||"")+(c.zone||"")+(c.desc||"")+(c.ttype||c.type||"")).toLowerCase();
+    if(q&&!txt.includes(q))return false;
+    if(ss&&(c.ttype||c.type||"")!==ss)return false;
+    return true;
+  });
+  const rc=document.getElementById("rcount-transport");
+  if(rc) rc.innerHTML=`<strong>${f.length}</strong> transporteur${f.length>1?"s":""} trouvé${f.length>1?"s":""}`;
+  const g=document.getElementById("grid-transport");
+  if(g) g.innerHTML=f.length?f.map(renderTransport).join(""):`<div class="empty">Aucun transport référencé pour ce pays pour le moment.</div>`;
+}
+
 function showProfilFilter(){
   const ss=document.getElementById("ss").value;
   const profilSelect=document.getElementById("ss-profil");
@@ -2109,7 +2220,7 @@ function clearSearchGlobal(){
   if(results){results.style.display="none";results.innerHTML="";}
 }
 
-function renderAll(){updateStats();go();goHop();goEcoute();goDouce();goAsso();goMin();if(window._POROS_LANG&&window._POROS_LANG!=='fr'){try{applyLang(window._POROS_LANG);}catch(e){}}}
+function renderAll(){updateStats();go();goHop();goEcoute();goDouce();goAsso();goMin();goCentre();goTransport();if(window._POROS_LANG&&window._POROS_LANG!=='fr'){try{applyLang(window._POROS_LANG);}catch(e){}}}
 // Accessibilité — charger les préférences sauvegardées
 function chargerA11y(){
   const fs=localStorage.getItem("a11y_fontsize");
@@ -2165,7 +2276,7 @@ function applyLang(lang) {
       // Onglets
       tab_prat:"👨‍⚕️ Praticiens libéraux", tab_hop:"🏥 Services hospitaliers",
       tab_ecoute:"📞 Plateformes d'écoute", tab_douce:"🌿 Médecine douce",
-      tab_asso:"🤝 Associations", tab_min:"🏛️ Ministères", tab_carte:"🗺️ Carte",
+      tab_asso:"🤝 Associations", tab_min:"🏛️ Ministères", tab_carte:"🗺️ Carte", tab_centre:"🏠 Centres", tab_transport:"🚐 Transport adapté",
       pays_label:"Sélectionner un pays",
       // Recherche globale
       sq_global:"🔍 Rechercher dans tout l'annuaire… (ex: sophrologie Sfax, neurologue Tunis, Alzheimer France)",
@@ -2233,7 +2344,7 @@ function applyLang(lang) {
     en: {
       tab_prat:"👨‍⚕️ Private practitioners", tab_hop:"🏥 Hospital services",
       tab_ecoute:"📞 Listening platforms", tab_douce:"🌿 Complementary medicine",
-      tab_asso:"🤝 Associations", tab_min:"🏛️ Ministries", tab_carte:"🗺️ Map",
+      tab_asso:"🤝 Associations", tab_min:"🏛️ Ministries", tab_carte:"🗺️ Map", tab_centre:"🏠 Centres", tab_transport:"🚐 Adapted transport",
       pays_label:"Select a country",
       sq_global:"🔍 Search the directory… (e.g. physiotherapy Sfax, neurologist Tunis, Alzheimer France)",
       search_global:"🔍  Search the directory — practitioner, association, city, condition…",
@@ -2290,7 +2401,7 @@ function applyLang(lang) {
     ar: {
       tab_prat:"👨‍⚕️ الممارسون الخاصون", tab_hop:"🏥 الخدمات المستشفوية",
       tab_ecoute:"📞 منصات الاستماع", tab_douce:"🌿 الطب التكميلي",
-      tab_asso:"🤝 الجمعيات", tab_min:"🏛️ الوزارات", tab_carte:"🗺️ الخريطة",
+      tab_asso:"🤝 الجمعيات", tab_min:"🏛️ الوزارات", tab_carte:"🗺️ الخريطة", tab_centre:"🏠 المراكز", tab_transport:"🚐 النقل المُكيّف",
       pays_label:"اختر بلداً",
       sq_global:"🔍 البحث في الدليل… (مثال: علاج طبيعي صفاقس، عصبي تونس)",
       search_global:"🔍  البحث في الدليل — ممارس، جمعية، مدينة، مرض…",
@@ -2360,7 +2471,7 @@ function applyLang(lang) {
 
   // ── Onglets
   st("tab-prat",t.tab_prat); st("tab-hop",t.tab_hop); st("tab-ecoute",t.tab_ecoute);
-  st("tab-douce",t.tab_douce); st("tab-asso",t.tab_asso); st("tab-min",t.tab_min); st("tab-carte",t.tab_carte);
+  st("tab-douce",t.tab_douce); st("tab-asso",t.tab_asso); st("tab-min",t.tab_min); st("tab-carte",t.tab_carte); st("tab-centre",t.tab_centre); st("tab-transport",t.tab_transport);
   qla(".pays-label",t.pays_label);
 
   // ── Recherche globale
@@ -2615,7 +2726,7 @@ function filtrerFichesAdmin(q,mode){
 }
 
 function getArray(type){
-  return type==="prat"?ALL_PRAT:type==="hop"?ALL_HOP:type==="douce"?ALL_DOUCE:type==="asso"?ALL_ASSO:ALL_ECOUTE;
+  return type==="prat"?ALL_PRAT:type==="hop"?ALL_HOP:type==="douce"?ALL_DOUCE:type==="asso"?ALL_ASSO:type==="centre"?ALL_CENTRE:type==="transport"?ALL_TRANSPORT:ALL_ECOUTE;
 }
 
 function supprimerFiche(type,idx){
@@ -3084,6 +3195,12 @@ function validerDemande(id){
     ALL_ASSO.push({n:dd.nom,mission:dd.mission,p:pathos,v:dd.ville,dept:dd.dept||"",region:dd.region||"",pays:dd.pays_code||"tn",adresse:dd.adresse||"",tel:dd.tel,e:dd.email||"",site:dd.site||"",col:"#534AB7",_added:true,_uid:Date.now()});
   } else if(d.type==="ecoute"){
     ALL_ECOUTE.push({n:dd.nom,t:dd.titre,type:dd.public||"Aidants familiaux",pays:dd.pays_code||"tn",tel:dd.tel,e:dd.email||"",site:dd.site||"",horaires:dd.horaires||"",desc:dd.description||"",col:"#6B2E8A",_added:true,_uid:Date.now()});
+  } else if(d.type==="centre"){
+    var paysCentre={"Tunisie":"tn","France":"fr","Maroc":"ma","Algérie":"dz","Italie":"it","Espagne":"es","Grèce":"gr","Libye":"ly","Monaco":"mc"}[dd.pays]||dd.pays_code||"tn";
+    ALL_CENTRE.push({n:dd.nom,ctype:dd.type,p:pathos,g:dd.ville,pays:paysCentre,adresse:dd.adresse||"",places:dd.places||"",tel:dd.tel,e:dd.email||"",site:dd.site||"",desc:dd.description||"",col:"#1E7D6B",_added:true,_uid:Date.now()});
+  } else if(d.type==="transport"){
+    var paysTr={"Tunisie":"tn","France":"fr","Maroc":"ma","Algérie":"dz","Italie":"it","Espagne":"es","Grèce":"gr","Libye":"ly","Monaco":"mc"}[dd.pays]||dd.pays_code||"tn";
+    ALL_TRANSPORT.push({n:dd.nom,ttype:dd.type,g:dd.ville,pays:paysTr,zone:dd.zone||"",tel:dd.tel,e:dd.email||"",site:dd.site||"",desc:dd.description||"",col:"#2E6DA4",_added:true,_uid:Date.now()});
   }
 
   d.statut="validee";
@@ -3129,6 +3246,8 @@ function sauvegarderStorage(){
       douce:ALL_DOUCE.filter(f=>f._added),
       asso: ALL_ASSO.filter(f=>f._added),
       ecoute:ALL_ECOUTE.filter(f=>f._added),
+      centre:ALL_CENTRE.filter(f=>f._added),
+      transport:ALL_TRANSPORT.filter(f=>f._added),
       modifs: window._poros_modifs||[],
       supprs: window._poros_supprs||[],
       date: new Date().toISOString()
@@ -3167,6 +3286,8 @@ function chargerStorage(){
     (data.douce||[]).forEach(f=>{if(!ALL_DOUCE.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_DOUCE.push(f);});
     (data.asso||[]).forEach(f=>{if(!ALL_ASSO.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_ASSO.push(f);});
     (data.ecoute||[]).forEach(f=>{if(!ALL_ECOUTE.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_ECOUTE.push(f);});
+    (data.centre||[]).forEach(f=>{if(!ALL_CENTRE.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_CENTRE.push(f);});
+    (data.transport||[]).forEach(f=>{if(!ALL_TRANSPORT.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_TRANSPORT.push(f);});
     window._poros_modifs=data.modifs||[];
     window._poros_supprs=data.supprs||[];
     const n=(data.prat||[]).length+(data.hop||[]).length+(data.douce||[]).length+(data.asso||[]).length+(data.ecoute||[]).length;
@@ -3954,6 +4075,44 @@ function soumettreFormulaireCentre(){
   document.getElementById("success-centre").style.display="block";
 }
 
+function soumettreFormulaireTransport(){
+  const nom=document.getElementById("tr-nom").value.trim();
+  const type=document.getElementById("tr-type").value;
+  const pays=document.getElementById("tr-pays").value;
+  const ville=document.getElementById("tr-ville").value.trim();
+  const tel=document.getElementById("tr-tel").value.trim();
+  const desc=document.getElementById("tr-desc").value.trim();
+  const contact=document.getElementById("tr-contact").value.trim();
+
+  if(!nom||!type||!pays||!ville||!tel||!desc||!contact){
+    alert("Merci de remplir tous les champs obligatoires (*)");
+    return;
+  }
+
+  const data={
+    nom, type, pays, ville,
+    zone: document.getElementById("tr-zone").value.trim(),
+    tel,
+    email: document.getElementById("tr-email").value.trim(),
+    site: document.getElementById("tr-site").value.trim(),
+    description: desc, contact
+  };
+
+  ajouterDemande("transport", data);
+
+  const sujet=encodeURIComponent("[Poros] Demande référencement Transport — "+nom);
+  const corps=encodeURIComponent(
+    "DEMANDE DE RÉFÉRENCEMENT POROS — TRANSPORT ADAPTÉ\n\n"+
+    "Nom : "+nom+"\nType : "+type+"\nPays : "+pays+"\nVille : "+ville+"\n"+
+    "Zone : "+data.zone+"\nTéléphone : "+tel+"\nEmail : "+data.email+"\nSite : "+data.site+"\n"+
+    "Contact référent : "+contact+"\n\nDescription :\n"+desc
+  );
+  window.location.href="mailto:contactporosaidant@gmail.com?subject="+sujet+"&body="+corps;
+
+  document.getElementById("form-transport").style.display="none";
+  document.getElementById("success-transport").style.display="block";
+}
+
 function ouvrirModal(type){
   if(type==='prat'){
     document.getElementById("modal-prat-title").textContent = view==="hop" ? "Référencer un service hospitalier" : "Référencer mon cabinet";
@@ -4197,6 +4356,90 @@ ${mission}
       ✅ Votre demande a bien été envoyée !<br><br>
       L'équipe Poros vous contactera sous 5 jours ouvrés pour valider votre fiche.<br><br>
       Merci de rejoindre Poros 🏠
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TRANSPORT ADAPTÉ -->
+<div class="modal-overlay" id="modal-transport" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <button class="modal-close" aria-label="Fermer" onclick="document.getElementById('modal-transport').classList.remove('open')">✕</button>
+    <div class="modal-title">🚐 Référencer un transport adapté</div>
+    <div class="modal-sub">
+      Ambulance, VSL, taxi conventionné, transport bénévole ou adapté PMR…<br>
+      Votre fiche sera vérifiée et publiée sous 5 jours ouvrés après validation.
+    </div>
+    <div id="form-transport">
+      <div class="form-group">
+        <label class="form-label">Nom du service / transporteur <span>*</span></label>
+        <input type="text" id="tr-nom" class="form-input" placeholder="Ex : Ambulances El Amen, Taxi Médical Tunis…">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type de transport <span>*</span></label>
+          <select id="tr-type" class="form-select">
+            <option value="">Sélectionner</option>
+            <option>Ambulance</option>
+            <option>VSL (Véhicule Sanitaire Léger)</option>
+            <option>Taxi conventionné</option>
+            <option>Transport bénévole / associatif</option>
+            <option>Transport adapté PMR</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pays <span>*</span></label>
+          <select id="tr-pays" class="form-select">
+            <option value="">Sélectionner</option>
+            <option>Algérie</option><option>Espagne</option><option>France</option>
+            <option>Grèce</option><option>Italie</option><option>Libye</option>
+            <option>Maroc</option><option>Monaco</option><option>Tunisie</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ville <span>*</span></label>
+          <input type="text" id="tr-ville" class="form-input" placeholder="Ex : Tunis, Lyon…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zone desservie</label>
+          <input type="text" id="tr-zone" class="form-input" placeholder="Ex : Grand Tunis, département 69…">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Téléphone <span>*</span></label>
+          <input type="tel" id="tr-tel" class="form-input" placeholder="+216 XX XXX XXX">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" id="tr-email" class="form-input" placeholder="contact@transport.tn">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Site web</label>
+        <input type="text" id="tr-site" class="form-input" placeholder="www.votre-service.tn">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description du service <span>*</span></label>
+        <textarea id="tr-desc" class="form-textarea" placeholder="Horaires, type de véhicules, accompagnement, conventionnement sécurité sociale…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nom du contact référent <span>*</span></label>
+        <input type="text" id="tr-contact" class="form-input" placeholder="Prénom Nom — Responsable">
+      </div>
+      <button class="form-submit" onclick="soumettreFormulaireTransport()">
+        Envoyer ma demande de référencement →
+      </button>
+      <p class="form-note">
+        Les champs marqués <span style="color:#C8860A">*</span> sont obligatoires.<br>
+        Votre dossier sera examiné par l'équipe Poros avant publication.
+      </p>
+    </div>
+    <div class="success-msg" id="success-transport">
+      ✅ Votre demande a bien été envoyée !<br><br>
+      L'équipe Poros vous contactera sous 5 jours ouvrés pour valider votre fiche.<br><br>
+      Merci de rejoindre Poros 🚐
     </div>
   </div>
 </div>
