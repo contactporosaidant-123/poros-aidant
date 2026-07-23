@@ -1,0 +1,28 @@
+{
+  "name": "Poros-Aidant — Annuaire Méditerranéen des Aidants Familiaux",
+  "short_name": "Poros-Aidant",
+  "description": "Annuaire méditerranéen de ressources vérifiées pour les familles qui accompagnent un proche âgé, malade ou dépendant.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B2A4A",
+  "theme_color": "#0B2A4A",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["health", "medical", "lifestyle"],
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
