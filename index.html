@@ -272,11 +272,18 @@ body.a11y-cursor *{cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3
 footer{background:#0B2A4A;color:rgba(255,255,255,0.4);text-align:center;padding:32px;font-size:12px;line-height:2}
 footer strong{color:rgba(255,255,255,0.8)}
 footer em{color:rgba(255,255,255,0.6);font-style:italic}
-/* Google Translate — masquer bandeau, infobulles et surlignage */
+/* Google Translate — masquer intégralement l'habillage du widget */
 .skiptranslate iframe{display:none!important;visibility:hidden!important;height:0!important}
 body{top:0!important;position:static!important}
-#goog-gt-tt,.goog-te-balloon-frame{display:none!important}
+#goog-gt-tt,.goog-te-balloon-frame,.goog-tooltip,.goog-tooltip *{display:none!important}
 .goog-text-highlight{background:none!important;box-shadow:none!important}
+/* Indicateur de chargement (le logo qui « réfléchit ») */
+#goog-te-spinner,.goog-te-spinner-pos,.goog-te-spinner-animation,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,.VIpgJd-ZVi9od-aZ2wEe-OiiCO{display:none!important}
+/* Menu de sélection des langues et bannière */
+.goog-te-menu-frame,.goog-te-banner-frame,
+.VIpgJd-ZVi9od-vH1Gmf-ibnC6b,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none!important}
+#google_translate_element{position:absolute!important;left:-9999px!important;top:-9999px!important;width:1px!important;height:1px!important;overflow:hidden!important}
 @media(max-width:768px){
   .header-inner{padding:32px 20px 28px}
   .header-title{font-size:2rem}
@@ -446,7 +453,7 @@ function googleTranslateElementInit(){
 
       <!-- Badge mythologique -->
       <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,134,10,0.15);border:1px solid rgba(200,134,10,0.3);border-radius:20px;padding:6px 16px;margin-bottom:32px">
-        <span id="tx-badge" style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px">Portail Méditerranéen · 2026</span>
+        <span id="tx-badge" style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px">Portail Méditerranéen</span>
       </div>
 
       <!-- Titre -->
@@ -822,7 +829,7 @@ function googleTranslateElementInit(){
       <button onclick="triggerGT('ar')" id="lbtn-ar2" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:14px;border:none;background:transparent;color:rgba(255,255,255,0.7);cursor:pointer;font-family:'DM Sans',sans-serif">AR</button>
     </div>
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
-      <div class="header-badge">Portail · Bassin Méditerranéen · 2026</div>
+      <div class="header-badge">Portail · Bassin Méditerranéen</div>
     <h1 class="header-title"><svg width="44" height="44" viewBox="0 0 140 140" fill="none" style="vertical-align:middle;margin-right:14px;flex-shrink:0" role="img" aria-label="Logo Poros-Aidant">
             <circle cx="70" cy="70" r="64" stroke="#1A4A7A" stroke-width="4"/>
             <path d="M6 70 C27 22, 49 22, 70 70 C91 118, 113 118, 134 70" fill="none" stroke="#C8860A" stroke-width="6" stroke-linecap="round"/>
@@ -2417,17 +2424,46 @@ function markNoTranslate(){
   }catch(e){}
 }
 
+// ── La page est-elle actuellement traduite par Google ?
+function estTraduiteParGoogle(){
+  var h = document.documentElement;
+  return h.classList.contains('translated-ltr') || h.classList.contains('translated-rtl');
+}
+
+// ── Effacer le cookie de Google (toutes portées possibles)
+function effacerCookieGoogtrans(){
+  var hote = location.hostname;
+  var passe = 'Thu, 01 Jan 1970 00:00:00 GMT';
+  ['', '; domain=' + hote, '; domain=.' + hote].forEach(function(portee){
+    document.cookie = 'googtrans=; path=/; expires=' + passe + portee;
+  });
+}
+
 // ── Pilotage du widget Google Translate (caché) pour le reste de la page
 function setGoogleTranslate(lang, tries){
   tries = tries || 0;
+
+  // Retour au français : le widget ne restaure pas toujours tout.
+  // On lui laisse sa chance, puis on force un rechargement propre si besoin.
+  if(lang === 'fr'){
+    var comboFr = document.querySelector('.goog-te-combo');
+    if(comboFr){ comboFr.value = ''; comboFr.dispatchEvent(new Event('change')); }
+    setTimeout(function(){
+      if(estTraduiteParGoogle()){
+        effacerCookieGoogtrans();
+        location.reload();
+      }
+    }, 900);
+    return;
+  }
+
   var combo = document.querySelector('.goog-te-combo');
   if(!combo){
     if(tries < 40) return setTimeout(function(){ setGoogleTranslate(lang, tries+1); }, 250);
     return setGoogleTranslateParCookie(lang); // repli
   }
-  var cible = (lang === 'fr') ? '' : lang;
-  if(combo.value === cible) return;
-  combo.value = cible;
+  if(combo.value === lang) return;
+  combo.value = lang;
   combo.dispatchEvent(new Event('change'));
 }
 
@@ -2435,17 +2471,35 @@ function setGoogleTranslate(lang, tries){
 // Nécessite un rechargement, on ne l'utilise donc que si le sélecteur reste introuvable.
 function setGoogleTranslateParCookie(lang){
   try{
-    var valeur = (lang === 'fr') ? '' : '/fr/' + lang;
+    if(lang === 'fr'){ effacerCookieGoogtrans(); location.reload(); return; }
     var hote = location.hostname;
-    var expire = (lang === 'fr')
-      ? 'Thu, 01 Jan 1970 00:00:00 GMT'
-      : new Date(Date.now() + 30*24*3600*1000).toUTCString();
+    var expire = new Date(Date.now() + 30*24*3600*1000).toUTCString();
     ['', '; domain=' + hote, '; domain=.' + hote].forEach(function(portee){
-      document.cookie = 'googtrans=' + valeur + '; path=/; expires=' + expire + portee;
+      document.cookie = 'googtrans=/fr/' + lang + '; path=/; expires=' + expire + portee;
     });
     location.reload();
   }catch(e){}
 }
+
+// ── Au chargement : si Google a mémorisé une langue, aligner l'interface dessus
+function synchroniserLangueAuChargement(){
+  var m = document.cookie.match(/googtrans=\/[a-z-]+\/([a-z-]+)/i);
+  var memorisee = m ? m[1] : null;
+  if(memorisee && memorisee !== 'fr'){
+    window._POROS_LANG = memorisee;
+    ['fr','en','ar'].forEach(function(l){
+      ['lbtn-'+l, 'lbtn-'+l+'2'].forEach(function(id){
+        var b = document.getElementById(id);
+        if(!b) return;
+        b.style.background = l === memorisee ? '#C8860A' : 'transparent';
+        b.style.color = l === memorisee ? '#fff' : 'rgba(255,255,255,0.7)';
+      });
+    });
+    markNoTranslate();
+    try{ applyLang(memorisee); }catch(e){}
+  }
+}
+document.addEventListener('DOMContentLoaded', function(){ setTimeout(synchroniserLangueAuChargement, 300); });
 
 function triggerGT(lang) {
   window._POROS_LANG = lang;
@@ -2546,7 +2600,7 @@ function applyLang(lang) {
       sou_note:"Poros-Aidant n'est pas encore une association déclarée : aucun reçu fiscal ne peut être délivré à ce stade. Ko-fi ne prend aucune commission sur les contributions — 100 % de votre soutien nous parvient.",
       disc_label:"Choisir une discipline",
       // Landing
-      badge:"Portail Méditerranéen · 2026",
+      badge:"Portail Méditerranéen",
       h1:"Trouver le passage", h1_sub:"vers les ressources qui accompagnent.",
       sub:"Le portail méditerranéen dédié aux aidants familiaux.",
       cta:"Accéder à l'annuaire →", cta2:"Prêt à trouver le bon professionnel ?",
@@ -2624,7 +2678,7 @@ function applyLang(lang) {
       sou_btn_desc:"To offer help another way (volunteering, networking, bank transfer…)",
       sou_note:"Poros-Aidant is not yet a registered non-profit: no tax receipt can be issued at this stage. Ko-fi takes no commission on contributions — 100% of your support reaches us.",
       disc_label:"Choose a discipline",
-      badge:"Mediterranean Portal · 2026",
+      badge:"Mediterranean Portal",
       h1:"Finding the way", h1_sub:"to the resources that support you.",
       sub:"The Mediterranean portal dedicated to family caregivers.",
       cta:"Access the directory →", cta2:"Ready to find the right professional?",
@@ -2703,7 +2757,7 @@ function applyLang(lang) {
       sou_btn_desc:"لتقديم المساعدة بطريقة أخرى (التطوع، التواصل، التحويل البنكي…)",
       sou_note:"بوروس-الرعاية ليست بعد جمعية معلنة: لا يمكن إصدار إيصال ضريبي في هذه المرحلة. كو-في لا تأخذ أي عمولة على المساهمات — 100٪ من دعمك يصل إلينا.",
       disc_label:"اختر تخصصاً",
-      badge:"بوابة المتوسط · 2026",
+      badge:"بوابة المتوسط",
       h1:"إيجاد الطريق", h1_sub:"نحو الموارد التي تدعمك.",
       sub:"البوابة المتوسطية المخصصة لمقدّمي الرعاية العائليين.",
       cta:"الدخول إلى الدليل ←", cta2:"هل أنت مستعد للعثور على المختص المناسب؟",
