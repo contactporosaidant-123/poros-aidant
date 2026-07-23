@@ -309,6 +309,12 @@ body{top:0!important;position:static!important}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script type="text/javascript">
 function googleTranslateElementInit(){
+  // Le script est chargé dans le <head> : le conteneur, situé en fin de page,
+  // peut ne pas encore exister. On attend qu'il soit présent avant d'initialiser.
+  var hote = document.getElementById('google_translate_element');
+  if(!hote || !window.google || !google.translate || !google.translate.TranslateElement){
+    return setTimeout(googleTranslateElementInit, 120);
+  }
   try{
     new google.translate.TranslateElement({
       pageLanguage:'fr',
@@ -316,6 +322,11 @@ function googleTranslateElementInit(){
       layout:google.translate.TranslateElement.InlineLayout.SIMPLE,
       autoDisplay:false
     },'google_translate_element');
+    window._GT_PRET = true;
+    // Si une langue a déjà été choisie avant que le widget soit prêt, l'appliquer
+    if(window._POROS_LANG && window._POROS_LANG !== 'fr' && typeof setGoogleTranslate === 'function'){
+      setGoogleTranslate(window._POROS_LANG);
+    }
   } catch(e){ }
 }
 </script>
@@ -5862,7 +5873,7 @@ if('serviceWorker' in navigator){
 }
 </script>
 
-<div id="google_translate_element" style="display:none"></div>
+<div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true"></div>
 
 <!-- BOUTON FLOTTANT NOUS SOUTENIR -->
 <a href="https://ko-fi.com/porosaidant" target="_blank" rel="noopener noreferrer"
