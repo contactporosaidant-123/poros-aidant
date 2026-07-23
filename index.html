@@ -9,8 +9,8 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Poros">
-<!-- Connexion Supabase (base de donnees Poros) -->
+<meta name="apple-mobile-web-app-title" content="Poros-Aidant">
+<!-- Connexion Supabase (base de donnees Poros-Aidant) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
@@ -32,7 +32,7 @@
   };
 })();
 </script>
-<title>Poros — Annuaire Méditerranéen des Aidants Familiaux</title>
+<title>Poros-Aidant — Annuaire Méditerranéen des Aidants Familiaux</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -89,11 +89,14 @@ header::before{content:'';position:absolute;top:-60px;right:-80px;width:340px;he
 .pays-btn{font-size:12px;font-weight:500;padding:7px 14px;border-radius:20px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer;transition:all 0.15s}
 .pays-btn:hover{border-color:#2E6DA4;color:#2E6DA4}
 .pays-btn.on{border-color:#0B2A4A;background:#0B2A4A;color:#E8F2FB;box-shadow:0 2px 8px rgba(11,42,74,0.25)}
-.tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
-.tab{font-size:12px;font-weight:500;padding:9px 14px;cursor:pointer;background:#FEFCF8;color:#5A5040;border:1.5px solid #E0D8CC;border-radius:8px;transition:all 0.15s;white-space:nowrap}
-.tab:last-child{border-right:none}
-.tab.on{background:#0B2A4A;color:#E8F2FB;border-bottom:2px solid #C8860A}
-.tab.on.douce{background:#1E7D6B;color:#fff;border-bottom-color:#C8860A}
+/* Barre d'onglets — affichage sur plusieurs lignes, tous les onglets visibles */
+.tabs-wrap{position:relative;margin-bottom:20px}
+.tabs-wrap .tabs-hint{display:none}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;border:none;border-radius:0;overflow:visible}
+.tab{font-size:12px;font-weight:500;padding:9px 14px;cursor:pointer;background:#FEFCF8;color:#5A5040;border:1.5px solid #E0D8CC;border-radius:8px;transition:all 0.15s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.tab:hover{background:#F5F1E8;border-color:#C8B89E}
+.tab.on{background:#0B2A4A;color:#E8F2FB;border-color:#0B2A4A;box-shadow:inset 0 -2px 0 #C8860A}
+.tab.on.douce{background:#1E7D6B;color:#fff;border-color:#1E7D6B;box-shadow:inset 0 -2px 0 #C8860A}
 .search-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .search-row input,.search-row select{flex:1;min-width:140px;font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 14px;border:1.5px solid #E0D8CC;border-radius:8px;background:#FEFCF8;color:#2C2416;outline:none;transition:border-color 0.2s}
 .search-row input:focus,.search-row select:focus{border-color:#2E6DA4}
@@ -274,15 +277,15 @@ footer em{color:rgba(255,255,255,0.6);font-style:italic}
   .header-title{font-size:2rem}
   .header-stats{gap:16px}
   .stat-n{font-size:20px}
-  .tab{font-size:12px;padding:8px 10px}
+  .tab{font-size:12px;padding:8px 12px}
   .modal{width:95%;max-height:90vh;overflow-y:auto}
 }
 @media(max-width:600px){
   .header-inner,.main{padding-left:16px;padding-right:16px}
   .search-row{flex-direction:column}
   .grid{grid-template-columns:1fr}
-  .tabs{width:100%}
-  .tab{flex:1;text-align:center;font-size:12px;padding:10px 6px;min-height:44px}
+  .tabs{width:100%;gap:5px}
+  .tab{text-align:center;font-size:12px;padding:9px 11px;min-height:40px}
   .pays-btn{font-size:12px;padding:8px 12px;min-height:44px}
   .btn-c{font-size:12px;padding:8px 14px;min-height:44px}
   .chip{font-size:12px;padding:6px 12px;min-height:36px}
@@ -315,24 +318,24 @@ function googleTranslateElementInit(){
 <!-- Favicon SVG inline -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'><rect width='140' height='140' rx='20' fill='%230B2A4A'/><circle cx='70' cy='70' r='56' stroke='%231A4A7A' stroke-width='4' fill='none'/><path d='M14 70 C37 22,63 22,70 70 C77 118,103 118,126 70' fill='none' stroke='%23C8860A' stroke-width='7' stroke-linecap='round'/><circle cx='70' cy='70' r='6' fill='white'/></svg>">
 <!-- Meta SEO -->
-<meta name="description" content="Poros — Le portail méditerranéen dédié aux aidants familiaux. Trouvez praticiens, associations, plateformes d'écoute et ressources dans 9 pays du bassin méditerranéen. Gratuit, sans inscription.">
+<meta name="description" content="Poros-Aidant — Le portail méditerranéen dédié aux aidants familiaux. Trouvez praticiens, associations, plateformes d'écoute et ressources dans 9 pays du bassin méditerranéen. Gratuit, sans inscription.">
 <meta name="keywords" content="aidants familiaux, Alzheimer, Parkinson, gériatrie, Tunisie, France, Méditerranée, associations, praticiens, soutien aidants">
-<meta name="author" content="Laetitia Mallet-Fraoua — Poros">
+<meta name="author" content="Laetitia Mallet-Fraoua — Poros-Aidant">
 <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://poros-aidant.netlify.app/">
-<meta property="og:title" content="Poros — Portail Méditerranéen des Aidants Familiaux">
+<meta property="og:title" content="Poros-Aidant — Portail Méditerranéen des Aidants Familiaux">
 <meta property="og:description" content="Trouver le passage vers les ressources qui accompagnent. Praticiens, associations, plateformes d'écoute dans 9 pays méditerranéens. Gratuit, sans inscription.">
 <meta property="og:image" content="https://poros-aidant.netlify.app/og-image.png">
 <meta property="og:locale" content="fr_FR">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Poros — Portail Méditerranéen des Aidants Familiaux">
+<meta name="twitter:title" content="Poros-Aidant — Portail Méditerranéen des Aidants Familiaux">
 <meta name="twitter:description" content="Trouver le passage vers les ressources qui accompagnent. Gratuit, sans inscription. 9 pays méditerranéens.">
 <!-- Canonical -->
-<link rel="alternate" hreflang="fr" href="https://poros-aidants.org/">
-<link rel="alternate" hreflang="ar" href="https://poros-aidants.org/">
-<link rel="alternate" hreflang="x-default" href="https://poros-aidants.org/">
+<link rel="alternate" hreflang="fr" href="https://poros-aidant.netlify.app/">
+<link rel="alternate" hreflang="ar" href="https://poros-aidant.netlify.app/">
+<link rel="alternate" hreflang="x-default" href="https://poros-aidant.netlify.app/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://poros-aidant.netlify.app/">
 <meta name="google-site-verification" content="3d_yJhqe1AoN73_pDy-0TYBKghbMoeCNL8IWUC8yj4Q" />
@@ -344,8 +347,8 @@ function googleTranslateElementInit(){
   "@graph": [
     {
       "@type": "Organization",
-      "name": "POROS — Annuaire Méditerranéen des Aidants Familiaux",
-      "alternateName": "Poros",
+      "name": "POROS-AIDANT — Annuaire Méditerranéen des Aidants Familiaux",
+      "alternateName": "Poros-Aidant",
       "url": "https://poros-aidant.netlify.app",
       "logo": "https://poros-aidant.netlify.app/logo.png",
       "description": "Plateforme gratuite dédiée aux aidants familiaux du bassin méditerranéen. Annuaire de praticiens, associations, plateformes d'écoute et ressources pour accompagner les proches atteints de maladies neurodégénératives.",
@@ -362,7 +365,7 @@ function googleTranslateElementInit(){
     },
     {
       "@type": "MedicalOrganization",
-      "name": "POROS — Annuaire Méditerranéen des Aidants Familiaux",
+      "name": "POROS-AIDANT — Annuaire Méditerranéen des Aidants Familiaux",
       "url": "https://poros-aidant.netlify.app",
       "description": "Annuaire médical et social pour les aidants familiaux : neurologues, gériatres, psychiatres, associations Alzheimer, plateformes d'écoute et ressources administratives.",
       "medicalSpecialty": ["Neurology","Geriatrics","Psychiatry","Palliative Care"],
@@ -375,7 +378,7 @@ function googleTranslateElementInit(){
     },
     {
       "@type": "WebSite",
-      "name": "Poros",
+      "name": "Poros-Aidant",
       "url": "https://poros-aidant.netlify.app",
       "potentialAction": {
         "@type": "SearchAction",
@@ -403,7 +406,7 @@ function googleTranslateElementInit(){
     <div style="padding:32px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1">
       <div style="display:flex;align-items:center;gap:12px">
         <div style="width:52px;height:52px;display:flex;align-items:center;justify-content:center">
-          <svg width="48" height="48" viewBox="0 0 140 140" fill="none" role="img" aria-label="Logo Poros — onde dorée traversant un cercle bleu marine">
+          <svg width="48" height="48" viewBox="0 0 140 140" fill="none" role="img" aria-label="Logo Poros-Aidant — onde dorée traversant un cercle bleu marine">
             <circle cx="70" cy="70" r="64" stroke="#1A4A7A" stroke-width="4"/>
             <path d="M6 70 C27 22, 49 22, 70 70 C91 118, 113 118, 134 70" fill="none" stroke="#C8860A" stroke-width="6" stroke-linecap="round"/>
             <circle cx="70" cy="70" r="7" fill="white"/>
@@ -411,28 +414,13 @@ function googleTranslateElementInit(){
             <circle cx="134" cy="70" r="5" fill="#1A4A7A" opacity="0.5"/>
           </svg>
         </div>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:2px">POROS</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:2px">POROS-AIDANT</span>
       </div>
       <div style="display:flex;align-items:center;gap:16px">
         <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:3px">
           <button onclick="triggerGT('fr')" id="lbtn-fr" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:14px;border:none;background:#C8860A;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.5px">FR</button>
           <button onclick="triggerGT('en')" id="lbtn-en" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:14px;border:none;background:transparent;color:rgba(255,255,255,0.7);cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.5px">EN</button>
           <button onclick="triggerGT('ar')" id="lbtn-ar" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:14px;border:none;background:transparent;color:rgba(255,255,255,0.7);cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.5px">AR</button>
-        </div>
-        <div style="position:relative;display:inline-block">
-        <button onclick="document.getElementById('premium-tooltip').style.display=document.getElementById('premium-tooltip').style.display==='none'?'block':'none'" style="background:linear-gradient(135deg,rgba(200,134,10,0.2),rgba(200,134,10,0.1));border:1px solid rgba(200,134,10,0.4);color:#C8860A;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 18px;border-radius:20px;cursor:pointer;display:flex;align-items:center;gap:6px">
-          ✦ Poros Premium
-          <span style="font-size:12px;background:#C8860A;color:#fff;padding:1px 6px;border-radius:10px;font-weight:600">BIENTÔT</span>
-        </button>
-        <div id="premium-tooltip" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:#0B2A4A;border:1px solid rgba(200,134,10,0.3);border-radius:10px;padding:14px 16px;min-width:220px;box-shadow:0 8px 24px rgba(0,0,0,0.3);z-index:10">
-          <div style="font-size:12px;font-weight:600;color:#C8860A;margin-bottom:8px">✦ Poros Premium</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.7">
-            🔔 Alertes nouveaux professionnels dans votre région<br>
-            📚 Fiches ressources téléchargeables<br>
-            🧪 Accès à des tests & évaluations cliniques
-          </div>
-          <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08);font-size:12px;color:rgba(255,255,255,0.3)">En cours de développement</div>
-        </div>
         </div>
       </div>
     </div>
@@ -464,8 +452,8 @@ function googleTranslateElementInit(){
           <span style="color:#1E7D6B;font-size:13px">✓</span> Version gratuite
         </span>
         <span style="color:rgba(255,255,255,0.15);font-size:12px">|</span>
-        <span style="font-size:12px;color:rgba(200,134,10,0.7);display:flex;align-items:center;gap:5px">
-          <span style="font-size:13px">✦</span> Version Premium <span style="font-size:12px;background:rgba(200,134,10,0.2);border:1px solid rgba(200,134,10,0.3);color:#C8860A;padding:1px 6px;border-radius:8px">Bientôt</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:5px">
+          <span style="color:#C8860A;font-size:13px">💛</span> Soutien libre
         </span>
         <span style="color:rgba(255,255,255,0.15);font-size:12px">|</span>
         <span style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:5px">
@@ -544,7 +532,7 @@ function googleTranslateElementInit(){
           <div style="background:rgba(200,134,10,0.06);border:1px solid rgba(200,134,10,0.2);border-radius:14px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px">
             <div style="font-size:28px">🧭</div>
             <div id="tx-cta2" style="font-size:15px;font-weight:500;color:#C8860A">Prêt à trouver le bon professionnel ?</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6">Utilisez l'annuaire Poros pour trouver praticiens, associations et ressources près de chez vous.</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6">Utilisez l'annuaire Poros-Aidant pour trouver praticiens, associations et ressources près de chez vous.</p>
             <button onclick="entrerAnnuaire()" style="background:#C8860A;color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:10px 24px;border-radius:20px;cursor:pointer">Accéder à l'annuaire →</button>
           </div>
 
@@ -563,7 +551,7 @@ function googleTranslateElementInit(){
             <span id="tx-who-label" style="font-size:12px;color:#C8860A;font-weight:500;letter-spacing:1px;text-transform:uppercase">Qui sommes-nous</span>
           </div>
           <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;color:#fff;margin-bottom:12px"><span id="tx-who-h2">Une initiative née du terrain</span></h2>
-          <p style="font-size:14px;color:rgba(255,255,255,0.45);max-width:520px;margin:0 auto;line-height:1.7">Poros est né d'un constat simple : les aidants familiaux manquent cruellement de repères pour naviguer dans les systèmes de santé méditerranéens.</p>
+          <p style="font-size:14px;color:rgba(255,255,255,0.45);max-width:520px;margin:0 auto;line-height:1.7">Poros-Aidant est né d'un constat simple : les aidants familiaux manquent cruellement de repères pour naviguer dans les systèmes de santé méditerranéens.</p>
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:40px">
@@ -577,9 +565,9 @@ function googleTranslateElementInit(){
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
               <span style="font-size:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:2px 8px;color:rgba(255,255,255,0.5)">🇹🇳 Tunisie</span>
               <span style="font-size:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:2px 8px;color:rgba(255,255,255,0.5)">🇫🇷 France</span>
-              <span style="font-size:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:2px 8px;color:rgba(255,255,255,0.5)">+15 ans d'expérience</span>
+              <span style="font-size:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:2px 8px;color:rgba(255,255,255,0.5)">+18 ans d'expérience</span>
             </div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">Forte de plus de 15 ans d'expérience partagés entre la France et la Tunisie, Laetitia a développé une expertise unique à la croisée des deux rives méditerranéennes. En France, elle a forgé sa pratique clinique auprès de patients âgés et de leurs familles. En Tunisie, elle a collaboré étroitement avec l'Association Alzheimer Tunisie, co-animant des groupes de parole pour aidants familiaux et formant des professionnels de santé. De cette double expérience est née l'évidence de Poros : les aidants des deux rives manquent des mêmes ressources, et méritent la même attention.</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">Forte de plus de 18 ans d'expérience partagés entre la France et la Tunisie, Laetitia a développé une expertise unique à la croisée des deux rives méditerranéennes. En France, elle a forgé sa pratique clinique auprès de patients âgés et de leurs familles. En Tunisie, elle a collaboré étroitement avec l'Association Alzheimer Tunisie, co-animant des groupes de parole pour aidants familiaux et formant des professionnels de santé. De cette double expérience est née l'évidence de Poros-Aidant : les aidants des deux rives manquent des mêmes ressources, et méritent la même attention.</p>
           </div>
 
           <!-- Carte AMGG -->
@@ -593,7 +581,7 @@ function googleTranslateElementInit(){
               <span style="font-size:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:2px 8px;color:rgba(255,255,255,0.5)">France</span>
               <span style="font-size:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:2px 8px;color:rgba(255,255,255,0.5)">En cours de création</span>
             </div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">Association pan-méditerranéenne en cours de constitution sous la loi 1901. Sa mission : fédérer les professionnels de gériatrie et gérontologie autour du bassin méditerranéen et soutenir les initiatives comme Poros en faveur des aidants familiaux.</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">Association pan-méditerranéenne en cours de constitution sous la loi 1901. Sa mission : fédérer les professionnels de gériatrie et gérontologie autour du bassin méditerranéen et soutenir les initiatives comme Poros-Aidant en faveur des aidants familiaux.</p>
           </div>
 
           <!-- Carte Mission -->
@@ -601,7 +589,7 @@ function googleTranslateElementInit(){
             <div style="width:48px;height:48px;border-radius:12px;background:rgba(30,125,107,0.15);border:1px solid rgba(30,125,107,0.3);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px">🧭</div>
             <div id="tx-mission-label" style="font-size:12px;color:#4AC9B0;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Notre mission</div>
             <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;margin-bottom:12px">Trouver le passage</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:14px">Poros est une plateforme gratuite, sans publicité, créée par et pour les aidants familiaux. Chaque fiche est vérifiée avant publication. Notre engagement : offrir une information fiable, humaine et accessible dans 9 pays méditerranéens.</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:14px">Poros-Aidant est une plateforme gratuite, sans publicité, créée par et pour les aidants familiaux. Chaque fiche est vérifiée avant publication. Notre engagement : offrir une information fiable, humaine et accessible dans 9 pays méditerranéens.</p>
             <!-- Version gratuite -->
             <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
               <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Version gratuite</div>
@@ -610,14 +598,20 @@ function googleTranslateElementInit(){
               <div style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:6px"><span style="color:#1E7D6B">✓</span> Accès complet à l'annuaire · Sans inscription</div>
               <div style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:6px"><span style="color:#1E7D6B">✓</span> 9 pays du bassin méditerranéen</div>
             </div>
-            <!-- Version premium -->
-            <div style="background:rgba(200,134,10,0.08);border:1px solid rgba(200,134,10,0.2);border-radius:10px;padding:12px">
-              <div style="font-size:12px;font-weight:600;color:#C8860A;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">✦ Version Premium — Bientôt</div>
-              <div style="display:flex;flex-direction:column;gap:6px">
-                <div style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:6px"><span style="color:#C8860A">✦</span> Fiches ressources téléchargeables</div>
-                <div style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:6px"><span style="color:#C8860A">✦</span> Accès à des tests & évaluations cliniques</div>
-                <div style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:6px"><span style="color:#C8860A">✦</span> Alertes nouveaux professionnels dans votre région</div>
+            <!-- Nous soutenir -->
+            <div style="background:rgba(200,134,10,0.08);border:1px solid rgba(200,134,10,0.25);border-radius:10px;padding:12px">
+              <div style="font-size:12px;font-weight:600;color:#C8860A;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💛 Nous soutenir</div>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+                <div style="font-size:12px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px"><span style="color:#C8860A">🔍</span> Vérifier de nouvelles fiches</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px"><span style="color:#C8860A">🌍</span> Étendre à de nouvelles villes</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:6px"><span style="color:#C8860A">🌱</span> Maintenir la plateforme gratuite</div>
               </div>
+              <a href="https://ko-fi.com/porosaidant" target="_blank" rel="noopener noreferrer"
+                 style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:8px 16px;background:#C8860A;color:#fff;border-radius:16px;text-decoration:none;transition:all 0.2s"
+                 onmouseover="this.style.background='#A87205'"
+                 onmouseout="this.style.background='#C8860A'">
+                <span>☕</span> Soutenir via Ko-fi
+              </a>
             </div>
           </div>
 
@@ -627,7 +621,7 @@ function googleTranslateElementInit(){
             <div style="width:48px;height:48px;border-radius:12px;background:rgba(74,201,176,0.15);border:1px solid rgba(74,201,176,0.3);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px">🌱</div>
             <div style="font-size:12px;color:#4AC9B0;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Engagement écologique</div>
             <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;margin-bottom:12px">Numérique responsable</div>
-            <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:14px">Poros est conçu pour minimiser son empreinte numérique. Chaque choix technique est pensé pour la planète autant que pour l'utilisateur.</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:14px">Poros-Aidant est conçu pour minimiser son empreinte numérique. Chaque choix technique est pensé pour la planète autant que pour l'utilisateur.</p>
             <div style="display:flex;flex-direction:column;gap:6px">
               <div style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:6px"><span style="color:#4AC9B0">✓</span> Zéro image externe · Zéro tracker</div>
               <div style="font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:6px"><span style="color:#4AC9B0">✓</span> Hébergement Netlify — énergies renouvelables</div>
@@ -641,8 +635,8 @@ function googleTranslateElementInit(){
       <div style="background:rgba(200,134,10,0.06);border-top:1px solid rgba(200,134,10,0.2);border-bottom:1px solid rgba(200,134,10,0.2);margin-top:40px;padding:20px 48px;display:flex;align-items:center;justify-content:center;gap:24px">
         <span style="font-size:32px;color:#C8860A;font-family:'Cormorant Garamond',serif;opacity:0.5;flex-shrink:0">«</span>
         <div style="text-align:center">
-          <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(255,255,255,0.75);line-height:1.7">Les aidants familiaux donnent tout, souvent en silence. Poros existe pour qu'ils ne cherchent plus seuls.</span>
-          <div style="font-size:13px;color:#C8860A;font-weight:500;margin-top:8px;letter-spacing:0.5px">— Laetitia Mallet-Fraoua, fondatrice de Poros</div>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(255,255,255,0.75);line-height:1.7">Les aidants familiaux donnent tout, souvent en silence. Poros-Aidant existe pour qu'ils ne cherchent plus seuls.</span>
+          <div style="font-size:13px;color:#C8860A;font-weight:500;margin-top:8px;letter-spacing:0.5px">— Laetitia Mallet-Fraoua, fondatrice de Poros-Aidant</div>
         </div>
         <span style="font-size:32px;color:#C8860A;font-family:'Cormorant Garamond',serif;opacity:0.5;flex-shrink:0">»</span>
       </div>
@@ -666,7 +660,7 @@ function googleTranslateElementInit(){
 
           <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;position:relative">
             <div style="font-size:48px;color:rgba(200,134,10,0.3);font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:12px">"</div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.8;font-style:italic;margin-bottom:20px">Depuis que mon mari a été diagnostiqué Alzheimer, je ne savais plus vers qui me tourner. Poros m'a permis de trouver en quelques minutes une association près de chez moi et une ligne d'écoute. Je me suis sentie moins seule.</p>
+            <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.8;font-style:italic;margin-bottom:20px">Depuis que mon mari a été diagnostiqué Alzheimer, je ne savais plus vers qui me tourner. Poros-Aidant m'a permis de trouver en quelques minutes une association près de chez moi et une ligne d'écoute. Je me suis sentie moins seule.</p>
             <div style="display:flex;align-items:center;gap:10px">
               <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2E6DA4,#1A4A7A);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff">F</div>
               <div>
@@ -678,7 +672,7 @@ function googleTranslateElementInit(){
 
           <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;position:relative">
             <div style="font-size:48px;color:rgba(200,134,10,0.3);font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:12px">"</div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.8;font-style:italic;margin-bottom:20px">J'accompagne ma mère atteinte de Parkinson depuis trois ans. Grâce à Poros, j'ai découvert des thérapies complémentaires que je ne connaissais pas — la musicothérapie a vraiment changé son quotidien et le mien.</p>
+            <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.8;font-style:italic;margin-bottom:20px">J'accompagne ma mère atteinte de Parkinson depuis trois ans. Grâce à Poros-Aidant, j'ai découvert des thérapies complémentaires que je ne connaissais pas — la musicothérapie a vraiment changé son quotidien et le mien.</p>
             <div style="display:flex;align-items:center;gap:10px">
               <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1E7D6B,#0F6E56);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff">M</div>
               <div>
@@ -690,7 +684,7 @@ function googleTranslateElementInit(){
 
           <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;position:relative">
             <div style="font-size:48px;color:rgba(200,134,10,0.3);font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:12px">"</div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.8;font-style:italic;margin-bottom:20px">En tant que soignante, je recommande Poros à toutes les familles que j'accompagne. L'annuaire est sérieux, les fiches sont vérifiées. C'est un outil qui manquait vraiment dans notre région.</p>
+            <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.8;font-style:italic;margin-bottom:20px">En tant que soignante, je recommande Poros-Aidant à toutes les familles que j'accompagne. L'annuaire est sérieux, les fiches sont vérifiées. C'est un outil qui manquait vraiment dans notre région.</p>
             <div style="display:flex;align-items:center;gap:10px">
               <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#534AB7,#3C3489);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff">S</div>
               <div>
@@ -703,7 +697,7 @@ function googleTranslateElementInit(){
         </div>
 
         <div style="text-align:center;margin-top:28px">
-          <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:14px">Vous êtes aidant et Poros vous a aidé ? Partagez votre expérience.</p>
+          <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:14px">Vous êtes aidant et Poros-Aidant vous a aidé ? Partagez votre expérience.</p>
           <button onclick="document.getElementById('modal-temoignage').classList.add('open')" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:10px 24px;border-radius:20px;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
             ✍️ Partager mon témoignage
           </button>
@@ -719,7 +713,7 @@ function googleTranslateElementInit(){
             <span style="font-size:12px;color:#7AAFD4;font-weight:500;letter-spacing:1px;text-transform:uppercase">🧭 Orientation personnalisée</span>
           </div>
           <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:600;color:#fff;margin-bottom:10px">Je ne sais pas par où commencer</h2>
-          <p style="font-size:13px;color:rgba(255,255,255,0.45);max-width:420px;margin:0 auto;line-height:1.7">Répondez à 3 questions — Poros vous oriente directement vers les ressources adaptées à votre situation.</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.45);max-width:420px;margin:0 auto;line-height:1.7">Répondez à 3 questions — Poros-Aidant vous oriente directement vers les ressources adaptées à votre situation.</p>
         </div>
 
         <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:32px">
@@ -788,7 +782,7 @@ function googleTranslateElementInit(){
         <span style="font-size:12px;color:rgba(255,255,255,0.3)">🇲🇨 Monaco</span>
         <span style="font-size:12px;color:rgba(255,255,255,0.3)">🇹🇳 Tunisie</span>
       </div>
-      <span style="font-size:12px;color:rgba(255,255,255,0.2)">© 2026 Poros — poros-aidants.org</span>
+      <span style="font-size:12px;color:rgba(255,255,255,0.2)">© 2026 Poros-Aidant — poros-aidant.netlify.app</span>
     </div>
   </div>
 </div>
@@ -813,16 +807,16 @@ function googleTranslateElementInit(){
     </div>
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
       <div class="header-badge">Portail · Bassin Méditerranéen · 2026</div>
-    <h1 class="header-title"><svg width="44" height="44" viewBox="0 0 140 140" fill="none" style="vertical-align:middle;margin-right:14px;flex-shrink:0" role="img" aria-label="Logo Poros">
+    <h1 class="header-title"><svg width="44" height="44" viewBox="0 0 140 140" fill="none" style="vertical-align:middle;margin-right:14px;flex-shrink:0" role="img" aria-label="Logo Poros-Aidant">
             <circle cx="70" cy="70" r="64" stroke="#1A4A7A" stroke-width="4"/>
             <path d="M6 70 C27 22, 49 22, 70 70 C91 118, 113 118, 134 70" fill="none" stroke="#C8860A" stroke-width="6" stroke-linecap="round"/>
             <circle cx="70" cy="70" r="7" fill="white"/>
             <circle cx="6" cy="70" r="5" fill="#1A4A7A" opacity="0.5"/>
             <circle cx="134" cy="70" r="5" fill="#1A4A7A" opacity="0.5"/>
-          </svg>POROS
+          </svg>POROS-AIDANT
       <em id="tx-ann-em">Le passage vers les ressources pour accompagner votre proche</em>
     </h1>
-    <p id="tx-ann-sub" class="header-sub">Poros guide les aidants familiaux du bassin méditerranéen vers les praticiens, les associations et les ressources dont ils ont besoin.</p>
+    <p id="tx-ann-sub" class="header-sub">Poros-Aidant guide les aidants familiaux du bassin méditerranéen vers les praticiens, les associations et les ressources dont ils ont besoin.</p>
     <div class="header-stats">
       <div class="stat"><span class="stat-n" id="s-prat">0</span><span id="tx-ann-prat" class="stat-l">Praticiens</span></div>
       <div class="stat-sep"></div>
@@ -863,16 +857,21 @@ function googleTranslateElementInit(){
   </div>
   <div class="search-global-results" id="search-global-results"></div>
 
-  <div class="tabs" id="annuaire-tabs">
-    <button class="tab on" id="tab-prat" onclick="switchTab('prat')">👨‍⚕️ Praticiens libéraux</button>
-    <button class="tab" id="tab-hop" onclick="switchTab('hop')">🏥 Services hospitaliers</button>
-    <button class="tab" id="tab-centre" onclick="switchTab('centre')">🏠 Centres</button>
-    <button class="tab" id="tab-ecoute" onclick="switchTab('ecoute')">📞 Plateformes d'écoute</button>
-    <button class="tab douce" id="tab-douce" onclick="switchTab('douce')">🌿 Médecine douce</button>
-    <button class="tab" id="tab-asso" onclick="switchTab('asso')">🤝 Associations</button>
-    <button class="tab" id="tab-min" onclick="switchTab('min')">🏛️ Ministères</button>
-    <button class="tab" id="tab-transport" onclick="switchTab('transport')">🚐 Transport adapté</button>
-    <button class="tab" id="tab-carte" onclick="switchTab('carte')">🗺️ Carte</button>
+  <div class="tabs-wrap" id="annuaire-tabs-wrap">
+    <div class="tabs" id="annuaire-tabs">
+      <button class="tab on" id="tab-prat" onclick="switchTab('prat')">👨‍⚕️ Praticiens libéraux</button>
+      <button class="tab" id="tab-hop" onclick="switchTab('hop')">🏥 Services hospitaliers</button>
+      <button class="tab" id="tab-centre" onclick="switchTab('centre')">🏠 Centres</button>
+      <button class="tab" id="tab-societes" onclick="switchTab('societes')">🏢 Sociétés de services</button>
+      <button class="tab" id="tab-ecoute" onclick="switchTab('ecoute')">📞 Plateformes d'écoute</button>
+      <button class="tab douce" id="tab-douce" onclick="switchTab('douce')">🌿 Médecine douce</button>
+      <button class="tab" id="tab-asso" onclick="switchTab('asso')">🤝 Associations</button>
+      <button class="tab" id="tab-min" onclick="switchTab('min')">🏛️ Ministères</button>
+      <button class="tab" id="tab-transport" onclick="switchTab('transport')">🚐 Transport adapté</button>
+      <button class="tab" id="tab-soutenir" onclick="switchTab('soutenir')">💛 Soutenir</button>
+      <button class="tab" id="tab-carte" onclick="switchTab('carte')">🗺️ Carte</button>
+    </div>
+    <span class="tabs-hint" id="tabs-hint" aria-hidden="true">›</span>
   </div>
 
   <!-- PRATICIENS LIBÉRAUX -->
@@ -880,21 +879,16 @@ function googleTranslateElementInit(){
   <div id="msg-bienvenue" style="background:linear-gradient(135deg,#E8F2FB,#F0F6FC);border:1px solid #C5D8EC;border-radius:14px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
     <div style="font-size:32px;flex-shrink:0">🧭</div>
     <div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#0B2A4A;margin-bottom:4px">Bienvenue sur l'annuaire Poros</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#0B2A4A;margin-bottom:4px">Bienvenue sur l'annuaire Poros-Aidant</div>
       <div style="font-size:12px;color:#5A5040;line-height:1.6">Sélectionnez un <strong>pays</strong> puis un <strong>onglet</strong> pour trouver praticiens, associations, plateformes d'écoute et ressources. Utilisez les filtres pour affiner votre recherche.</div>
     </div>
     <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:#9A8E7E;font-size:18px;cursor:pointer;flex-shrink:0;padding:4px">✕</button>
   </div>
 
   <div id="section-prat">
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-      <button class="btn-referer" onclick="ouvrirModal('prat')" style="margin-bottom:0">
-        ➕ Référencer mon cabinet / ma pratique
-      </button>
-      <button class="btn-referer" onclick="document.getElementById('modal-centre').classList.add('open')" style="margin-bottom:0;background:#1E7D6B;border-color:#1E7D6B">
-        🏠 Référencer mon centre
-      </button>
-    </div>
+    <button class="btn-referer" onclick="ouvrirModal('prat')">
+      ➕ Référencer mon cabinet / ma pratique
+    </button>
     <div class="search-row">
       <input type="text" id="sq" placeholder="Rechercher nom, ville…" oninput="go()">
       <select id="ss" onchange="showProfilFilter();go()">
@@ -1003,6 +997,86 @@ function googleTranslateElementInit(){
     <div class="grid" id="grid-transport" aria-live="polite" aria-label="Résultats transport"></div>
   </div>
 
+  <!-- SOCIÉTÉS DE SERVICES -->
+  <div id="section-societes" style="display:none">
+    <button class="btn-referer" onclick="document.getElementById('modal-societe').classList.add('open')" style="background:#7A5FBF;border-color:#7A5FBF">
+      🏢 Référencer ma société de services
+    </button>
+    <div style="background:#F5F1E8;border-left:3px solid #7A5FBF;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:12px;color:#5A5040;line-height:1.6">
+      <strong style="color:#7A5FBF">Prestataires commerciaux</strong> — sociétés proposant du matériel médical, des services à la personne (auxiliaires de vie, gardes-malades) ou des soins à domicile (structures d'infirmiers, HAD).
+    </div>
+    <div class="search-row">
+      <input type="text" id="sq-societes" placeholder="Rechercher une société, une ville…" oninput="goSocietes()">
+      <select id="ss-societes" onchange="goSocietes()">
+        <option value="">Tous types</option>
+        <option>Matériel médical</option>
+        <option>Services à la personne</option>
+        <option>Soins à domicile</option>
+      </select>
+    </div>
+    <div class="rcount" id="rcount-societes"></div>
+    <div class="grid" id="grid-societes" aria-live="polite" aria-label="Résultats sociétés de services"></div>
+  </div>
+
+  <!-- SOUTENIR POROS-AIDANT -->
+  <div id="section-soutenir" style="display:none">
+    <div style="background:linear-gradient(135deg,#FFF9E8,#FFF5F0);border:1.5px solid #C8860A;border-radius:14px;padding:28px 24px;margin-bottom:20px">
+      <div style="font-size:36px;text-align:center;margin-bottom:12px">💛</div>
+      <h2 id="tx-sou-title" style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#0B2A4A;text-align:center;margin-bottom:14px">Soutenir Poros-Aidant</h2>
+      <p id="tx-sou-intro" style="font-size:14px;color:#5A5040;line-height:1.7;text-align:center;max-width:640px;margin:0 auto 22px">
+        Poros-Aidant est une plateforme <strong>gratuite pour les familles</strong>, maintenue bénévolement.
+        Aucune publicité, aucun tracking — juste des ressources vérifiées pour vous accompagner.
+        Si Poros-Aidant vous a aidé, votre soutien nous permet de continuer.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:820px;margin:0 auto 18px">
+        <div style="background:#fff;border:1px solid #E0D8CC;border-radius:10px;padding:16px;text-align:center">
+          <div style="font-size:24px;margin-bottom:6px">🔍</div>
+          <div id="tx-sou-verifier" style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:#0B2A4A;margin-bottom:4px">Vérifier</div>
+          <div id="tx-sou-verifier-d" style="font-size:11px;color:#5A5040;line-height:1.5">Chaque fiche est contrôlée avant publication</div>
+        </div>
+        <div style="background:#fff;border:1px solid #E0D8CC;border-radius:10px;padding:16px;text-align:center">
+          <div style="font-size:24px;margin-bottom:6px">🌍</div>
+          <div id="tx-sou-etendre" style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:#0B2A4A;margin-bottom:4px">Étendre</div>
+          <div id="tx-sou-etendre-d" style="font-size:11px;color:#5A5040;line-height:1.5">Ajouter de nouvelles villes et de nouveaux pays</div>
+        </div>
+        <div style="background:#fff;border:1px solid #E0D8CC;border-radius:10px;padding:16px;text-align:center">
+          <div style="font-size:24px;margin-bottom:6px">🌱</div>
+          <div id="tx-sou-maintenir" style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:#0B2A4A;margin-bottom:4px">Maintenir</div>
+          <div id="tx-sou-maintenir-d" style="font-size:11px;color:#5A5040;line-height:1.5">Hébergement, mises à jour, accessibilité</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:22px;display:flex;flex-direction:column;gap:12px;align-items:center">
+        <!-- BOUTON PRINCIPAL KO-FI -->
+        <a href="https://ko-fi.com/porosaidant" target="_blank" rel="noopener noreferrer"
+           style="display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:600;padding:14px 32px;background:#C8860A;color:#fff;border:none;border-radius:26px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(200,134,10,0.25);transition:all 0.2s"
+           onmouseover="this.style.transform='translateY(-2px)';this.style.background='#A87205';this.style.boxShadow='0 6px 20px rgba(200,134,10,0.35)'"
+           onmouseout="this.style.transform='';this.style.background='#C8860A';this.style.boxShadow='0 4px 14px rgba(200,134,10,0.25)'">
+          <span style="font-size:18px">☕</span>
+          <span id="tx-sou-btn-kofi">Soutenir via Ko-fi</span>
+        </a>
+        <div id="tx-sou-btn-kofi-desc" style="font-size:11px;color:#9A8E7E;margin-top:-4px">Paiement sécurisé par carte bancaire — dès 3 €</div>
+
+        <!-- SÉPARATEUR -->
+        <div style="display:flex;align-items:center;gap:10px;width:100%;max-width:320px;margin:8px 0">
+          <div style="flex:1;height:1px;background:#E0D8CC"></div>
+          <span id="tx-sou-ou" style="font-size:11px;color:#9A8E7E;text-transform:uppercase;letter-spacing:1px">Ou</span>
+          <div style="flex:1;height:1px;background:#E0D8CC"></div>
+        </div>
+
+        <!-- BOUTON SECONDAIRE : FORMULAIRE D'INTENTION -->
+        <button id="tx-sou-btn" onclick="document.getElementById('modal-soutenir').classList.add('open')"
+                style="font-size:13px;font-weight:500;padding:10px 24px;background:transparent;color:#0B2A4A;border:1.5px solid #0B2A4A;border-radius:22px;cursor:pointer;font-family:'DM Sans',sans-serif">
+          💬 Laisser un message de soutien
+        </button>
+        <div id="tx-sou-btn-desc" style="font-size:11px;color:#9A8E7E;margin-top:-4px">Pour proposer votre aide autrement (bénévolat, mise en réseau, virement bancaire…)</div>
+      </div>
+      <p id="tx-sou-note" style="font-size:11px;color:#9A8E7E;text-align:center;margin-top:20px;line-height:1.6;font-style:italic">
+        Poros-Aidant n'est pas encore une association déclarée : aucun reçu fiscal ne peut être délivré à ce stade.<br>
+        Ko-fi ne prend aucune commission sur les contributions — 100 % de votre soutien nous parvient.
+      </p>
+    </div>
+  </div>
+
   <!-- CARTE GÉOGRAPHIQUE -->
   <div id="section-carte" style="display:none">
     <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
@@ -1092,11 +1166,11 @@ function googleTranslateElementInit(){
   <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:32px;flex-wrap:wrap">
 
     <!-- QUESTIONNAIRE ORIENTATION -->
-    <!-- FEEDBACK POROS -->
+    <!-- FEEDBACK POROS-AIDANT -->
     <div style="background:#FEFCF8;border:1px solid #E0D8CC;border-radius:16px;padding:28px;border-top:3px solid #1E7D6B">
       <div style="font-size:12px;font-weight:600;color:#1E7D6B;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💬 Votre avis compte</div>
-      <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#0B2A4A;margin-bottom:6px">Améliorer Poros ensemble</h3>
-      <p style="font-size:12px;color:#9A8E7E;margin-bottom:20px;line-height:1.6">Poros est créé par et pour les aidants. Votre retour nous aide à améliorer la plateforme.</p>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#0B2A4A;margin-bottom:6px">Améliorer Poros-Aidant ensemble</h3>
+      <p style="font-size:12px;color:#9A8E7E;margin-bottom:20px;line-height:1.6">Poros-Aidant est créé par et pour les aidants. Votre retour nous aide à améliorer la plateforme.</p>
 
       <div id="feedback-form">
         <div style="margin-bottom:12px">
@@ -1120,7 +1194,7 @@ function googleTranslateElementInit(){
         <button onclick="envoyerFeedback()" style="width:100%;background:#1E7D6B;color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:10px;border-radius:8px;cursor:pointer">Envoyer mon retour →</button>
       </div>
       <div id="feedback-merci" style="display:none;text-align:center;padding:20px;color:#1E7D6B;font-size:14px">
-        ✅ Merci pour votre retour !<br><span style="font-size:12px;color:#9A8E7E">Il nous aide à améliorer Poros pour tous les aidants.</span>
+        ✅ Merci pour votre retour !<br><span style="font-size:12px;color:#9A8E7E">Il nous aide à améliorer Poros-Aidant pour tous les aidants.</span>
       </div>
     </div>
 
@@ -1131,14 +1205,14 @@ function googleTranslateElementInit(){
 </div>
 
 <footer>
-  <strong>POROS — Πόρος</strong><br>
+  <strong>POROS-AIDANT — Πόρος</strong><br>
   Plateforme méditerranéenne dédiée aux aidants familiaux<br>
   Praticiens libéraux · Services hospitaliers · Plateformes d'écoute · Médecine douce · Associations · Ministères<br>
   <em id="tx-footer-slogan">"Trouver le passage vers les ressources qui accompagnent."</em><br>
   <br>
   <span style="color:rgba(255,255,255,0.3);font-size:12px">
     Les informations sont données à titre indicatif · Contactez directement les praticiens pour confirmer leur disponibilité<br>
-    Poros n'est pas un service médical d'urgence · En cas d'urgence médicale, appelez le SAMU : 21 (Algérie) · 112 (Espagne) · 15 (France) · 166 (Grèce) · 118 (Italie) · 1515 (Libye) · 141 (Maroc) · 18 (Monaco) · 190 (Tunisie)<br>
+    Poros-Aidant n'est pas un service médical d'urgence · En cas d'urgence médicale, appelez le SAMU : 21 (Algérie) · 112 (Espagne) · 15 (France) · 166 (Grèce) · 118 (Italie) · 1515 (Libye) · 141 (Maroc) · 18 (Monaco) · 190 (Tunisie)<br>
   </span>
   <br>
   <span style="display:inline-flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:8px">
@@ -1148,7 +1222,7 @@ function googleTranslateElementInit(){
     <button onclick="document.getElementById('modal-mentions').classList.add('open')" style="background:none;border:none;color:rgba(255,255,255,0.35);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif">Nous contacter</button>
   </span>
   <br>
-  © 2026 Poros — Tous droits réservés · poros-aidants.org
+  © 2026 Poros-Aidant — Tous droits réservés · poros-aidant.netlify.app
 </footer>
 
 <script>
@@ -1707,12 +1781,13 @@ DISCIPLINES.forEach(d=>{
 
 function switchTab(t){
   view=t;
-  ["prat","hop","centre","ecoute","douce","asso","min","transport","carte"].forEach(id=>{
+  ["prat","hop","centre","societes","ecoute","douce","asso","min","transport","soutenir","carte"].forEach(id=>{
     var tabEl=document.getElementById("tab-"+id);
     var secEl=document.getElementById("section-"+id);
     if(tabEl) tabEl.classList.toggle("on",id===t);
     if(secEl) secEl.style.display=id===t?"block":"none";
   });
+  // Tous les onglets sont visibles (affichage sur plusieurs lignes) — pas de défilement nécessaire
   // Mettre à jour les filtres région/dept selon le pays et l'onglet actif
   const assoRow=document.getElementById("asso-region-row");
   if(assoRow){
@@ -1738,8 +1813,36 @@ function switchTab(t){
   if(t==="ecoute") goEcoute();
   if(t==="centre") goCentre();
   if(t==="transport") goTransport();
+  if(t==="societes") goSocietes();
+  if(t==="soutenir") { /* section statique */ }
   if(t==="carte") setTimeout(initCarte, 100);
+  // Indicateur de défilement de la barre d'onglets
+  try{ updateTabsScrollHint(); }catch(e){}
+  // Réappliquer la langue pour traduire les fiches fraîchement rendues
+  if(window._POROS_LANG && window._POROS_LANG!=='fr'){
+    setTimeout(function(){ try{ applyLang(window._POROS_LANG); }catch(e){} }, 50);
+  }
 }
+
+// Indicateurs de défilement de la barre d'onglets (dégradés + flèche)
+function updateTabsScrollHint(){
+  var wrap=document.getElementById("annuaire-tabs-wrap");
+  var tabs=document.getElementById("annuaire-tabs");
+  if(!wrap||!tabs) return;
+  var atStart=tabs.scrollLeft<=2;
+  var atEnd=tabs.scrollLeft+tabs.clientWidth>=tabs.scrollWidth-2;
+  var canScroll=tabs.scrollWidth>tabs.clientWidth+2;
+  wrap.classList.toggle("scrolled-start",canScroll && !atStart);
+  wrap.classList.toggle("scrolled-end",!canScroll || atEnd);
+}
+document.addEventListener("DOMContentLoaded",function(){
+  var tabs=document.getElementById("annuaire-tabs");
+  if(tabs){
+    tabs.addEventListener("scroll",updateTabsScrollHint,{passive:true});
+    setTimeout(updateTabsScrollHint,150);
+  }
+  window.addEventListener("resize",function(){ setTimeout(updateTabsScrollHint,50); });
+});
 
 function ini(n){const w=n.trim().split(/\s+/);return(w[0][0]+(w[1]?w[1][0]:"")).toUpperCase();}
 function pflag(pid){return PAYS.find(x=>x.id===pid)?.flag||"";}
@@ -1969,6 +2072,24 @@ document.addEventListener("click",function(e){
 // ── CENTRES & TRANSPORT (alimentés par les inscriptions) ─────────────────
 const ALL_CENTRE=[];
 const ALL_TRANSPORT=[];
+const ALL_SOCIETES=[];
+
+function renderSociete(c){
+  const col=c.col||"#7A5FBF";
+  const badge=c.stype||c.type||"Société";
+  const contact=c.tel?`<a class="btn-c" href="tel:${c.tel}">${c.tel}</a>`:c.e?`<a class="btn-c" href="mailto:${c.e}">Email</a>`:c.site?`<a class="btn-c" href="https://${(c.site||"").replace(/^https?:\/\//,"")}" target="_blank" rel="noopener noreferrer">Site web</a>`:"";
+  const zone=c.zone?`<div class="irow"><span>🗺️</span><span>Zone : ${c.zone}</span></div>`:"";
+  const adr=c.adresse?`<div class="irow"><span>🏠</span><span>${c.adresse}</span></div>`:"";
+  const h24=c.h24?`<div class="irow"><span>⏰</span><span>Disponible 24h/24 – 7j/7</span></div>`:"";
+  return `<div class="card" style="border-top-color:${col}">
+    <div class="card-top">${avatarHtml(c, col)}
+    <div><div class="cname">${c.n}<span class="flag-badge">${pflag(c.pays)}</span></div><div class="ctitle">📍 ${c.g||""}</div></div></div>
+    <span class="cspe" style="background:#EEE6F7;color:#4A2E88">${badge}</span>
+    <span class="cspe" style="background:#FFF3E8;color:#8A5A0F;font-size:10px">Prestataire commercial</span>
+    ${c.desc?`<div class="desc-box">${c.desc}</div>`:""}
+    <div class="infos">${adr}${zone}${h24}</div>
+    <div class="foot" style="margin-top:8px"><span></span>${contact}</div></div>`;
+}
 
 function renderCentre(c){
   const col=c.col||"#1E7D6B";
@@ -2030,6 +2151,22 @@ function goTransport(){
   if(rc) rc.innerHTML=`<strong>${f.length}</strong> transporteur${f.length>1?"s":""} trouvé${f.length>1?"s":""}`;
   const g=document.getElementById("grid-transport");
   if(g) g.innerHTML=f.length?f.map(renderTransport).join(""):`<div class="empty">Aucun transport référencé pour ce pays pour le moment.</div>`;
+}
+
+function goSocietes(){
+  const q=(document.getElementById("sq-societes")||{value:""}).value.toLowerCase();
+  const ss=(document.getElementById("ss-societes")||{value:""}).value;
+  const f=ALL_SOCIETES.filter(c=>{
+    if(c.pays&&c.pays!==pays)return false;
+    const txt=((c.n||"")+(c.g||"")+(c.zone||"")+(c.desc||"")+(c.stype||c.type||"")).toLowerCase();
+    if(q&&!txt.includes(q))return false;
+    if(ss&&(c.stype||c.type||"")!==ss)return false;
+    return true;
+  });
+  const rc=document.getElementById("rcount-societes");
+  if(rc) rc.innerHTML=`<strong>${f.length}</strong> société${f.length>1?"s":""} trouvée${f.length>1?"s":""}`;
+  const g=document.getElementById("grid-societes");
+  if(g) g.innerHTML=f.length?f.map(renderSociete).join(""):`<div class="empty">Aucune société référencée pour ce pays pour le moment.</div>`;
 }
 
 function showProfilFilter(){
@@ -2219,7 +2356,7 @@ function clearSearchGlobal(){
   if(results){results.style.display="none";results.innerHTML="";}
 }
 
-function renderAll(){updateStats();go();goHop();goEcoute();goDouce();goAsso();goMin();goCentre();goTransport();if(window._POROS_LANG&&window._POROS_LANG!=='fr'){try{applyLang(window._POROS_LANG);}catch(e){}}}
+function renderAll(){updateStats();go();goHop();goEcoute();goDouce();goAsso();goMin();goCentre();goTransport();goSocietes();if(window._POROS_LANG&&window._POROS_LANG!=='fr'){try{applyLang(window._POROS_LANG);}catch(e){}}}
 // Accessibilité — charger les préférences sauvegardées
 function chargerA11y(){
   const fs=localStorage.getItem("a11y_fontsize");
@@ -2276,6 +2413,7 @@ function applyLang(lang) {
       tab_prat:"👨‍⚕️ Praticiens libéraux", tab_hop:"🏥 Services hospitaliers",
       tab_ecoute:"📞 Plateformes d'écoute", tab_douce:"🌿 Médecine douce",
       tab_asso:"🤝 Associations", tab_min:"🏛️ Ministères", tab_carte:"🗺️ Carte", tab_centre:"🏠 Centres", tab_transport:"🚐 Transport adapté",
+      tab_societes:"🏢 Sociétés de services", tab_soutenir:"💛 Soutenir",
       pays_label:"Sélectionner un pays",
       // Recherche globale
       sq_global:"🔍 Rechercher dans tout l'annuaire… (ex: sophrologie Sfax, neurologue Tunis, Alzheimer France)",
@@ -2284,6 +2422,7 @@ function applyLang(lang) {
       sq:"Rechercher nom, ville…", sq_hop:"Rechercher un service, un hôpital…",
       sq_ecoute:"Rechercher une plateforme…", sq_douce:"Rechercher un praticien…",
       sq_asso:"Rechercher une association…", sq_min:"Rechercher un ministère, un service…",
+      sq_societes:"Rechercher une société, une ville…",
       // Filtres selects
       all_spe:"Toutes spécialités", all_profils:"Tous profils", all_regions:"Toutes régions",
       all_depts:"Tous départements", all_pathos:"Toutes pathologies",
@@ -2320,6 +2459,25 @@ function applyLang(lang) {
       btn_ref_douce:"➕ Référencer ma pratique de médecine douce",
       btn_ref_asso:"➕ Référencer mon association",
       btn_ref_centre:"🏠 Référencer mon centre",
+      btn_ref_societe:"🏢 Référencer ma société de services",
+      btn_ref_transport:"🚐 Référencer un transport adapté",
+      // Sociétés de services
+      soc_intro:"Prestataires commerciaux — sociétés proposant du matériel médical, des services à la personne (auxiliaires de vie, gardes-malades) ou des soins à domicile (structures d'infirmiers, HAD).",
+      soc_all:"Tous types",
+      soc_materiel:"Matériel médical", soc_perso:"Services à la personne", soc_soins:"Soins à domicile",
+      // Soutenir
+      sou_title:"Soutenir Poros-Aidant",
+      sou_intro:"Poros-Aidant est une plateforme gratuite pour les familles, maintenue bénévolement. Aucune publicité, aucun tracking — juste des ressources vérifiées pour vous accompagner. Si Poros-Aidant vous a aidé, votre soutien nous permet de continuer.",
+      sou_verifier:"Vérifier", sou_verifier_d:"Chaque fiche est contrôlée avant publication",
+      sou_etendre:"Étendre", sou_etendre_d:"Ajouter de nouvelles villes et de nouveaux pays",
+      sou_maintenir:"Maintenir", sou_maintenir_d:"Hébergement, mises à jour, accessibilité",
+      sou_btn:"💬 Laisser un message de soutien",
+      header_support:"Nous soutenir",
+      sou_btn_kofi:"Soutenir via Ko-fi",
+      sou_btn_kofi_desc:"Paiement sécurisé par carte bancaire — dès 3 €",
+      sou_ou:"Ou",
+      sou_btn_desc:"Pour proposer votre aide autrement (bénévolat, mise en réseau, virement bancaire…)",
+      sou_note:"Poros-Aidant n'est pas encore une association déclarée : aucun reçu fiscal ne peut être délivré à ce stade. Ko-fi ne prend aucune commission sur les contributions — 100 % de votre soutien nous parvient.",
       disc_label:"Choisir une discipline",
       // Landing
       badge:"Portail Méditerranéen · 2026",
@@ -2334,7 +2492,7 @@ function applyLang(lang) {
       s5t:"En cas de crise — vous n'êtes pas seul",
       who_label:"Qui sommes-nous", who_h2:"Une initiative née du terrain",
       fondatrice:"Fondatrice", amgg_label:"Structure porteuse", mission_label:"Notre mission",
-      ann_sub:"Poros guide les aidants familiaux du bassin méditerranéen vers les praticiens, les associations et les ressources dont ils ont besoin.",
+      ann_sub:"Poros-Aidant guide les aidants familiaux du bassin méditerranéen vers les praticiens, les associations et les ressources dont ils ont besoin.",
       ann_em:"Le passage vers les ressources pour accompagner votre proche",
       ann_prat:"Praticiens", ann_hop:"Hôpitaux", ann_douce:"Médecine douce",
       ann_asso:"Associations", ann_ecoute:"Écoute",
@@ -2344,12 +2502,14 @@ function applyLang(lang) {
       tab_prat:"👨‍⚕️ Private practitioners", tab_hop:"🏥 Hospital services",
       tab_ecoute:"📞 Listening platforms", tab_douce:"🌿 Complementary medicine",
       tab_asso:"🤝 Associations", tab_min:"🏛️ Ministries", tab_carte:"🗺️ Map", tab_centre:"🏠 Centres", tab_transport:"🚐 Adapted transport",
+      tab_societes:"🏢 Service companies", tab_soutenir:"💛 Support",
       pays_label:"Select a country",
       sq_global:"🔍 Search the directory… (e.g. physiotherapy Sfax, neurologist Tunis, Alzheimer France)",
       search_global:"🔍  Search the directory — practitioner, association, city, condition…",
       sq:"Search by name, city…", sq_hop:"Search a service or hospital…",
       sq_ecoute:"Search a platform…", sq_douce:"Search a practitioner…",
       sq_asso:"Search an association…", sq_min:"Search a ministry or service…",
+      sq_societes:"Search a company, a city…",
       all_spe:"All specialties", all_profils:"All profiles", all_regions:"All regions",
       all_depts:"All areas", all_pathos:"All conditions",
       all_services:"All services", all_ecoute:"All", all_domaines:"All domains",
@@ -2378,6 +2538,25 @@ function applyLang(lang) {
       btn_ref_douce:"➕ List my complementary medicine practice",
       btn_ref_asso:"➕ List my association",
       btn_ref_centre:"🏠 List my centre",
+      btn_ref_societe:"🏢 List my service company",
+      btn_ref_transport:"🚐 List an adapted transport service",
+      // Service companies
+      soc_intro:"Commercial providers — companies offering medical equipment, personal services (home helpers, carers) or home care (nursing companies, HAD).",
+      soc_all:"All types",
+      soc_materiel:"Medical equipment", soc_perso:"Personal services", soc_soins:"Home care",
+      // Support
+      sou_title:"Support Poros-Aidant",
+      sou_intro:"Poros-Aidant is a platform free for families, maintained voluntarily. No advertising, no tracking — just verified resources to support you. If Poros-Aidant has helped you, your support allows us to continue.",
+      sou_verifier:"Verify", sou_verifier_d:"Every listing is reviewed before publication",
+      sou_etendre:"Extend", sou_etendre_d:"Adding new cities and new countries",
+      sou_maintenir:"Maintain", sou_maintenir_d:"Hosting, updates, accessibility",
+      sou_btn:"💬 Send a message of support",
+      header_support:"Support us",
+      sou_btn_kofi:"Support via Ko-fi",
+      sou_btn_kofi_desc:"Secure card payment — from €3",
+      sou_ou:"Or",
+      sou_btn_desc:"To offer help another way (volunteering, networking, bank transfer…)",
+      sou_note:"Poros-Aidant is not yet a registered non-profit: no tax receipt can be issued at this stage. Ko-fi takes no commission on contributions — 100% of your support reaches us.",
       disc_label:"Choose a discipline",
       badge:"Mediterranean Portal · 2026",
       h1:"Finding the way", h1_sub:"to the resources that support you.",
@@ -2391,7 +2570,7 @@ function applyLang(lang) {
       s5t:"In a crisis — you are not alone",
       who_label:"Who we are", who_h2:"An initiative born from the field",
       fondatrice:"Founder", amgg_label:"Supporting structure", mission_label:"Our mission",
-      ann_sub:"Poros guides family caregivers across the Mediterranean basin to the practitioners, associations and resources they need.",
+      ann_sub:"Poros-Aidant guides family caregivers across the Mediterranean basin to the practitioners, associations and resources they need.",
       ann_em:"Finding the way to resources for accompanying your loved one",
       ann_prat:"Practitioners", ann_hop:"Hospitals", ann_douce:"Complementary medicine",
       ann_asso:"Associations", ann_ecoute:"Listening",
@@ -2401,12 +2580,14 @@ function applyLang(lang) {
       tab_prat:"👨‍⚕️ الممارسون الخاصون", tab_hop:"🏥 الخدمات المستشفوية",
       tab_ecoute:"📞 منصات الاستماع", tab_douce:"🌿 الطب التكميلي",
       tab_asso:"🤝 الجمعيات", tab_min:"🏛️ الوزارات", tab_carte:"🗺️ الخريطة", tab_centre:"🏠 المراكز", tab_transport:"🚐 النقل المُكيّف",
+      tab_societes:"🏢 شركات الخدمات", tab_soutenir:"💛 الدعم",
       pays_label:"اختر بلداً",
       sq_global:"🔍 البحث في الدليل… (مثال: علاج طبيعي صفاقس، عصبي تونس)",
       search_global:"🔍  البحث في الدليل — ممارس، جمعية، مدينة، مرض…",
       sq:"البحث بالاسم أو المدينة…", sq_hop:"البحث عن خدمة أو مستشفى…",
       sq_ecoute:"البحث عن منصة…", sq_douce:"البحث عن ممارس…",
       sq_asso:"البحث عن جمعية…", sq_min:"البحث عن وزارة…",
+      sq_societes:"البحث عن شركة أو مدينة…",
       all_spe:"جميع التخصصات", all_profils:"جميع الملفات الشخصية",
       all_regions:"جميع المناطق", all_depts:"جميع المحافظات",
       all_pathos:"جميع الأمراض",
@@ -2436,6 +2617,25 @@ function applyLang(lang) {
       btn_ref_douce:"➕ تسجيل ممارستي للطب التكميلي",
       btn_ref_asso:"➕ تسجيل جمعيتي",
       btn_ref_centre:"🏠 تسجيل مركزي",
+      btn_ref_societe:"🏢 تسجيل شركتي للخدمات",
+      btn_ref_transport:"🚐 تسجيل خدمة نقل مُكيّف",
+      // شركات الخدمات
+      soc_intro:"مقدمو الخدمات التجاريون — شركات تقدم المعدات الطبية أو الخدمات الشخصية (مساعدو الحياة، مرافقو المرضى) أو الرعاية المنزلية (شركات التمريض، الاستشفاء المنزلي).",
+      soc_all:"جميع الأنواع",
+      soc_materiel:"معدات طبية", soc_perso:"خدمات شخصية", soc_soins:"رعاية منزلية",
+      // الدعم
+      sou_title:"دعم بوروس-الرعاية",
+      sou_intro:"بوروس-الرعاية منصة مجانية للعائلات، تُدار تطوعياً. بدون إعلانات، بدون تتبع — فقط موارد موثوقة لمرافقتك. إذا كان بوروس-الرعاية قد ساعدك، فإن دعمك يسمح لنا بالاستمرار.",
+      sou_verifier:"التحقق", sou_verifier_d:"يتم التحقق من كل بطاقة قبل النشر",
+      sou_etendre:"التوسع", sou_etendre_d:"إضافة مدن ودول جديدة",
+      sou_maintenir:"الصيانة", sou_maintenir_d:"الاستضافة، التحديثات، إمكانية الوصول",
+      sou_btn:"💬 إرسال رسالة دعم",
+      header_support:"ادعمنا",
+      sou_btn_kofi:"الدعم عبر كو-في",
+      sou_btn_kofi_desc:"دفع آمن بالبطاقة البنكية — ابتداءً من 3 €",
+      sou_ou:"أو",
+      sou_btn_desc:"لتقديم المساعدة بطريقة أخرى (التطوع، التواصل، التحويل البنكي…)",
+      sou_note:"بوروس-الرعاية ليست بعد جمعية معلنة: لا يمكن إصدار إيصال ضريبي في هذه المرحلة. كو-في لا تأخذ أي عمولة على المساهمات — 100٪ من دعمك يصل إلينا.",
       disc_label:"اختر تخصصاً",
       badge:"بوابة المتوسط · 2026",
       h1:"إيجاد الطريق", h1_sub:"نحو الموارد التي تدعمك.",
@@ -2471,6 +2671,7 @@ function applyLang(lang) {
   // ── Onglets
   st("tab-prat",t.tab_prat); st("tab-hop",t.tab_hop); st("tab-ecoute",t.tab_ecoute);
   st("tab-douce",t.tab_douce); st("tab-asso",t.tab_asso); st("tab-min",t.tab_min); st("tab-carte",t.tab_carte); st("tab-centre",t.tab_centre); st("tab-transport",t.tab_transport);
+  st("tab-societes",t.tab_societes); st("tab-soutenir",t.tab_soutenir);
   qla(".pays-label",t.pays_label);
 
   // ── Recherche globale
@@ -2479,6 +2680,95 @@ function applyLang(lang) {
   // ── Placeholders
   ph("sq",t.sq); ph("sq-hop",t.sq_hop); ph("sq-ecoute",t.sq_ecoute);
   ph("sq-douce",t.sq_douce); ph("sq-asso",t.sq_asso); ph("sq-min",t.sq_min);
+  ph("sq-societes",t.sq_societes);
+
+  // ── Section Soutenir
+  st("tx-floating-support",t.header_support||"Nous soutenir");
+  st("tx-sou-title",t.sou_title);
+  st("tx-sou-verifier",t.sou_verifier); st("tx-sou-verifier-d",t.sou_verifier_d);
+  st("tx-sou-etendre",t.sou_etendre); st("tx-sou-etendre-d",t.sou_etendre_d);
+  st("tx-sou-maintenir",t.sou_maintenir); st("tx-sou-maintenir-d",t.sou_maintenir_d);
+  st("tx-sou-btn",t.sou_btn);
+  st("tx-sou-btn-kofi",t.sou_btn_kofi);
+  st("tx-sou-btn-kofi-desc",t.sou_btn_kofi_desc);
+  st("tx-sou-ou",t.sou_ou);
+  st("tx-sou-btn-desc",t.sou_btn_desc);
+  var pIntro=document.getElementById("tx-sou-intro"); if(pIntro && t.sou_intro) pIntro.textContent=t.sou_intro;
+  var pNote=document.getElementById("tx-sou-note"); if(pNote && t.sou_note) pNote.textContent=t.sou_note;
+
+  // ── Traduction des fiches (spécialités et pathologies affichées dans les cartes)
+  // Dictionnaires globaux appliqués aux badges .cspe et aux tags .ptag
+  var FICHES_TRAD = {
+    fr: {
+      // Spécialités
+      "Neurologie":"Neurologie","Gériatrie":"Gériatrie","Psychiatrie":"Psychiatrie",
+      "Cardio-gériatrie":"Cardio-gériatrie","Néphro-gériatrie":"Néphro-gériatrie",
+      "Onco-gériatrie":"Onco-gériatrie","Neuropsychologie":"Neuropsychologie",
+      "Psychologie clinique":"Psychologie clinique","Médecine générale":"Médecine générale",
+      "Sexologie":"Sexologie","Kinésithérapie":"Kinésithérapie","Ergothérapie":"Ergothérapie",
+      "Orthophonie":"Orthophonie","Podologie":"Podologie","Nutrition & diététique":"Nutrition & diététique",
+      "Soins palliatifs":"Soins palliatifs","Travail social":"Travail social",
+      "Aide-soignant(e)":"Aide-soignant(e)","Auxiliaire de vie":"Auxiliaire de vie",
+      "Infirmier(e) libéral(e)":"Infirmier(e) libéral(e)","Psychomotricien(ne)":"Psychomotricien(ne)",
+      "Avocat & juriste — Droit des personnes âgées":"Avocat & juriste — Droit des personnes âgées",
+      // Pathologies
+      "Alzheimer":"Alzheimer","Parkinson":"Parkinson","AVC":"AVC",
+      "Sclérose en plaques":"Sclérose en plaques","Démence vasculaire":"Démence vasculaire",
+      "Épilepsie tardive":"Épilepsie tardive","Consultation mémoire":"Consultation mémoire",
+      "Troubles cognitifs":"Troubles cognitifs","Chutes":"Chutes","Cancer":"Cancer",
+      "Troubles psychiatriques":"Troubles psychiatriques","Dépression":"Dépression",
+      "Anxiété":"Anxiété","Deuil":"Deuil","Toutes pathologies":"Toutes pathologies"
+    },
+    en: {
+      // Spécialités
+      "Neurologie":"Neurology","Gériatrie":"Geriatrics","Psychiatrie":"Psychiatry",
+      "Cardio-gériatrie":"Cardio-geriatrics","Néphro-gériatrie":"Nephro-geriatrics",
+      "Onco-gériatrie":"Onco-geriatrics","Neuropsychologie":"Neuropsychology",
+      "Psychologie clinique":"Clinical psychology","Médecine générale":"General medicine",
+      "Sexologie":"Sexology","Kinésithérapie":"Physiotherapy","Ergothérapie":"Occupational therapy",
+      "Orthophonie":"Speech therapy","Podologie":"Podiatry","Nutrition & diététique":"Nutrition & dietetics",
+      "Soins palliatifs":"Palliative care","Travail social":"Social work",
+      "Aide-soignant(e)":"Care assistant","Auxiliaire de vie":"Home help",
+      "Infirmier(e) libéral(e)":"Nurse practitioner","Psychomotricien(ne)":"Psychomotor therapist",
+      "Avocat & juriste — Droit des personnes âgées":"Lawyer — Elderly law",
+      // Pathologies
+      "Alzheimer":"Alzheimer","Parkinson":"Parkinson","AVC":"Stroke",
+      "Sclérose en plaques":"Multiple sclerosis","Démence vasculaire":"Vascular dementia",
+      "Épilepsie tardive":"Late-onset epilepsy","Consultation mémoire":"Memory consultation",
+      "Troubles cognitifs":"Cognitive disorders","Chutes":"Falls","Cancer":"Cancer",
+      "Troubles psychiatriques":"Psychiatric disorders","Dépression":"Depression",
+      "Anxiété":"Anxiety","Deuil":"Bereavement","Toutes pathologies":"All conditions"
+    },
+    ar: {
+      // Spécialités
+      "Neurologie":"طب الأعصاب","Gériatrie":"طب الشيخوخة","Psychiatrie":"الطب النفسي",
+      "Cardio-gériatrie":"قلب وشيخوخة","Néphro-gériatrie":"كلى وشيخوخة",
+      "Onco-gériatrie":"أورام وشيخوخة","Neuropsychologie":"نفس عصبي",
+      "Psychologie clinique":"علم النفس السريري","Médecine générale":"طب عام",
+      "Sexologie":"طب جنسي","Kinésithérapie":"علاج طبيعي","Ergothérapie":"علاج وظيفي",
+      "Orthophonie":"علاج النطق","Podologie":"تقويم القدم","Nutrition & diététique":"تغذية وحمية",
+      "Soins palliatifs":"رعاية تلطيفية","Travail social":"عمل اجتماعي",
+      "Aide-soignant(e)":"مساعد رعاية","Auxiliaire de vie":"مساعد منزلي",
+      "Infirmier(e) libéral(e)":"ممرض(ة) مستقل(ة)","Psychomotricien(ne)":"علاج حركي نفسي",
+      "Avocat & juriste — Droit des personnes âgées":"محامي — قانون كبار السن",
+      // Pathologies
+      "Alzheimer":"الزهايمر","Parkinson":"باركنسون","AVC":"السكتة الدماغية",
+      "Sclérose en plaques":"التصلب المتعدد","Démence vasculaire":"الخرف الوعائي",
+      "Épilepsie tardive":"الصرع المتأخر","Consultation mémoire":"استشارة الذاكرة",
+      "Troubles cognitifs":"اضطرابات معرفية","Chutes":"السقوط","Cancer":"السرطان",
+      "Troubles psychiatriques":"اضطرابات نفسية","Dépression":"الاكتئاب",
+      "Anxiété":"القلق","Deuil":"الحزن","Toutes pathologies":"جميع الأمراض"
+    }
+  };
+  // Appliquer la traduction aux badges de spécialités et aux tags de pathologies dans les fiches
+  var traductionsFiches = FICHES_TRAD[lang] || FICHES_TRAD["fr"];
+  document.querySelectorAll('.cspe, .ptag').forEach(function(el){
+    // Sauvegarder le texte original la première fois
+    if (!el.dataset.origText) el.dataset.origText = el.textContent.trim();
+    var orig = el.dataset.origText;
+    if (traductionsFiches[orig]) el.textContent = traductionsFiches[orig];
+    else el.textContent = orig;
+  });
 
   // ── Select filtres — option "Toutes"
   opt("ss","",t.all_spe); opt("ss-profil","",t.all_profils);
@@ -2542,10 +2832,14 @@ function applyLang(lang) {
   st("carte-btn-prat",t.carte_prat); st("carte-btn-hop",t.carte_hop); st("carte-btn-tous",t.carte_tous);
 
   // ── Boutons référencer
-  var btnRefPrat=document.querySelector("#section-prat .btn-referer:first-of-type");
+  var btnRefPrat=document.querySelector("#section-prat .btn-referer");
   if(btnRefPrat) btnRefPrat.textContent=t.btn_ref_prat;
-  var btnRefCentre=document.querySelector("#section-prat .btn-referer:nth-of-type(2)");
+  var btnRefCentre=document.querySelector("#section-centre .btn-referer");
   if(btnRefCentre) btnRefCentre.textContent=t.btn_ref_centre;
+  var btnRefSociete=document.querySelector("#section-societes .btn-referer");
+  if(btnRefSociete) btnRefSociete.textContent=t.btn_ref_societe;
+  var btnRefTransport=document.querySelector("#section-transport .btn-referer");
+  if(btnRefTransport) btnRefTransport.textContent=t.btn_ref_transport;
   var btnRefHop=document.querySelector("#section-hop .btn-referer");
   if(btnRefHop) btnRefHop.textContent=t.btn_ref_hop;
   var btnRefEcoute=document.querySelector("#section-ecoute .btn-referer");
@@ -2661,7 +2955,7 @@ async function validerMdp(){
         try{ updateBadgeTemoignages(); }catch(e){}
       }catch(e){}
     })();
-    toast("✅ Connecté — Bienvenue dans l'administration Poros");
+    toast("✅ Connecté — Bienvenue dans l'administration Poros-Aidant");
   } else {
     document.getElementById("login-error").style.display="block";
     document.getElementById("login-error").textContent="Code incorrect. Réessayez.";
@@ -3081,7 +3375,7 @@ function notifierEmail(type, data){
     }
   }
   var payload = {
-    _subject: "🔔 Nouvelle demande Poros — " + typeLabel + " : " + (data.nom||""),
+    _subject: "🔔 Nouvelle demande Poros-Aidant — " + typeLabel + " : " + (data.nom||""),
     type: typeLabel,
     nom: data.nom || "",
     ville: data.ville || "",
@@ -3089,7 +3383,7 @@ function notifierEmail(type, data){
     telephone: data.tel || "",
     email_contact: data.email || "",
     details: resume,
-    message: "Nouvelle demande de référencement reçue sur Poros.\n\nType : " + typeLabel + "\n\n" + resume + "\n\nConnectez-vous au panneau admin pour valider ou rejeter cette demande."
+    message: "Nouvelle demande de référencement reçue sur Poros-Aidant.\n\nType : " + typeLabel + "\n\n" + resume + "\n\nConnectez-vous au panneau admin pour valider ou rejeter cette demande."
   };
   fetch("https://formspree.io/f/mgojkjar", {
     method: "POST",
@@ -3669,7 +3963,7 @@ function afficherResultatQuiz(){
   res.style.display='block';
   res.innerHTML=`
     <div style="background:#D4EDE8;border-radius:10px;padding:16px;text-align:center">
-      <div style="font-size:13px;font-weight:500;color:#0F6E56;margin-bottom:8px">✅ Voici ce que Poros vous recommande</div>
+      <div style="font-size:13px;font-weight:500;color:#0F6E56;margin-bottom:8px">✅ Voici ce que Poros-Aidant vous recommande</div>
       <p style="font-size:12px;color:#1E7D6B;margin-bottom:14px;line-height:1.6">
         D'après votre situation, consultez l'onglet <strong>${tab==='prat'?'Praticiens libéraux':tab==='ecoute'?"Plateformes d'écoute":tab==='asso'?'Associations':tab==='min'?'Ministères':'Médecine douce'}</strong>
         ${patho?` · Filtrez par <strong>${patho}</strong>`:''}
@@ -3733,9 +4027,9 @@ function envoyerFeedback(){
   const comment=(document.getElementById('fb-comment')||{value:''}).value.trim();
   const email=(document.getElementById('fb-email')||{value:''}).value.trim();
   if(!fbNote && !comment){alert('Merci de donner une note ou un commentaire.');return;}
-  const sujet=encodeURIComponent(`[Poros] Feedback utilisateur — Note ${fbNote}/5`);
+  const sujet=encodeURIComponent(`[Poros-Aidant] Feedback utilisateur — Note ${fbNote}/5`);
   const corps=encodeURIComponent(
-    `FEEDBACK POROS
+    `FEEDBACK POROS-AIDANT
 
 Note : ${fbNote}/5
 
@@ -3779,9 +4073,9 @@ function soumettreTemoin(){
   try{ window.PorosCloud.insertTemoignage(tm); }catch(e){}
 
   // Envoyer par email
-  const sujet=encodeURIComponent(`[Poros] Témoignage — ${prenom}`);
+  const sujet=encodeURIComponent(`[Poros-Aidant] Témoignage — ${prenom}`);
   const corps=encodeURIComponent(
-    `NOUVEAU TÉMOIGNAGE POROS
+    `NOUVEAU TÉMOIGNAGE POROS-AIDANT
 
 ` +
     `Prénom : ${prenom}
@@ -3906,9 +4200,9 @@ function soumettreFormulaireEcoute(){
     return;
   }
 
-  const sujet=encodeURIComponent(`[Poros] Référencement Plateforme d'écoute — ${nom} — ${pays}`);
+  const sujet=encodeURIComponent(`[Poros-Aidant] Référencement Plateforme d'écoute — ${nom} — ${pays}`);
   const corps=encodeURIComponent(
-    `DEMANDE DE RÉFÉRENCEMENT POROS — PLATEFORME D'ÉCOUTE
+    `DEMANDE DE RÉFÉRENCEMENT POROS-AIDANT — PLATEFORME D'ÉCOUTE
 
 ` +
     `Nom de la plateforme : ${nom}
@@ -3978,9 +4272,9 @@ function soumettreFormulaireDouce(){
     return;
   }
 
-  const sujet=encodeURIComponent(`[Poros] Référencement Médecine Douce — ${discipline} — ${prenom} ${nom}`);
+  const sujet=encodeURIComponent(`[Poros-Aidant] Référencement Médecine Douce — ${discipline} — ${prenom} ${nom}`);
   const corps=encodeURIComponent(
-    `DEMANDE DE RÉFÉRENCEMENT POROS — MÉDECINE DOUCE
+    `DEMANDE DE RÉFÉRENCEMENT POROS-AIDANT — MÉDECINE DOUCE
 
 ` +
     `Nom : ${nom}
@@ -4059,9 +4353,9 @@ function soumettreFormulaireCentre(){
   ajouterDemande("centre", data);
 
   // Email de notification
-  const sujet=encodeURIComponent("[Poros] Demande référencement Centre — "+nom);
+  const sujet=encodeURIComponent("[Poros-Aidant] Demande référencement Centre — "+nom);
   const corps=encodeURIComponent(
-    "DEMANDE DE RÉFÉRENCEMENT POROS — CENTRE\n\n"+
+    "DEMANDE DE RÉFÉRENCEMENT POROS-AIDANT — CENTRE\n\n"+
     "Nom : "+nom+"\nType : "+type+"\nPays : "+pays+"\nVille : "+ville+"\n"+
     "Département/Région : "+data.dept+"\nAdresse : "+adresse+"\n"+
     "Téléphone : "+tel+"\nEmail : "+email+"\nSite : "+data.site+"\n"+
@@ -4099,9 +4393,9 @@ function soumettreFormulaireTransport(){
 
   ajouterDemande("transport", data);
 
-  const sujet=encodeURIComponent("[Poros] Demande référencement Transport — "+nom);
+  const sujet=encodeURIComponent("[Poros-Aidant] Demande référencement Transport — "+nom);
   const corps=encodeURIComponent(
-    "DEMANDE DE RÉFÉRENCEMENT POROS — TRANSPORT ADAPTÉ\n\n"+
+    "DEMANDE DE RÉFÉRENCEMENT POROS-AIDANT — TRANSPORT ADAPTÉ\n\n"+
     "Nom : "+nom+"\nType : "+type+"\nPays : "+pays+"\nVille : "+ville+"\n"+
     "Zone : "+data.zone+"\nTéléphone : "+tel+"\nEmail : "+data.email+"\nSite : "+data.site+"\n"+
     "Contact référent : "+contact+"\n\nDescription :\n"+desc
@@ -4110,6 +4404,77 @@ function soumettreFormulaireTransport(){
 
   document.getElementById("form-transport").style.display="none";
   document.getElementById("success-transport").style.display="block";
+}
+
+function soumettreFormulaireSociete(){
+  const nom=document.getElementById("soc-nom").value.trim();
+  const type=document.getElementById("soc-type").value;
+  const pays=document.getElementById("soc-pays").value;
+  const ville=document.getElementById("soc-ville").value.trim();
+  const zone=document.getElementById("soc-zone").value.trim();
+  const adresse=document.getElementById("soc-adresse").value.trim();
+  const tel=document.getElementById("soc-tel").value.trim();
+  const email=document.getElementById("soc-email").value.trim();
+  const desc=document.getElementById("soc-desc").value.trim();
+  const contact=document.getElementById("soc-contact").value.trim();
+
+  if(!nom||!type||!pays||!ville||!zone||!adresse||!tel||!email||!desc||!contact){
+    alert("Merci de remplir tous les champs obligatoires (*)");
+    return;
+  }
+
+  const data={
+    nom, type, pays, ville, zone, adresse, tel, email,
+    site: document.getElementById("soc-site").value.trim(),
+    h24: document.getElementById("soc-h24").value,
+    rc: document.getElementById("soc-rc").value.trim(),
+    description: desc, contact
+  };
+
+  ajouterDemande("societe", data);
+
+  const sujet=encodeURIComponent("[Poros-Aidant] Demande référencement Société de services — "+nom);
+  const corps=encodeURIComponent(
+    "DEMANDE DE RÉFÉRENCEMENT POROS-AIDANT — SOCIÉTÉ DE SERVICES\n\n"+
+    "Raison sociale : "+nom+"\nType : "+type+"\nPays : "+pays+"\nVille : "+ville+"\n"+
+    "Zone d'intervention : "+zone+"\nAdresse : "+adresse+"\n"+
+    "Téléphone : "+tel+"\nEmail : "+email+"\nSite : "+data.site+"\n"+
+    "Disponibilité : "+data.h24+"\nRC/Agrément : "+data.rc+"\n"+
+    "Contact référent : "+contact+"\n\nDescription :\n"+desc
+  );
+  window.location.href="mailto:contactporosaidant@gmail.com?subject="+sujet+"&body="+corps;
+
+  document.getElementById("form-societe").style.display="none";
+  document.getElementById("success-societe").style.display="block";
+}
+
+function soumettreFormulaireSoutien(){
+  const prenom=document.getElementById("sou-prenom").value.trim();
+  const email=document.getElementById("sou-email").value.trim();
+  const pays=document.getElementById("sou-pays").value;
+  const role=document.getElementById("sou-role").value;
+  const type=document.getElementById("sou-type").value;
+
+  if(!prenom||!email||!pays||!role||!type){
+    alert("Merci de remplir tous les champs obligatoires (*)");
+    return;
+  }
+
+  const nom=document.getElementById("sou-nom").value.trim();
+  const message=document.getElementById("sou-message").value.trim();
+
+  const sujet=encodeURIComponent("[Poros-Aidant] Message de soutien — "+prenom+(nom?" "+nom:""));
+  const corps=encodeURIComponent(
+    "MESSAGE DE SOUTIEN À POROS-AIDANT\n\n"+
+    "Prénom : "+prenom+"\nNom : "+nom+"\nEmail : "+email+"\n"+
+    "Pays : "+pays+"\nRôle : "+role+"\n"+
+    "Type de soutien envisagé : "+type+"\n\n"+
+    "Message :\n"+message
+  );
+  window.location.href="mailto:contactporosaidant@gmail.com?subject="+sujet+"&body="+corps;
+
+  document.getElementById("form-soutenir").style.display="none";
+  document.getElementById("success-soutenir").style.display="block";
 }
 
 function ouvrirModal(type){
@@ -4141,9 +4506,9 @@ function soumettreFormulairePrat(){
   }
 
   const type = document.getElementById("modal-prat-title").textContent.includes("hospitalier") ? "Service hospitalier" : "Praticien libéral";
-  const sujet=encodeURIComponent(`[Poros] Demande référencement ${type} — ${titre} ${prenom} ${nom}`);
+  const sujet=encodeURIComponent(`[Poros-Aidant] Demande référencement ${type} — ${titre} ${prenom} ${nom}`);
   const corps=encodeURIComponent(
-    `DEMANDE DE RÉFÉRENCEMENT POROS — ${type.toUpperCase()}
+    `DEMANDE DE RÉFÉRENCEMENT POROS-AIDANT — ${type.toUpperCase()}
 
 ` +
     `Nom : ${nom}
@@ -4205,9 +4570,9 @@ function soumettreFormulaire(){
   }
 
   // Construire le lien mailto avec toutes les infos
-  const sujet=encodeURIComponent(`[Poros] Demande de référencement — ${nom}`);
+  const sujet=encodeURIComponent(`[Poros-Aidant] Demande de référencement — ${nom}`);
   const corps=encodeURIComponent(
-    `DEMANDE DE RÉFÉRENCEMENT POROS
+    `DEMANDE DE RÉFÉRENCEMENT POROS-AIDANT
 
 ` +
     `Nom : ${nom}
@@ -4344,7 +4709,7 @@ ${mission}
       </button>
       <p class="form-note">
         Les champs marqués <span style="color:#C8860A">*</span> sont obligatoires.<br>
-        Votre dossier sera examiné par l'équipe Poros avant publication.
+        Votre dossier sera examiné par l'équipe Poros-Aidant avant publication.
       </p>
       <a class="form-gforms" href="mailto:contactporosaidant@gmail.com?subject=Référencement centre" target="_blank" rel="noopener noreferrer">
         📋 Préférez-vous remplir le formulaire Google Forms ?
@@ -4353,8 +4718,8 @@ ${mission}
 
     <div class="success-msg" id="success-centre">
       ✅ Votre demande a bien été envoyée !<br><br>
-      L'équipe Poros vous contactera sous 5 jours ouvrés pour valider votre fiche.<br><br>
-      Merci de rejoindre Poros 🏠
+      L'équipe Poros-Aidant vous contactera sous 5 jours ouvrés pour valider votre fiche.<br><br>
+      Merci de rejoindre Poros-Aidant 🏠
     </div>
   </div>
 </div>
@@ -4432,13 +4797,192 @@ ${mission}
       </button>
       <p class="form-note">
         Les champs marqués <span style="color:#C8860A">*</span> sont obligatoires.<br>
-        Votre dossier sera examiné par l'équipe Poros avant publication.
+        Votre dossier sera examiné par l'équipe Poros-Aidant avant publication.
       </p>
     </div>
     <div class="success-msg" id="success-transport">
       ✅ Votre demande a bien été envoyée !<br><br>
-      L'équipe Poros vous contactera sous 5 jours ouvrés pour valider votre fiche.<br><br>
-      Merci de rejoindre Poros 🚐
+      L'équipe Poros-Aidant vous contactera sous 5 jours ouvrés pour valider votre fiche.<br><br>
+      Merci de rejoindre Poros-Aidant 🚐
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SOCIÉTÉ DE SERVICES -->
+<div class="modal-overlay" id="modal-societe" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <button class="modal-close" aria-label="Fermer" onclick="document.getElementById('modal-societe').classList.remove('open')">✕</button>
+    <div class="modal-title">🏢 Référencer ma société de services</div>
+    <div class="modal-sub">
+      Matériel médical, services à la personne (auxiliaires, gardes-malades), soins à domicile (structure d'infirmiers, HAD)…<br>
+      Votre fiche sera vérifiée et publiée sous 5 jours ouvrés après validation.
+    </div>
+    <div id="form-societe">
+      <div class="form-group">
+        <label class="form-label">Raison sociale <span>*</span></label>
+        <input type="text" id="soc-nom" class="form-input" placeholder="Ex : El Yosr HAD, Infirmerie 24, Yessmine Services…">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type de société <span>*</span></label>
+          <select id="soc-type" class="form-select">
+            <option value="">Sélectionner</option>
+            <option>Matériel médical</option>
+            <option>Services à la personne</option>
+            <option>Soins à domicile</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pays <span>*</span></label>
+          <select id="soc-pays" class="form-select">
+            <option value="">Sélectionner</option>
+            <option>Algérie</option><option>Espagne</option><option>France</option>
+            <option>Grèce</option><option>Italie</option><option>Libye</option>
+            <option>Maroc</option><option>Monaco</option><option>Tunisie</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ville / Siège <span>*</span></label>
+          <input type="text" id="soc-ville" class="form-input" placeholder="Ex : Tunis, Sousse…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zone d'intervention <span>*</span></label>
+          <input type="text" id="soc-zone" class="form-input" placeholder="Ex : Grand Tunis, Sahel, national…">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Adresse complète <span>*</span></label>
+        <input type="text" id="soc-adresse" class="form-input" placeholder="Numéro, rue, ville, code postal">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Téléphone <span>*</span></label>
+          <input type="tel" id="soc-tel" class="form-input" placeholder="+216 XX XXX XXX">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email <span>*</span></label>
+          <input type="email" id="soc-email" class="form-input" placeholder="contact@societe.tn">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Site web</label>
+          <input type="text" id="soc-site" class="form-input" placeholder="www.votre-societe.tn">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Disponibilité</label>
+          <select id="soc-h24" class="form-select">
+            <option value="">Horaires standard</option>
+            <option value="oui">24h/24 – 7j/7</option>
+            <option value="astreinte">Astreinte / urgences</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description des services proposés <span>*</span></label>
+        <textarea id="soc-desc" class="form-textarea" placeholder="Décrivez précisément : types de matériel (lit médicalisé, oxygène, matelas anti-escarres…) ou services (auxiliaires de vie, aide-soignants, infirmiers…), zone géographique, tarification si connue…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Registre de commerce / N° d'agrément</label>
+        <input type="text" id="soc-rc" class="form-input" placeholder="Ex : RC B123456 (Tunisie), SIRET (France)…">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nom du contact référent <span>*</span></label>
+        <input type="text" id="soc-contact" class="form-input" placeholder="Prénom Nom — Fonction">
+      </div>
+      <button class="form-submit" onclick="soumettreFormulaireSociete()">
+        Envoyer ma demande de référencement →
+      </button>
+      <p class="form-note">
+        Les champs marqués <span style="color:#C8860A">*</span> sont obligatoires.<br>
+        Votre dossier sera examiné par l'équipe Poros-Aidant avant publication.<br>
+        Les sociétés de services sont identifiées par un badge <em>« Prestataire commercial »</em> pour distinguer clairement l'offre commerciale des praticiens et associations.
+      </p>
+    </div>
+    <div class="success-msg" id="success-societe">
+      ✅ Votre demande a bien été envoyée !<br><br>
+      L'équipe Poros-Aidant vous contactera sous 5 jours ouvrés pour valider votre fiche.<br><br>
+      Merci de rejoindre Poros-Aidant 🏢
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SOUTENIR POROS-AIDANT -->
+<div class="modal-overlay" id="modal-soutenir" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <button class="modal-close" aria-label="Fermer" onclick="document.getElementById('modal-soutenir').classList.remove('open')">✕</button>
+    <div class="modal-title">💬 Message de soutien</div>
+    <div class="modal-sub">
+      <strong>Pour une contribution financière rapide, utilisez plutôt le bouton Ko-fi 💛 (page précédente).</strong><br>
+      Ce formulaire est destiné à ceux qui souhaitent nous soutenir autrement : bénévolat, mise en réseau, virement bancaire direct, ou simplement laisser un mot d'encouragement.
+    </div>
+    <div id="form-soutenir">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Prénom <span>*</span></label>
+          <input type="text" id="sou-prenom" class="form-input" placeholder="Votre prénom">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nom</label>
+          <input type="text" id="sou-nom" class="form-input" placeholder="Votre nom (optionnel)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email <span>*</span></label>
+        <input type="email" id="sou-email" class="form-input" placeholder="Pour vous recontacter">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Pays <span>*</span></label>
+          <select id="sou-pays" class="form-select">
+            <option value="">Sélectionner</option>
+            <option>Algérie</option><option>Espagne</option><option>France</option>
+            <option>Grèce</option><option>Italie</option><option>Libye</option>
+            <option>Maroc</option><option>Monaco</option><option>Tunisie</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Vous êtes <span>*</span></label>
+          <select id="sou-role" class="form-select">
+            <option value="">Sélectionner</option>
+            <option>Aidant(e) familial(e)</option>
+            <option>Ancien(ne) aidant(e)</option>
+            <option>Professionnel(le) de santé</option>
+            <option>Bénévole associatif</option>
+            <option>Sympathisant(e)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type de soutien envisagé <span>*</span></label>
+        <select id="sou-type" class="form-select">
+          <option value="">Sélectionner</option>
+          <option>Bénévolat (temps, compétences)</option>
+          <option>Mise en réseau (partenariats, contacts)</option>
+          <option>Virement bancaire direct (nous vous transmettrons un RIB)</option>
+          <option>Message d'encouragement</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Un mot pour nous ? (optionnel)</label>
+        <textarea id="sou-message" class="form-textarea" placeholder="Un message d'encouragement, une idée, un partage d'expérience…"></textarea>
+      </div>
+      <button class="form-submit" onclick="soumettreFormulaireSoutien()" style="background:#C8860A">
+        💛 Envoyer mon message
+      </button>
+      <p class="form-note">
+        Les champs marqués <span style="color:#C8860A">*</span> sont obligatoires.<br>
+        Vos coordonnées ne seront utilisées que pour vous recontacter au sujet du soutien à Poros-Aidant. Elles ne seront jamais transmises à des tiers.
+      </p>
+    </div>
+    <div class="success-msg" id="success-soutenir">
+      💛 Merci de tout cœur !<br><br>
+      Votre message est bien reçu. L'équipe Poros-Aidant reviendra vers vous dès qu'un moyen de contribution sera opérationnel.<br><br>
+      C'est grâce à des personnes comme vous que Poros-Aidant continue d'exister. 🌊
     </div>
   </div>
 </div>
@@ -4449,7 +4993,7 @@ ${mission}
     <button aria-label="Fermer" class="modal-close" onclick="document.getElementById('modal-prat')".classList.remove('open')">✕</button>
     <div class="modal-title" id="modal-prat-title">Référencer mon cabinet</div>
     <div class="modal-sub">
-      Vous êtes professionnel de santé et souhaitez figurer dans l'annuaire Poros ?<br>
+      Vous êtes professionnel de santé et souhaitez figurer dans l'annuaire Poros-Aidant ?<br>
       Votre fiche sera vérifiée et publiée sous 5 jours ouvrés, après validation de votre identité professionnelle.
     </div>
 
@@ -4586,8 +5130,8 @@ ${mission}
 
     <div class="success-msg" id="success-prat">
       ✅ Votre demande a bien été envoyée !<br><br>
-      L'équipe Poros vérifiera votre identité professionnelle et vous contactera sous 5 jours ouvrés.<br><br>
-      Merci de rejoindre Poros !
+      L'équipe Poros-Aidant vérifiera votre identité professionnelle et vous contactera sous 5 jours ouvrés.<br><br>
+      Merci de rejoindre Poros-Aidant !
     </div>
   </div>
 </div>
@@ -4598,7 +5142,7 @@ ${mission}
     <button class="modal-close" onclick="document.getElementById('modal-referer').classList.remove('open')">✕</button>
     <div class="modal-title">Référencer mon association</div>
     <div class="modal-sub">
-      Votre association accompagne les aidants familiaux ou les personnes âgées ? Rejoignez Poros gratuitement.<br>
+      Votre association accompagne les aidants familiaux ou les personnes âgées ? Rejoignez Poros-Aidant gratuitement.<br>
       Chaque fiche est vérifiée et validée avant publication — généralement sous 5 jours ouvrés.
     </div>
 
@@ -4665,7 +5209,7 @@ ${mission}
 
       <p class="form-note">
         Les champs marqués <span style="color:#C8860A">*</span> sont obligatoires.<br>
-        Vos informations sont transmises à l'équipe Poros pour vérification. Aucune donnée n'est partagée sans votre accord.
+        Vos informations sont transmises à l'équipe Poros-Aidant pour vérification. Aucune donnée n'est partagée sans votre accord.
       </p>
 
       <a class="form-gforms" href="mailto:contactporosaidant@gmail.com?subject=Référencement" target="_blank" rel="noopener noreferrer">
@@ -4675,8 +5219,8 @@ ${mission}
 
     <div class="success-msg" id="success-msg">
       ✅ Votre demande a bien été envoyée !<br><br>
-      L'équipe Poros vous contactera sous 5 jours ouvrés à l'adresse indiquée pour valider votre fiche.<br><br>
-      Merci de contribuer à Poros !
+      L'équipe Poros-Aidant vous contactera sous 5 jours ouvrés à l'adresse indiquée pour valider votre fiche.<br><br>
+      Merci de contribuer à Poros-Aidant !
     </div>
   </div>
 </div>
@@ -4691,7 +5235,7 @@ ${mission}
 <div class="admin-overlay" id="admin-overlay" onclick="if(event.target===this&&adminAuth)this.classList.remove('open')">
   <div class="admin-panel">
     <div class="admin-header">
-      <h2>🔐 Administration Poros</h2>
+      <h2>🔐 Administration Poros-Aidant</h2>
       <button class="admin-close" onclick="fermerAdmin()">✕</button>
     </div>
     <div class="admin-body">
@@ -4783,12 +5327,12 @@ ${mission}
         <!-- EXPORTER -->
         <div class="admin-section" id="admin-export">
           <p style="font-size:13px;color:#5A5040;margin-bottom:16px;line-height:1.7">
-            Exportez les données de Poros pour les sauvegarder ou les transmettre.<br>
+            Exportez les données de Poros-Aidant pour les sauvegarder ou les transmettre.<br>
             Le fichier JSON contient toutes les fiches actuellement dans l'annuaire.
           </p>
           <div style="background:#D4EDE8;border-radius:10px;padding:14px;margin-bottom:16px;font-size:13px;color:#0F6E56;line-height:1.6">
-            ✅ <strong>Stockage automatique activé</strong><br>
-            Toutes tes modifications (ajouts, éditions, suppressions) sont sauvegardées automatiquement dans ce navigateur. Elles persistent même après fermeture.
+            ✅ <strong>Stockage cloud activé</strong><br>
+            Toutes tes modifications (ajouts, éditions, suppressions) sont sauvegardées automatiquement dans la base de données Supabase (hébergée en Union européenne) et synchronisées entre tous les appareils connectés.
           </div>
           <button class="admin-btn admin-btn-primary" onclick="exporterDonnees()" style="margin-bottom:12px">📥 Exporter toutes les fiches (JSON)</button><br>
           <button class="admin-btn admin-btn-warning" onclick="importerDonnees()" style="margin-bottom:12px">📤 Importer des fiches (JSON)</button><br>
@@ -4807,7 +5351,7 @@ ${mission}
     <button class="modal-close" onclick="document.getElementById('modal-temoignage').classList.remove('open')">✕</button>
     <div class="modal-title">✍️ Partager mon témoignage</div>
     <div class="modal-sub">
-      Votre expérience peut aider d'autres aidants. Votre témoignage sera relu et validé par l'équipe Poros avant publication. Vous pouvez rester anonyme.
+      Votre expérience peut aider d'autres aidants. Votre témoignage sera relu et validé par l'équipe Poros-Aidant avant publication. Vous pouvez rester anonyme.
     </div>
 
     <div id="form-temoignage">
@@ -4843,7 +5387,7 @@ ${mission}
       </div>
       <div class="form-group">
         <label class="form-label">Votre témoignage <span>*</span></label>
-        <textarea id="tm-texte" class="form-textarea" style="min-height:120px" placeholder="Racontez votre expérience — comment Poros vous a aidé, ce que vous avez trouvé, ce que ça a changé pour vous…"></textarea>
+        <textarea id="tm-texte" class="form-textarea" style="min-height:120px" placeholder="Racontez votre expérience — comment Poros-Aidant vous a aidé, ce que vous avez trouvé, ce que ça a changé pour vous…"></textarea>
       </div>
       <div class="form-group">
         <label class="form-label">Email (optionnel — pour vous contacter si besoin)</label>
@@ -4852,7 +5396,7 @@ ${mission}
       <div class="form-group">
         <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:#5A5040;line-height:1.5">
           <input type="checkbox" id="tm-accord" style="margin-top:2px;flex-shrink:0">
-          J'accepte que mon témoignage soit publié sur Poros, sous mon prénom ou pseudonyme uniquement. Aucune autre information personnelle ne sera publiée. <span style="color:#C8860A">*</span>
+          J'accepte que mon témoignage soit publié sur Poros-Aidant, sous mon prénom ou pseudonyme uniquement. Aucune autre information personnelle ne sera publiée. <span style="color:#C8860A">*</span>
         </label>
       </div>
 
@@ -4861,14 +5405,14 @@ ${mission}
       </button>
       <p class="form-note">
         Les champs marqués <span style="color:#C8860A">*</span> sont obligatoires.<br>
-        Votre témoignage sera relu par l'équipe Poros avant publication — généralement sous 5 jours.
+        Votre témoignage sera relu par l'équipe Poros-Aidant avant publication — généralement sous 5 jours.
       </p>
     </div>
 
     <div class="success-msg" id="success-temoignage">
       ✅ Merci pour votre témoignage !<br><br>
-      Il sera relu par l'équipe Poros et publié prochainement sur la page d'accueil.<br><br>
-      Votre parole aide d'autres aidants. Merci de faire partie de Poros. 🙏
+      Il sera relu par l'équipe Poros-Aidant et publié prochainement sur la page d'accueil.<br><br>
+      Votre parole aide d'autres aidants. Merci de faire partie de Poros-Aidant. 🙏
     </div>
   </div>
 </div>
@@ -5021,7 +5565,7 @@ ${mission}
 
       <p class="form-note">
         Les champs marqués <span style="color:#C8860A">*</span> sont obligatoires.<br>
-        Seules les plateformes publiques, associatives ou institutionnelles sont référencées dans Poros.<br>
+        Seules les plateformes publiques, associatives ou institutionnelles sont référencées dans Poros-Aidant.<br>
         Aucune ligne d'écoute commerciale ou privée ne sera publiée.
       </p>
       <a class="form-gforms" href="mailto:contactporosaidant@gmail.com?subject=Référencement plateforme écoute" target="_blank" rel="noopener noreferrer">
@@ -5031,8 +5575,8 @@ ${mission}
 
     <div class="success-msg" id="success-ecoute">
       ✅ Votre demande a bien été envoyée !<br><br>
-      L'équipe Poros vérifiera les informations et vous contactera sous 5 jours ouvrés.<br><br>
-      Merci de contribuer à Poros 📞
+      L'équipe Poros-Aidant vérifiera les informations et vous contactera sous 5 jours ouvrés.<br><br>
+      Merci de contribuer à Poros-Aidant 📞
     </div>
   </div>
 </div>
@@ -5168,8 +5712,8 @@ ${mission}
 
     <div class="success-msg" id="success-douce">
       ✅ Votre demande a bien été envoyée !<br><br>
-      L'équipe Poros vérifiera vos certifications et vous contactera sous 5 jours ouvrés.<br><br>
-      Merci de rejoindre Poros 🌿
+      L'équipe Poros-Aidant vérifiera vos certifications et vous contactera sous 5 jours ouvrés.<br><br>
+      Merci de rejoindre Poros-Aidant 🌿
     </div>
   </div>
 </div>
@@ -5181,10 +5725,10 @@ ${mission}
     <button aria-label="Fermer la déclaration d'accessibilité" class="modal-close" onclick="document.getElementById('modal-a11y')".classList.remove('open')">✕</button>
     <div class="modal-title">♿ Déclaration d'accessibilité</div>
     <div style="font-size:13px;color:#5A5040;line-height:1.8;max-height:60vh;overflow-y:auto">
-      <p style="font-weight:600;color:#2C2416;margin-bottom:4px">Engagement de Poros</p>
-      <p>Poros s'engage à rendre sa plateforme accessible aux personnes en situation de handicap, conformément aux recommandations du RGAA (Référentiel Général d'Amélioration de l'Accessibilité) version 4.1 et aux normes internationales WCAG 2.1.</p>
+      <p style="font-weight:600;color:#2C2416;margin-bottom:4px">Engagement de Poros-Aidant</p>
+      <p>Poros-Aidant s'engage à rendre sa plateforme accessible aux personnes en situation de handicap, conformément aux recommandations du RGAA (Référentiel Général d'Amélioration de l'Accessibilité) version 4.1 et aux normes internationales WCAG 2.1.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Mesures prises</p>
-      <p>Poros a mis en place les dispositifs suivants :</p>
+      <p>Poros-Aidant a mis en place les dispositifs suivants :</p>
       <ul style="padding-left:20px;margin:8px 0;line-height:2">
         <li>Widget d'accessibilité intégré — ajustement de la taille du texte, contraste élevé, mode dyslexie, curseur agrandi, soulignement des liens</li>
         <li>Navigation au clavier possible sur l'ensemble du site</li>
@@ -5203,7 +5747,7 @@ ${mission}
         <li>L'audit complet RGAA est en cours de réalisation</li>
       </ul>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Signaler un problème</p>
-      <p>Si vous rencontrez un obstacle à l'accessibilité sur Poros, contactez-nous à <strong>contactporosaidant@gmail.com</strong>. Nous nous engageons à traiter votre demande sous 5 jours ouvrés.</p>
+      <p>Si vous rencontrez un obstacle à l'accessibilité sur Poros-Aidant, contactez-nous à <strong>contactporosaidant@gmail.com</strong>. Nous nous engageons à traiter votre demande sous 5 jours ouvrés.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Voie de recours</p>
       <p>Si vous n'obtenez pas de réponse satisfaisante, vous pouvez contacter le Défenseur des droits (France) ou l'Instance nationale de l'accessibilité (Tunisie).</p>
       <p style="color:#9A8E7E;font-size:12px;margin-top:16px">Déclaration établie en avril 2026. Mise à jour prévue annuellement.</p>
@@ -5218,7 +5762,7 @@ ${mission}
     <div class="modal-title">Mentions légales</div>
     <div style="font-size:13px;color:#5A5040;line-height:1.8;max-height:60vh;overflow-y:auto">
       <p style="font-weight:600;color:#2C2416;margin-bottom:4px">Éditeur de la plateforme</p>
-      <p>Poros est une plateforme numérique indépendante dédiée aux aidants familiaux du bassin méditerranéen. Éditée par une psychogérontologue dans le cadre du développement de l'Association Méditerranéenne de Gériatrie et Gérontologie (AMGG).</p>
+      <p>Poros-Aidant est une plateforme numérique indépendante dédiée aux aidants familiaux du bassin méditerranéen. Éditée par une psychogérontologue dans le cadre du développement de l'Association Méditerranéenne de Gériatrie et Gérontologie (AMGG).</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Délégué à la Protection des Données (DPO)</p>
       <p>En l'absence de DPO désigné, le responsable du traitement des données personnelles est l'éditeur du site : Laetitia Mallet-Fraoua — <a href="mailto:contactporosaidant@gmail.com" style="color:#2E6DA4">contactporosaidant@gmail.com</a></p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Directeur de la publication</p>
@@ -5228,11 +5772,11 @@ ${mission}
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Hébergement</p>
       <p>Netlify, Inc. — 44 Montgomery Street, Suite 300, San Francisco, CA 94104, États-Unis.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Responsabilité</p>
-      <p>Les informations publiées sur Poros sont fournies à titre indicatif et ne constituent pas un avis médical. Poros n'est pas un service d'urgence médicale. En cas d'urgence médicale, appelez le SAMU : 21 (Algérie) · 112 (Espagne) · 15 (France) · 166 (Grèce) · 118 (Italie) · 1515 (Libye) · 141 (Maroc) · 18 (Monaco) · 190 (Tunisie). L'éditeur s'efforce de maintenir les informations à jour mais ne peut garantir leur exactitude à tout moment. Il est conseillé de contacter directement les professionnels et associations pour confirmer leurs coordonnées et disponibilités.</p>
+      <p>Les informations publiées sur Poros-Aidant sont fournies à titre indicatif et ne constituent pas un avis médical. Poros-Aidant n'est pas un service d'urgence médicale. En cas d'urgence médicale, appelez le SAMU : 21 (Algérie) · 112 (Espagne) · 15 (France) · 166 (Grèce) · 118 (Italie) · 1515 (Libye) · 141 (Maroc) · 18 (Monaco) · 190 (Tunisie). L'éditeur s'efforce de maintenir les informations à jour mais ne peut garantir leur exactitude à tout moment. Il est conseillé de contacter directement les professionnels et associations pour confirmer leurs coordonnées et disponibilités.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Propriété intellectuelle</p>
-      <p>Le contenu éditorial de Poros (textes, organisation des données, interface) est protégé par le droit d'auteur. La reproduction partielle ou totale sans autorisation est interdite.</p>
+      <p>Le contenu éditorial de Poros-Aidant (textes, organisation des données, interface) est protégé par le droit d'auteur. La reproduction partielle ou totale sans autorisation est interdite.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Engagement écologique</p>
-      <p>Poros s'engage pour un numérique plus responsable : aucune image externe, aucun tracker publicitaire, aucun cookie tiers. La carte géographique est chargée uniquement à la demande. Le site est hébergé sur Netlify, infrastructure certifiée énergies renouvelables. Poros est un fichier HTML unique, sans requêtes serveur multiples, limitant ainsi son empreinte carbone numérique.</p>
+      <p>Poros-Aidant s'engage pour un numérique plus responsable : aucune image externe, aucun tracker publicitaire, aucun cookie tiers. La carte géographique est chargée uniquement à la demande. Le site est hébergé sur Netlify, infrastructure certifiée énergies renouvelables. Poros-Aidant est un fichier HTML unique, sans requêtes serveur multiples, limitant ainsi son empreinte carbone numérique.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Droit applicable</p>
       <p>La présente plateforme est soumise au droit français. Tout litige relatif à son utilisation sera soumis aux juridictions françaises compétentes.</p>
     </div>
@@ -5246,18 +5790,20 @@ ${mission}
     <div class="modal-title">Politique de confidentialité</div>
     <div style="font-size:13px;color:#5A5040;line-height:1.8;max-height:60vh;overflow-y:auto">
       <p style="font-weight:600;color:#2C2416;margin-bottom:4px">Données collectées</p>
-      <p>Poros ne collecte aucune donnée personnelle de navigation. Aucun cookie de tracking, aucune publicité, aucun outil d'analyse tiers n'est utilisé. La plateforme est accessible sans inscription et sans création de compte.</p>
-      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Formulaires de référencement</p>
-      <p>Lorsqu'un professionnel ou une association soumet une demande de référencement, les informations fournies (nom, coordonnées, description) sont transmises par email à l'équipe Poros et stockées temporairement dans le navigateur de l'utilisateur (localStorage). Ces données ne sont pas transmises à des tiers et sont utilisées uniquement pour la vérification et la publication éventuelle de la fiche.</p>
-      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Stockage local (localStorage)</p>
-      <p>Poros utilise le stockage local du navigateur pour sauvegarder les préférences de navigation et les modifications effectuées via le panneau d'administration. Ces données restent sur votre appareil et ne sont pas transmises à des serveurs externes.</p>
-      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Formulaire de feedback</p>
-      <p>Si vous choisissez de laisser un commentaire ou une adresse email via le formulaire de retour, ces informations sont transmises par email à l'équipe Poros et utilisées uniquement pour améliorer la plateforme. Elles ne sont jamais partagées avec des tiers.</p>
+      <p>Poros-Aidant ne collecte aucune donnée personnelle de navigation. Aucun cookie de tracking, aucune publicité, aucun outil d'analyse tiers n'est utilisé. La plateforme est accessible sans inscription et sans création de compte.</p>
+      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Formulaires de référencement et messages de soutien</p>
+      <p>Lorsqu'un professionnel, une association ou un contributeur soumet un formulaire (référencement, message de soutien, formulaire de retour), les informations fournies (nom, coordonnées, description, message) sont transmises par email à l'équipe Poros-Aidant et enregistrées de manière chiffrée dans notre base de données hébergée en Union européenne. Ces données ne sont jamais transmises à des tiers et sont utilisées uniquement pour la vérification et la publication éventuelle de la fiche, ou pour vous recontacter au sujet de votre message.</p>
+      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Hébergement et sous-traitants</p>
+      <p>Poros-Aidant utilise deux services techniques sous-traitants : <strong>Netlify</strong> (San Francisco, USA — hébergement du site) et <strong>Supabase</strong> (base de données, hébergée en région eu-west-1, Union européenne). Ces sous-traitants sont soumis à leurs propres politiques de confidentialité et aux exigences du RGPD. Aucune donnée personnelle n'est transférée hors de l'Union européenne pour la base de données.</p>
+      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Stockage local (navigateur)</p>
+      <p>Poros-Aidant utilise le stockage local de votre navigateur (localStorage) uniquement pour mémoriser vos préférences d'accessibilité (taille du texte, contraste, mode dyslexie) et votre langue préférée. Ces informations restent sur votre appareil et ne sont jamais transmises à des serveurs externes.</p>
+      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Durée de conservation</p>
+      <p>Les demandes de référencement en attente sont conservées jusqu'à leur traitement (validation ou rejet) puis anonymisées. Les fiches publiées le sont pour la durée d'existence du service. Les messages de soutien sont conservés pendant 3 ans à des fins de suivi, sauf demande contraire de votre part.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Vos droits (RGPD)</p>
-      <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits : contactporosaidant@gmail.com</p>
+      <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression, de limitation et de portabilité de vos données, ainsi que d'un droit d'opposition à leur traitement. Pour exercer ces droits : contactporosaidant@gmail.com — nous nous engageons à répondre dans un délai maximal de 30 jours.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Données sensibles</p>
-      <p>Poros ne collecte jamais de données de santé personnelles. Les informations médicales présentes dans l'annuaire concernent uniquement les professionnels et associations référencés, non les utilisateurs.</p>
-      <p style="color:#9A8E7E;font-size:12px;margin-top:16px">Dernière mise à jour : avril 2026</p>
+      <p>Poros-Aidant ne collecte jamais de données de santé personnelles concernant les utilisateurs. Les informations médicales présentes dans l'annuaire concernent uniquement les professionnels et associations référencés (leur spécialité, les pathologies qu'ils prennent en charge), et non les utilisateurs qui les consultent.</p>
+      <p style="color:#9A8E7E;font-size:12px;margin-top:16px">Dernière mise à jour : juillet 2026</p>
     </div>
   </div>
 </div>
@@ -5272,5 +5818,27 @@ if('serviceWorker' in navigator){
 </script>
 
 <div id="google_translate_element" style="display:none"></div>
+
+<!-- BOUTON FLOTTANT NOUS SOUTENIR -->
+<a href="https://ko-fi.com/porosaidant" target="_blank" rel="noopener noreferrer"
+   id="floating-support-btn"
+   aria-label="Soutenir Poros-Aidant"
+   style="position:fixed;top:26%;right:20px;z-index:9998;background:#C8860A;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:12px 20px;border-radius:26px;text-decoration:none;display:flex;align-items:center;gap:8px;box-shadow:0 4px 18px rgba(200,134,10,0.35),0 2px 6px rgba(0,0,0,0.12);cursor:pointer;transition:background 0.2s,transform 0.2s,box-shadow 0.2s"
+   onmouseover="this.style.background='#A87205';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 22px rgba(200,134,10,0.5),0 3px 8px rgba(0,0,0,0.15)'"
+   onmouseout="this.style.background='#C8860A';this.style.transform='';this.style.boxShadow='0 4px 18px rgba(200,134,10,0.35),0 2px 6px rgba(0,0,0,0.12)'">
+  <span style="font-size:16px">💛</span>
+  <span id="tx-floating-support">Nous soutenir</span>
+</a>
+<style>
+@media (max-width: 600px) {
+  #floating-support-btn {
+    top: 22% !important;
+    right: 12px !important;
+    font-size: 12px !important;
+    padding: 10px 15px !important;
+    gap: 6px !important;
+  }
+}
+</style>
 </body>
 </html>
