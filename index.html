@@ -319,7 +319,7 @@ function googleTranslateElementInit(){
     new google.translate.TranslateElement({
       pageLanguage:'fr',
       includedLanguages:'ar,en,es,it,el,de,pt,tr',
-      layout:google.translate.TranslateElement.InlineLayout.SIMPLE,
+      layout:google.translate.TranslateElement.InlineLayout.HORIZONTAL,
       autoDisplay:false
     },'google_translate_element');
     window._GT_PRET = true;
@@ -2423,12 +2423,28 @@ function setGoogleTranslate(lang, tries){
   var combo = document.querySelector('.goog-te-combo');
   if(!combo){
     if(tries < 40) return setTimeout(function(){ setGoogleTranslate(lang, tries+1); }, 250);
-    return; // widget indisponible — le dictionnaire manuel reste actif
+    return setGoogleTranslateParCookie(lang); // repli
   }
   var cible = (lang === 'fr') ? '' : lang;
   if(combo.value === cible) return;
   combo.value = cible;
   combo.dispatchEvent(new Event('change'));
+}
+
+// Repli : Google lit un cookie « googtrans » au chargement de la page.
+// Nécessite un rechargement, on ne l'utilise donc que si le sélecteur reste introuvable.
+function setGoogleTranslateParCookie(lang){
+  try{
+    var valeur = (lang === 'fr') ? '' : '/fr/' + lang;
+    var hote = location.hostname;
+    var expire = (lang === 'fr')
+      ? 'Thu, 01 Jan 1970 00:00:00 GMT'
+      : new Date(Date.now() + 30*24*3600*1000).toUTCString();
+    ['', '; domain=' + hote, '; domain=.' + hote].forEach(function(portee){
+      document.cookie = 'googtrans=' + valeur + '; path=/; expires=' + expire + portee;
+    });
+    location.reload();
+  }catch(e){}
 }
 
 function triggerGT(lang) {
