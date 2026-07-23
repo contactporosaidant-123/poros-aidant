@@ -272,6 +272,11 @@ body.a11y-cursor *{cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3
 footer{background:#0B2A4A;color:rgba(255,255,255,0.4);text-align:center;padding:32px;font-size:12px;line-height:2}
 footer strong{color:rgba(255,255,255,0.8)}
 footer em{color:rgba(255,255,255,0.6);font-style:italic}
+/* Google Translate — masquer bandeau, infobulles et surlignage */
+.skiptranslate iframe{display:none!important;visibility:hidden!important;height:0!important}
+body{top:0!important;position:static!important}
+#goog-gt-tt,.goog-te-balloon-frame{display:none!important}
+.goog-text-highlight{background:none!important;box-shadow:none!important}
 @media(max-width:768px){
   .header-inner{padding:32px 20px 28px}
   .header-title{font-size:2rem}
@@ -2388,6 +2393,33 @@ function chargerA11y(){
 // ═══════════════════════════════════════════════════════════
 // SÉLECTEUR DE LANGUE — via Google Translate existant
 // ═══════════════════════════════════════════════════════════
+// ── Éléments gérés par le dictionnaire manuel : à soustraire au moteur automatique
+var NOTRANSLATE_SEL = '[id^="tx-"],[id^="tab-"],[id^="carte-btn-"],[id^="ss"],[id^="sf-"],'
+                    + '[id^="sg"],[id^="sq"],#search-global,#chip-prat,#chip-hop,'
+                    + '.cspe,.ptag,.btn-referer,.pays-label';
+function markNoTranslate(){
+  try{
+    document.querySelectorAll(NOTRANSLATE_SEL).forEach(function(e){
+      e.classList.add('notranslate');
+      e.setAttribute('translate','no');
+    });
+  }catch(e){}
+}
+
+// ── Pilotage du widget Google Translate (caché) pour le reste de la page
+function setGoogleTranslate(lang, tries){
+  tries = tries || 0;
+  var combo = document.querySelector('.goog-te-combo');
+  if(!combo){
+    if(tries < 40) return setTimeout(function(){ setGoogleTranslate(lang, tries+1); }, 250);
+    return; // widget indisponible — le dictionnaire manuel reste actif
+  }
+  var cible = (lang === 'fr') ? '' : lang;
+  if(combo.value === cible) return;
+  combo.value = cible;
+  combo.dispatchEvent(new Event('change'));
+}
+
 function triggerGT(lang) {
   window._POROS_LANG = lang;
 
@@ -2401,10 +2433,17 @@ function triggerGT(lang) {
     });
   });
 
-  // Appliquer immédiatement + après délai pour s'assurer que le DOM est prêt
+  // 1. Protéger le vocabulaire clinique avant toute traduction automatique
+  markNoTranslate();
+  // 2. Appliquer le dictionnaire manuel (navigation, spécialités, pathologies)
   try { applyLang(lang); } catch(e) {}
-  setTimeout(function(){ try{ applyLang(lang); }catch(e){} }, 100);
+  // 3. Confier le reste de la page au moteur automatique
+  setGoogleTranslate(lang);
+
+  setTimeout(function(){ markNoTranslate(); try{ applyLang(lang); }catch(e){} }, 150);
 }
+
+document.addEventListener('DOMContentLoaded', function(){ setTimeout(markNoTranslate, 100); });
 
 function applyLang(lang) {
   var T = {
@@ -2768,6 +2807,8 @@ function applyLang(lang) {
     var orig = el.dataset.origText;
     if (traductionsFiches[orig]) el.textContent = traductionsFiches[orig];
     else el.textContent = orig;
+    el.classList.add('notranslate');
+    el.setAttribute('translate','no');
   });
 
   // ── Select filtres — option "Toutes"
@@ -5777,6 +5818,8 @@ ${mission}
       <p>Le contenu éditorial de Poros-Aidant (textes, organisation des données, interface) est protégé par le droit d'auteur. La reproduction partielle ou totale sans autorisation est interdite.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Engagement écologique</p>
       <p>Poros-Aidant s'engage pour un numérique plus responsable : aucune image externe, aucun tracker publicitaire, aucun cookie tiers. La carte géographique est chargée uniquement à la demande. Le site est hébergé sur Netlify, infrastructure certifiée énergies renouvelables. Poros-Aidant est un fichier HTML unique, sans requêtes serveur multiples, limitant ainsi son empreinte carbone numérique.</p>
+      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Langue de référence</p>
+      <p>Poros-Aidant propose une traduction en anglais et en arabe, assurée en partie par un moteur de traduction automatique. Ces traductions sont fournies à titre indicatif et de confort de lecture. <strong>Seule la version française des mentions légales et de la politique de confidentialité fait foi</strong> en cas de divergence d'interprétation.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Droit applicable</p>
       <p>La présente plateforme est soumise au droit français. Tout litige relatif à son utilisation sera soumis aux juridictions françaises compétentes.</p>
     </div>
@@ -5803,6 +5846,8 @@ ${mission}
       <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression, de limitation et de portabilité de vos données, ainsi que d'un droit d'opposition à leur traitement. Pour exercer ces droits : contactporosaidant@gmail.com — nous nous engageons à répondre dans un délai maximal de 30 jours.</p>
       <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Données sensibles</p>
       <p>Poros-Aidant ne collecte jamais de données de santé personnelles concernant les utilisateurs. Les informations médicales présentes dans l'annuaire concernent uniquement les professionnels et associations référencés (leur spécialité, les pathologies qu'ils prennent en charge), et non les utilisateurs qui les consultent.</p>
+      <p style="font-weight:600;color:#2C2416;margin:12px 0 4px">Langue de référence</p>
+      <p>Les traductions anglaise et arabe de cette politique sont fournies à titre indicatif. <strong>Seule la version française fait foi.</strong></p>
       <p style="color:#9A8E7E;font-size:12px;margin-top:16px">Dernière mise à jour : juillet 2026</p>
     </div>
   </div>
