@@ -114,6 +114,10 @@ header::before{content:'';position:absolute;top:-60px;right:-80px;width:340px;he
 .card-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
 .ava{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff;flex-shrink:0}
 .ava-embleme svg{width:24px;height:24px;display:block;opacity:0.92}
+.ava-code{letter-spacing:0.5px}
+.ava-code-1{font-size:20px;font-weight:700}
+.ava-code-2{font-size:16px;font-weight:700}
+.ava-code-3{font-size:12px;font-weight:700;letter-spacing:0}
 .ava img{width:100%;height:100%;object-fit:cover;border-radius:10px}
 .ava.has-img{background:#fff !important}
 .cname{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#2C2416;line-height:1.2;margin-bottom:3px}
@@ -1848,6 +1852,26 @@ function construction(paysObj,onglet){
   return `<div class="construction"><div class="construction-icon">🔧</div><h3>${paysObj.flag} ${paysObj.nom} — En cours de construction</h3><p>La section <strong>${onglet}</strong> pour ce pays est en cours de renseignement.<br>Vous connaissez un professionnel ou une structure à référencer ?</p><span class="contrib">✉️ Suggérer un contact</span></div>`;
 }
 
+// Codes de spécialité affichés sur l'avatar des praticiens
+const SPE_CODES = {
+  "Neurologie":"N", "Gériatrie":"G", "Psychiatrie":"Psy",
+  "Psychologie clinique":"PC", "Neuropsychologie":"NP",
+  "Cardio-gériatrie":"CG", "Onco-gériatrie":"OG", "Néphro-gériatrie":"NG",
+  "Médecine générale":"MG", "Sexologie":"Sx",
+  "Kinésithérapie":"K", "Ergothérapie":"E", "Orthophonie":"O",
+  "Psychomotricien(ne)":"PM", "Podologie":"Pod",
+  "Nutrition & diététique":"Nut", "Soins palliatifs":"SP",
+  "Infirmier(e) libéral(e)":"IDE", "Aide-soignant(e)":"AS",
+  "Auxiliaire de vie":"AV", "Travail social":"TS",
+  "Avocat & juriste — Droit des personnes âgées":"J"
+};
+function codeSpecialite(s){
+  if(!s) return null;
+  if(SPE_CODES[s]) return SPE_CODES[s];
+  // Repli : initiale de la spécialité pour toute valeur non répertoriée
+  return s.trim().charAt(0).toUpperCase();
+}
+
 // Emblèmes dessinés (aucun fichier externe, aucun logo de marque)
 const AVA_EMBLEMES = {
   hop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-5 8 5v13"/><path d="M10 21v-5h4v5"/><path d="M12 8v4M10 10h4"/></svg>',
@@ -1867,6 +1891,10 @@ function avatarHtml(item, bgColor, categorie){
   if(categorie && AVA_EMBLEMES[categorie]){
     return `<div class="ava ava-embleme" style="background:${bgColor}">${AVA_EMBLEMES[categorie]}</div>`;
   }
+  if(categorie === "prat"){
+    const code = codeSpecialite(item.s);
+    if(code) return `<div class="ava ava-code ava-code-${code.length}" style="background:${bgColor}" title="${item.s||''}">${code}</div>`;
+  }
   return `<div class="ava" style="background:${bgColor}">${ini(item.n)}</div>`;
 }
 
@@ -1884,7 +1912,7 @@ function renderCard(p, type){
     profilBadge=`<span class="profil-badge ${pc} profil-tooltip" data-tip="${tip}">${p.profil} ℹ</span>`;
   }
   return `<div class="card" style="border-top-color:${col}">
-    <div class="card-top">${avatarHtml(p, col, type==="hop"?"hop":null)}
+    <div class="card-top">${avatarHtml(p, col, type==="hop"?"hop":"prat")}
     <div><div class="cname">${p.n}<span class="flag-badge">${pflag(p.pays)}</span></div><div class="ctitle">${p.t}</div></div></div>
     <span class="cspe ${cspe}">${p.s}</span>${profilBadge}<div class="ptags">${tags}</div>
     <div class="infos"><div class="irow"><span>📍</span><span>${p.str} · ${p.g}</span></div><div class="irow"><span>🗣</span><span>${p.l}</span></div></div>
