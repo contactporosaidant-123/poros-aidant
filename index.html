@@ -924,6 +924,7 @@ function googleTranslateElementInit(){
         <option>Aide-soignant(e)</option>
         <option>Auxiliaire de vie</option>
         <option>Avocat & juriste — Droit des personnes âgées</option>
+        <option>Cardiologie</option>
         <option>Cardio-gériatrie</option>
         <option>Ergothérapie</option>
         <option>Gériatrie</option>
@@ -1330,7 +1331,7 @@ const DISCIPLINES=[
   {id:"sophrologie",nom:"💆 Sophrologie"},
   {id:"zootherapie",nom:"🐾 Zoothérapie & thérapies par l'animal"},
 ];
-const PRAT_COLS={"Neurologie":"#1A3C5E","Gériatrie":"#2E6DA4","Psychiatrie":"#4A6B8A","Psychologie clinique":"#3A6B8A","Travail social":"#1E7D6B","Ergothérapie":"#4A7C59","Kinésithérapie":"#2E7DAA","Orthophonie":"#8A5200","Neuropsychologie":"#534AB7","Soins palliatifs":"#8A5200","Nutrition & diététique":"#C8860A","Infirmier(e) libéral(e)":"#1D6E8A","Aide-soignant(e)":"#2E6B4A","Auxiliaire de vie":"#4A7C59","Médecine générale":"#5A3A7C","Podologie":"#6B4A2E","Sexologie":"#8A2E6B","Avocat & juriste — Droit des personnes âgées":"#2E4A8A","Cardio-gériatrie":"#8A2E2E","Onco-gériatrie":"#6B2E8A","Néphro-gériatrie":"#2E6B8A","Psychogérontologie":"#3E5C8A","Psychomotricien(ne)":"#4A8A2E"};
+const PRAT_COLS={"Neurologie":"#1A3C5E","Gériatrie":"#2E6DA4","Psychiatrie":"#4A6B8A","Psychologie clinique":"#3A6B8A","Travail social":"#1E7D6B","Ergothérapie":"#4A7C59","Kinésithérapie":"#2E7DAA","Orthophonie":"#8A5200","Neuropsychologie":"#534AB7","Soins palliatifs":"#8A5200","Nutrition & diététique":"#C8860A","Infirmier(e) libéral(e)":"#1D6E8A","Aide-soignant(e)":"#2E6B4A","Auxiliaire de vie":"#4A7C59","Médecine générale":"#5A3A7C","Podologie":"#6B4A2E","Sexologie":"#8A2E6B","Avocat & juriste — Droit des personnes âgées":"#2E4A8A","Cardiologie":"#9E3B3B","Cardio-gériatrie":"#8A2E2E","Onco-gériatrie":"#6B2E8A","Néphro-gériatrie":"#2E6B8A","Psychogérontologie":"#3E5C8A","Psychomotricien(ne)":"#4A8A2E"};
 const TC={"Alzheimer":"t-alz","Parkinson":"t-par","AVC":"t-avc","Cancer":"t-can","Troubles psychiatriques":"t-psy"};
 const PATHOS=[
   "Alzheimer",
@@ -1371,6 +1372,11 @@ const PATHOS=[
 
 // PRATICIENS LIBÉRAUX
 const ALL_PRAT=[
+  {n:"Dr Mohamed Nebil Abdelaali",t:"Cardiologue — Hypertension artérielle, insuffisance cardiaque, troubles du rythme",s:"Cardiologie",p:["Insuffisance cardiaque","Hypertension artérielle","Troubles du rythme"],g:"Tunis",pays:"tn",str:"Centre médical La Palmeraie",adresse:"2 avenue Hédi Chaker, Centre médical La Palmeraie, 2ème étage, app. 202 — 2027 Sidi Bou Saïd",tel:"+216 71 977 016",e:"",tele:"Non",l:"Français, Arabe"},
+  {n:"Dr Kamel Kamoun",t:"Cardiologue — Hypertension artérielle, insuffisance cardiaque, troubles du rythme",s:"Cardiologie",p:["Insuffisance cardiaque","Hypertension artérielle","Troubles du rythme"],g:"Tunis",pays:"tn",str:"Cabinet libéral",adresse:"15 rue Aziza Othmana, rez-de-chaussée — 1082 Mutuelleville, Tunis",tel:"+216 71 283 427",e:"",tele:"Non",l:"Français, Arabe"},
+  {n:"Dr Salwa Ben Azzeddine Trabelsi",t:"Cardiologue — Hypertension artérielle, insuffisance cardiaque, troubles du rythme",s:"Cardiologie",p:["Insuffisance cardiaque","Hypertension artérielle","Troubles du rythme"],g:"Tunis",pays:"tn",str:"Centre Al Hakim",adresse:"Centre Al Hakim, Voie X2, 1er étage, cabinet B1-3 — 1003 Tunis",tel:"+216 22 320 403",e:"",tele:"Non",l:"Français, Arabe"},
+  {n:"Dr Sami Hammas",t:"Cardiologue — Hypertension artérielle, insuffisance cardiaque, troubles du rythme",s:"Cardiologie",p:["Insuffisance cardiaque","Hypertension artérielle","Troubles du rythme"],g:"Ariana",pays:"tn",str:"Manar Médical",adresse:"2 avenue Tahar Sfar, Manar Médical, Bloc A, 1er étage, Cité Ennasr II — 2037 Ariana",tel:"+216 71 886 580",e:"",tele:"Non",l:"Français, Arabe"},
+  {n:"Dr Faouzi Jarraya",t:"Cardiologue — Hypertension artérielle, insuffisance cardiaque, troubles du rythme",s:"Cardiologie",p:["Insuffisance cardiaque","Hypertension artérielle","Troubles du rythme"],g:"Ariana",pays:"tn",str:"Immeuble Ben Sassi",adresse:"1 avenue de Carthage, Immeuble Ben Sassi — 2080 Ariana",tel:"+216 71 718 555",e:"",tele:"Non",l:"Français, Arabe"},
   {n:"Maître Zied Gannar",t:"Avocat à la Cour d'Appel — Droit de la famille, successions, tutelle et curatelle",s:"Avocat & juriste — Droit des personnes âgées",p:["Droit de la famille","Successions","Tutelle & curatelle","Toutes pathologies"],g:"Tunis",pays:"tn",str:"Cabinet Maître Zied Gannar",adresse:"121 avenue Jugurtha, Mutuelleville (à proximité de l'Ambassade d'Italie) — 1082 Tunis",tel:"+216 50 283 504",e:"",tele:"Sur demande",l:"Français, Arabe"},
   {n:"Maître Sami Jouini",t:"Avocat — Droit de la famille, droit civil et successions",s:"Avocat & juriste — Droit des personnes âgées",p:["Droit de la famille","Successions","Tutelle & curatelle","Toutes pathologies"],g:"Ben Arous",pays:"tn",str:"Rézig Centre",adresse:"Rézig Centre, Bloc C, 2ème étage, bureau n°5, Sidi Rézig — 2033 Mégrine (banlieue sud de Tunis)",tel:"+216 71 434 696",e:"contact@maitre-jouini.com",tele:"Sur demande",l:"Français, Arabe"},
   {n:"Maître Hayet Ben Halima",t:"Avocate au Barreau de Tunis depuis 2001 — Droit de la famille et successions · France et Tunisie",s:"Avocat & juriste — Droit des personnes âgées",p:["Droit de la famille","Successions","Protection juridique","Toutes pathologies"],g:"Tunis",pays:"tn",str:"Cabinet Hayet Ben Halima",adresse:"Tunis — consultations également par visioconférence (France et étranger)",tel:"",e:"",tele:"Oui",l:"Français, Arabe"},
@@ -1861,7 +1867,7 @@ function construction(paysObj,onglet){
 const SPE_CODES = {
   "Neurologie":"N", "Gériatrie":"G", "Psychiatrie":"Psy",
   "Psychologie clinique":"PC", "Neuropsychologie":"NP",
-  "Cardio-gériatrie":"CG", "Onco-gériatrie":"OG", "Néphro-gériatrie":"NG",
+  "Cardiologie":"C", "Cardio-gériatrie":"CG", "Onco-gériatrie":"OG", "Néphro-gériatrie":"NG",
   "Médecine générale":"MG", "Sexologie":"Sx",
   "Kinésithérapie":"K", "Ergothérapie":"E", "Orthophonie":"O",
   "Psychomotricien(ne)":"PM", "Psychogérontologie":"PG", "Podologie":"Pod",
@@ -2839,7 +2845,7 @@ function applyLang(lang) {
     fr: {
       // Spécialités
       "Neurologie":"Neurologie","Gériatrie":"Gériatrie","Psychiatrie":"Psychiatrie",
-      "Cardio-gériatrie":"Cardio-gériatrie","Néphro-gériatrie":"Néphro-gériatrie",
+      "Cardiologie":"Cardiologie","Cardio-gériatrie":"Cardio-gériatrie","Néphro-gériatrie":"Néphro-gériatrie",
       "Onco-gériatrie":"Onco-gériatrie","Neuropsychologie":"Neuropsychologie",
       "Psychologie clinique":"Psychologie clinique","Médecine générale":"Médecine générale",
       "Sexologie":"Sexologie","Kinésithérapie":"Kinésithérapie","Ergothérapie":"Ergothérapie",
@@ -2859,7 +2865,7 @@ function applyLang(lang) {
     en: {
       // Spécialités
       "Neurologie":"Neurology","Gériatrie":"Geriatrics","Psychiatrie":"Psychiatry",
-      "Cardio-gériatrie":"Cardio-geriatrics","Néphro-gériatrie":"Nephro-geriatrics",
+      "Cardiologie":"Cardiology","Cardio-gériatrie":"Cardio-geriatrics","Néphro-gériatrie":"Nephro-geriatrics",
       "Onco-gériatrie":"Onco-geriatrics","Neuropsychologie":"Neuropsychology",
       "Psychologie clinique":"Clinical psychology","Médecine générale":"General medicine",
       "Sexologie":"Sexology","Kinésithérapie":"Physiotherapy","Ergothérapie":"Occupational therapy",
@@ -2879,7 +2885,7 @@ function applyLang(lang) {
     ar: {
       // Spécialités
       "Neurologie":"طب الأعصاب","Gériatrie":"طب الشيخوخة","Psychiatrie":"الطب النفسي",
-      "Cardio-gériatrie":"قلب وشيخوخة","Néphro-gériatrie":"كلى وشيخوخة",
+      "Cardiologie":"طب القلب","Cardio-gériatrie":"قلب وشيخوخة","Néphro-gériatrie":"كلى وشيخوخة",
       "Onco-gériatrie":"أورام وشيخوخة","Neuropsychologie":"نفس عصبي",
       "Psychologie clinique":"علم النفس السريري","Médecine générale":"طب عام",
       "Sexologie":"طب جنسي","Kinésithérapie":"علاج طبيعي","Ergothérapie":"علاج وظيفي",
@@ -5288,6 +5294,7 @@ ${mission}
             <option>Aide-soignant(e)</option>
             <option>Auxiliaire de vie</option>
             <option>Avocat & juriste — Droit des personnes âgées</option>
+            <option>Cardiologie</option>
             <option>Cardio-gériatrie</option>
             <option>Ergothérapie</option>
             <option>Gériatrie</option>
