@@ -1010,13 +1010,20 @@ function googleTranslateElementInit(){
     </button>
     <div class="search-row">
       <input type="text" id="sq-centre" placeholder="Rechercher un centre, une ville…" oninput="goCentre()">
+      <select id="sg-centre" onchange="goCentre()">
+        <option value="">Toutes villes</option>
+      </select>
       <select id="ss-centre" onchange="goCentre()">
         <option value="">Tous types</option>
-        <option>Centre de convalescence</option>
+        <option>Maison de retraite / EHPAD</option>
+        <option>Unité Alzheimer</option>
+        <option>Plateforme de répit</option>
         <option>Centre d'accueil de jour</option>
-        <option>Centre pour senior</option>
         <option>Centre d'accueil de jour et de nuit</option>
+        <option>Centre de convalescence</option>
+        <option>Centre pour senior</option>
       </select>
+      <select id="sst-centre" onchange="goCentre()"><option value="">Tous statuts</option><option>Public</option><option>Privé associatif (à but non lucratif)</option><option>Privé commercial</option></select>
     </div>
     <div class="rcount" id="rcount-centre"></div>
     <div class="grid" id="grid-centre" aria-live="polite" aria-label="Résultats centres"></div>
@@ -1673,6 +1680,7 @@ const ALL_ASSO=[
 
 // MINISTÈRES
 const ALL_MIN=[
+  {n:"Annuaire national des établissements — Pour les personnes âgées (CNSA)",role:"Finances & aides",desc:"Annuaire officiel tenu par la Caisse Nationale de Solidarité pour l'Autonomie. Il recense l'ensemble des EHPAD, résidences autonomie, accueils de jour et services d'aide à domicile de France, avec leur statut, leur habilitation à l'aide sociale et leurs tarifs réels. C'est l'outil qu'utilisent les travailleurs sociaux : il permet de comparer les prix et de repérer les établissements accessibles aux revenus modestes, ce qu'aucun annuaire commercial ne fait.",services:["Recherche d'EHPAD et de résidences autonomie par ville, avec tarifs comparés","Repérage des établissements habilités à l'aide sociale à l'hébergement (ASH)","Annuaire des accueils de jour et de l'hébergement temporaire","Annuaire des 220 plateformes d'accompagnement et de répit pour les aidants","Simulateur des aides : APA, ASH, droit au répit"],tel:"",site:"pour-les-personnes-agees.gouv.fr",pays:"fr",col:"#2E6DA4"},
   {n:"Ministère de la Santé",role:"Santé",desc:"Pilote la politique de santé nationale et la tutelle des hôpitaux publics tunisiens. Pour obtenir la carte d'invalidité sanitaire ou faire reconnaître une maladie longue durée, contactez-le via votre médecin ou l'hôpital le plus proche.",services:["Carte d'invalidité sanitaire — réduit le coût des soins pour les malades chroniques","ALD (Affections Longue Durée) — Alzheimer, Parkinson, cancer : prise en charge renforcée","Remboursement partiel des médicaments prescrits","Agrément et contrôle des établissements de soins privés"],tel:"+216 71 568 500",site:"sante.gov.tn",pays:"tn",col:"#1A3C5E"},
   {n:"Ministère des Affaires Sociales",role:"Social & handicap",desc:"Gère les aides destinées aux personnes âgées, handicapées et à leurs familles en Tunisie. Si votre proche a besoin d'une aide à domicile financée ou d'un accueil en centre de jour, commencez ici.",services:["Allocation de handicap — aide financière mensuelle pour les personnes reconnues handicapées","Aide sociale aux personnes âgées dépendantes sans ressources suffisantes","Centres de jour pour personnes âgées — accueil quelques jours par semaine, soulagement pour l'aidant","Programme PROA — intervenants envoyés au domicile du malade"],tel:"+216 71 783 700",site:"social.gov.tn",pays:"tn",col:"#1E7D6B"},
   {n:"CNSS — Caisse Nationale de Sécurité Sociale",role:"Finances & aides",desc:"Protège les travailleurs du secteur privé tunisien et leurs familles. Rembourse une partie des frais médicaux et verse des indemnités en cas d'arrêt maladie. Des bureaux sont présents dans toutes les grandes villes.",services:["Remboursement des frais médicaux et d'hospitalisation pour les assurés","Indemnités journalières en cas de congé maladie longue durée","Pension d'invalidité si la maladie empêche de travailler","Prise en charge partielle des soins dans les cliniques conventionnées"],tel:"+216 71 131 000",site:"cnss.nat.tn",pays:"tn",col:"#C8860A"},
@@ -1772,6 +1780,24 @@ function updateVilles(){
       sgH.innerHTML='<option value="">Toutes villes</option>';
       (VILLES[pays]||[]).forEach(v=>{
         const o=document.createElement("option");o.value=v;o.textContent=v;sgH.appendChild(o);
+      });
+    }
+  }
+
+  // Même logique de localisation pour les centres
+  const sgC=document.getElementById("sg-centre");
+  if(sgC){
+    if(pays==="fr"){
+      sgC.innerHTML='<option value="">Tous départements</option>';
+      Object.keys(FR_REGIONS).sort().forEach(r=>{
+        FR_REGIONS[r].forEach(d=>{
+          const o=document.createElement("option");o.value=d;o.textContent=d;sgC.appendChild(o);
+        });
+      });
+    } else {
+      sgC.innerHTML='<option value="">Toutes villes</option>';
+      (VILLES[pays]||[]).forEach(v=>{
+        const o=document.createElement("option");o.value=v;o.textContent=v;sgC.appendChild(o);
       });
     }
   }
@@ -1953,6 +1979,7 @@ function codeSpecialite(s){
 
 // Emblèmes dessinés (aucun fichier externe, aucun logo de marque)
 const AVA_EMBLEMES = {
+  memoire:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.2v11.6"/><path d="M12 6.6a2.9 2.9 0 0 0-5.1 1.9 2.5 2.5 0 0 0-1.2 4.3A2.7 2.7 0 0 0 7.1 17.4 2.7 2.7 0 0 0 12 17.4"/><path d="M12 6.6a2.9 2.9 0 0 1 5.1 1.9 2.5 2.5 0 0 1 1.2 4.3A2.7 2.7 0 0 1 16.9 17.4 2.7 2.7 0 0 1 12 17.4"/><path d="M9.4 10.2h1.3M13.3 10.2h1.3M9.4 14h1.3M13.3 14h1.3"/></svg>',
   hop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-5 8 5v13"/><path d="M10 21v-5h4v5"/><path d="M12 8v4M10 10h4"/></svg>',
   centre:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v11h14V10"/><path d="M9 21v-6h6v6"/></svg>',
   societes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="10" height="18" rx="1"/><path d="M14 9h6v12h-6"/><path d="M7 7h1M11 7h1M7 11h1M11 11h1M7 15h1M11 15h1M17 13h1M17 17h1"/></svg>',
@@ -1991,7 +2018,7 @@ function renderCard(p, type){
     profilBadge=`<span class="profil-badge ${pc} profil-tooltip" data-tip="${tip}">${p.profil} ℹ</span>`;
   }
   return `<div class="card" style="border-top-color:${col}">
-    <div class="card-top">${avatarHtml(p, col, type==="hop"?"hop":"prat")}
+    <div class="card-top">${avatarHtml(p, col, type==="hop"?(p.s==="Consultation mémoire / CMRR"?"memoire":"hop"):"prat")}
     <div><div class="cname">${p.n}<span class="flag-badge">${pflag(p.pays)}</span></div><div class="ctitle">${p.t}</div></div></div>
     <span class="cspe ${cspe}">${p.s}</span>${p.etab?`<span class="cspe" style="background:#EDE7DC;color:#5A5040">${p.etab}</span>`:""}${profilBadge}<div class="ptags">${tags}</div>
     <div class="infos"><div class="irow"><span>📍</span><span>${p.str} · ${p.g}</span></div>${p.adresse&&p.adresse!==p.g?`<div class="irow"><span>🏠</span><span>${p.adresse}</span></div>`:""}<div class="irow"><span>🗣</span><span>${p.l}</span></div>${p.note?`<div class="irow" style="background:#FFF6E6;border-left:2px solid #C8860A;padding:6px 8px;border-radius:4px;margin-top:4px"><span>ℹ️</span><span style="color:#8A5A0F">${p.note}</span></div>`:""}</div>
@@ -2184,7 +2211,20 @@ document.addEventListener("click",function(e){
 
 
 // ── CENTRES & TRANSPORT (alimentés par les inscriptions) ─────────────────
-const ALL_CENTRE=[];
+const ALL_CENTRE=[
+  {n:"Centre Medi",ctype:"Centre de convalescence",statut:"Privé commercial",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Manouba",pays:"tn",adresse:"82 avenue Habib Bourguiba — 1110 Mornaguia",places:"",tel:"+216 20 211 471",e:"centremedi1@gmail.com",site:"centremedi.tn",desc:"Résidence médicalisée : convalescence, repos et rééducation. Hébergement, soins médicaux et accompagnement personnalisé 24h/24.",col:"#1E7D6B"},
+  {n:"Convalescence Gammarth",ctype:"Centre de convalescence",statut:"Privé commercial",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Tunis",pays:"tn",adresse:"Gammarth — banlieue nord de Tunis",places:"",tel:"",e:"",site:"convalescencegammarth.com",desc:"Centre de soins de suite et de réadaptation créé en 2014, équipe pluridisciplinaire. Récupération après hospitalisation ou chirurgie, suivi post-convalescence et service d'hospitalisation à domicile.",col:"#1E7D6B"},
+  {n:"Centre Le Havre",ctype:"Centre de convalescence",statut:"Privé commercial",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Tunis",pays:"tn",adresse:"Tunis — à 10 minutes de l'aéroport Tunis-Carthage",places:"",tel:"",e:"",site:"lehavre.com.tn",desc:"Centre médicalisé de convalescence et de rééducation. Équipe de médecins, infirmières, aides-soignantes, kinésithérapeutes et psychologues. Transport médicalisé 24h/24.",col:"#1E7D6B"},
+  {n:"EHPAD publics de la Ville de Paris",ctype:"Maison de retraite / EHPAD",statut:"Public",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Paris (75)",pays:"fr",adresse:"15 établissements répartis dans Paris — voir la carte sur paris.fr",places:"",tel:"",e:"",site:"paris.fr",desc:"Réseau de 15 EHPAD publics pratiquant le tarif global et habilités à l'aide sociale légale, conventionnés avec la Ville de Paris, l'État et la Sécurité sociale. Prise en charge 24h/24 sous la responsabilité d'un médecin coordonnateur, psychologue à disposition des résidents et de leurs proches, intervenants paramédicaux sans supplément.",col:"#1E7D6B"},
+  {n:"Centre Yousra",ctype:"Maison de retraite / EHPAD",statut:"Privé commercial",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Tunis",pays:"tn",adresse:"39 rue El Mansoura, El Menzah 4 — 1082 Tunis (à 5 minutes de l'aéroport Tunis-Carthage)",places:"",tel:"",e:"",site:"centreyousra.tn",desc:"Résidence conventionnée avec plusieurs cliniques tunisiennes. Équipe médicale avec médecin coordonnateur et gériatre. Accueille les personnes désorientées et dispose d'une unité de convalescence.",col:"#1E7D6B"},
+  {n:"Carthagea",ctype:"Maison de retraite / EHPAD",statut:"Privé commercial",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Tunis",pays:"tn",adresse:"Tunisie — établissement francophone",places:"",tel:"",e:"",site:"carthagea.fr",desc:"Établissement haut de gamme destiné à une clientèle francophone. Quatre médecins coordonnateurs, projet d'accueil individualisé avec une aide-soignante par résident en journée, application de suivi pour les familles.",col:"#1E7D6B"},
+  {n:"EHPAD Tanit",ctype:"Maison de retraite / EHPAD",statut:"Privé commercial",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Nabeul",pays:"tn",adresse:"Hammamet — unité hôtelière 4 étoiles",places:"",tel:"",e:"",site:"ehpadtanit.com",desc:"Résidence médicalisée accueillant des personnes âgées dépendantes, notamment atteintes de maladies neurodégénératives. Clientèle principalement européenne francophone.",col:"#1E7D6B"},
+  {n:"Resort Medical EHPAD",ctype:"Maison de retraite / EHPAD",statut:"Privé commercial",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Tunis",pays:"tn",adresse:"Tunisie — contact par téléphone, WhatsApp ou Viber",places:"",tel:"+216 26 25 06 68",e:"",site:"resort-medical-ehpad.com",desc:"Maison de retraite médicalisée. Accueil de personnes âgées dépendantes.",col:"#1E7D6B"},
+  {n:"Plateforme de répit A3 Marseille",ctype:"Plateforme de répit",statut:"Privé associatif (à but non lucratif)",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Bouches-du-Rhône (13)",pays:"fr",adresse:"6 impasse du Terminus Saint-Antoine — 13000 Marseille · Du lundi au vendredi, 9h-17h",places:"",tel:"",e:"",site:"",desc:"Association A3, en partenariat avec le Centre Hospitalier d'Arles. Secteur : Marseille, Allauch, Plan-de-Cuques, Septèmes-les-Vallons, Les Pennes-Mirabeau et Le Rove. Ateliers mensuels avec France Alzheimer.",col:"#1E7D6B"},
+  {n:"Le Fil Rouge Alzheimer — Aubagne",ctype:"Plateforme de répit",statut:"",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Bouches-du-Rhône (13)",pays:"fr",adresse:"Aubagne — en partenariat avec le Centre Hospitalier Edmond Garcin · Du lundi au vendredi, 8h30-12h30 et 13h30-17h",places:"",tel:"",e:"",site:"",desc:"Plateforme d'accompagnement et de répit pour les proches aidants de personnes atteintes de maladie neurodégénérative.",col:"#1E7D6B"},
+  {n:"Plateforme de répit Le Boucasson",ctype:"Plateforme de répit",statut:"Privé associatif (à but non lucratif)",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Bouches-du-Rhône (13)",pays:"fr",adresse:"Accueil de jour Le Boucasson · Du lundi au vendredi, 8h30-12h et 13h-17h30",places:"",tel:"",e:"",site:"",desc:"Association Le Maillon. Secteur : Istres, Fos-sur-Mer, Miramas, Saint-Mitre-les-Remparts, Port-de-Bouc, Saint-Chamas, Grans, Berre-l'Étang, Martigues, Châteauneuf-les-Martigues et communes environnantes.",col:"#1E7D6B"},
+  {n:"Plateforme de répit du Valadou",ctype:"Plateforme de répit",statut:"Privé associatif (à but non lucratif)",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Aveyron (12)",pays:"fr",adresse:"Centre de ressources du Valadou — Montézic · Du lundi au vendredi, 9h-12h et 13h-17h",places:"",tel:"",e:"",site:"",desc:"Territoire du Nord-Aveyron : Saint-Amans-des-Côts, Mur-de-Barrez, Estaing, Espalion, Saint-Chély-d'Aubrac, Argence-en-Aubrac, Laguiole, Entraygues. Rendez-vous dans les locaux ou entretiens à domicile.",col:"#1E7D6B"},
+];
 const ALL_TRANSPORT=[];
 const ALL_SOCIETES=[];
 
@@ -2206,6 +2246,7 @@ function renderSociete(c){
 }
 
 function renderCentre(c){
+  const badgeStatut = c.statut?`<span class="cspe" style="background:#EDE7DC;color:#5A5040">${c.statut}</span>`:"";
   const col=c.col||"#1E7D6B";
   const badge=c.ctype||c.type||"Centre";
   const tags=(c.p&&c.p.length)?`<div class="ptags">${c.p.map(x=>`<span class="ptag">${x}</span>`).join("")}</div>`:"";
@@ -2215,7 +2256,7 @@ function renderCentre(c){
   return `<div class="card" style="border-top-color:${col}">
     <div class="card-top">${avatarHtml(c, col, "centre")}
     <div><div class="cname">${c.n}<span class="flag-badge">${pflag(c.pays)}</span></div><div class="ctitle">📍 ${c.g||""}</div></div></div>
-    <span class="cspe" style="background:#E1F5EE;color:#0F6E56">${badge}</span>${tags}
+    <span class="cspe" style="background:#E1F5EE;color:#0F6E56">${badge}</span>${badgeStatut}${tags}
     ${c.desc?`<div class="desc-box">${c.desc}</div>`:""}
     <div class="infos">${adr}${places}</div>
     <div class="foot" style="margin-top:8px"><span></span>${contact}</div></div>`;
@@ -2239,6 +2280,10 @@ function goCentre(){
   const q=(document.getElementById("sq-centre")||{value:""}).value.toLowerCase();
   const ss=(document.getElementById("ss-centre")||{value:""}).value;
   const f=ALL_CENTRE.filter(c=>{
+    const stC=(document.getElementById("sst-centre")||{value:""}).value;
+    if(stC&&(c.statut||"")!==stC)return false;
+    const sgC=(document.getElementById("sg-centre")||{value:""}).value;
+    if(sgC&&!((c.n||"")+(c.g||"")+(c.adresse||"")).toLowerCase().includes(sgC.toLowerCase()))return false;
     if(c.pays&&c.pays!==pays)return false;
     const txt=((c.n||"")+(c.g||"")+(c.adresse||"")+(c.desc||"")+(c.ctype||c.type||"")).toLowerCase();
     if(q&&!txt.includes(q))return false;
@@ -3398,13 +3443,15 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Nom *</label><input class="admin-input" id="a-n" placeholder="Ex: Centre Yousra"></div>
       <div><label class="admin-label">Type de centre *</label><select class="admin-select" id="a-ctype">
         <option value="">Choisir</option>
-        <option>Centre de convalescence</option>
-        <option>Centre d'accueil de jour</option>
-        <option>Centre pour senior</option>
-        <option>Centre d'accueil de jour et de nuit</option>
         <option>Maison de retraite / EHPAD</option>
         <option>Unité Alzheimer</option>
+        <option>Plateforme de répit</option>
+        <option>Centre d'accueil de jour</option>
+        <option>Centre d'accueil de jour et de nuit</option>
+        <option>Centre de convalescence</option>
+        <option>Centre pour senior</option>
       </select></div>
+      <div><label class="admin-label">Statut *</label><select class="admin-select" id="a-statut"><option value="">Choisir</option><option>Public</option><option>Privé associatif (à but non lucratif)</option><option>Privé commercial</option></select></div>
       <div><label class="admin-label">Pays *</label><select class="admin-select" id="a-pays"><option value="">Choisir</option>${pays}</select></div>
       <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis"></div>
       <div><label class="admin-label">Nombre de places</label><input class="admin-input" id="a-places" placeholder="Ex: 40"></div>
@@ -3609,6 +3656,7 @@ function ajouterFiche(){
   } else if(type==="centre"){
     fiche={
       n, ctype:(document.getElementById("a-ctype")||{value:""}).value,
+      statut:(document.getElementById("a-statut")||{value:""}).value,
       p:pathos, g:(document.getElementById("a-g")||{value:""}).value,
       pays:paysVal,
       adresse:(document.getElementById("a-adresse")||{value:""}).value,
