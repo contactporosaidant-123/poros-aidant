@@ -1735,6 +1735,8 @@ const ALL_ASSO=[
 
 // MINISTÈRES
 const ALL_MIN=[
+  {n:"Déclarer une auxiliaire de vie ou un garde-malade (CNSS)",role:"Santé",desc:"En Tunisie, une auxiliaire de vie ou un garde-malade employé directement par une famille relève du régime des « gens de maison » de la CNSS. La déclaration est possible et légale — beaucoup de familles l'ignorent et emploient au noir, ce qui prive l'employée de toute couverture (maladie, retraite, accident du travail) et expose l'employeur en cas de contrôle ou d'accident à domicile. La déclarer, c'est la protéger et se protéger.",services:["L'employeur particulier s'affilie à la CNSS comme employeur de gens de maison, dans le mois suivant l'embauche","Pièces : demande d'affiliation, CIN de l'employeur, CIN et immatriculation CNSS de l'employée (ou demande d'immatriculation si elle n'en a pas)","Autorisation de prélèvement bancaire automatique des cotisations","Assiette de cotisation forfaitaire prévue pour les gens de maison, sans avoir à détailler chaque acte","Déclaration et démarches en ligne sur cnss.nat.tn depuis 2026","Ouvre à l'employée l'accès à la CNAM, aux allocations familiales et aux droits à la retraite"],tel:"+216 71 150 100",site:"cnss.nat.tn",pays:"tn",col:"#1A3C5E"},
+  {n:"MaPrimeAdapt' — Adaptation du logement",role:"Finances & aides",desc:"Aide de l'État versée par l'Agence nationale de l'habitat, entrée en vigueur en 2024, qui finance les travaux d'adaptation du logement au vieillissement et à la perte d'autonomie. Elle couvre une part importante du coût — jusqu'à 70 % selon les ressources — et intègre le diagnostic préalable réalisé par un ergothérapeute ou un professionnel de l'habitat. Deux millions de logements français ne sont pas adaptés à l'âge de leurs occupants : c'est la première cause de chute évitable au domicile.",services:["Remplacement d'une baignoire par une douche de plain-pied","Installation de barres d'appui, de sols antidérapants, d'un chemin lumineux","Monte-escalier, élévateur, élargissement des passages de porte","Adaptation de la cuisine et de la chambre","Diagnostic à domicile par un ergothérapeute inclus dans le dispositif","Accompagnement gratuit par un assistant à maîtrise d'ouvrage pour monter le dossier"],tel:"0 806 703 803",site:"france-renov.gouv.fr",pays:"fr",col:"#2E6DA4"},
   {n:"Annuaire Santé de l'Assurance Maladie",role:"Santé",desc:"Annuaire officiel de tous les professionnels de santé conventionnés en France, consultable par adresse. C'est l'outil qui permet de trouver un infirmier libéral, un kinésithérapeute ou un orthophoniste réellement proche du domicile de votre proche — ce qui compte, car ces praticiens interviennent sur de petits secteurs et refusent souvent les patients trop éloignés. L'annuaire indique le secteur de conventionnement, donc les dépassements d'honoraires éventuels.",services:["Recherche par profession et par adresse précise, pas seulement par ville","Infirmiers libéraux, kinésithérapeutes, orthophonistes, pédicures-podologues, ergothérapeutes","Secteur de conventionnement et tarifs pratiqués","Indication des professionnels acceptant la carte Vitale et le tiers payant","Coordonnées téléphoniques directes"],tel:"3646",site:"annuairesante.ameli.fr",pays:"fr",col:"#2E6DA4"},
   {n:"SSIAD et Services Autonomie à Domicile (SAD)",role:"Santé",desc:"Les services de soins infirmiers à domicile emploient des aides-soignants et des infirmiers diplômés d'État qui interviennent chez votre proche pour la toilette, les pansements, les injections et la distribution des médicaments. Ils sont financés à 100 % par l'Assurance Maladie, sans avance de frais. Depuis la réforme du 30 juin 2023, SSIAD et SPASAD fusionnent progressivement sous le nom de Service Autonomie à Domicile (SAD) : les prestations et la prise en charge restent identiques. À noter : en France, l'aide-soignante n'exerce pas en libéral — c'est par ces services qu'elle intervient à domicile.",services:["Prescription par le médecin traitant, qui adresse aussi la demande de prise en charge","Sans réponse de l'Assurance Maladie sous 10 jours, la demande est réputée acceptée ; en urgence, les soins peuvent commencer avant","Vous pouvez contacter directement un service proche de chez vous muni de l'ordonnance","Certains services disposent d'une Équipe Spécialisée Alzheimer (ESA) qui intervient au domicile en début de maladie et accompagne les proches","Intervention possible 7 jours sur 7 selon les besoins","Annuaire national des services par département sur pour-les-personnes-agees.gouv.fr"],tel:"",site:"service-public.gouv.fr",pays:"fr",col:"#2E6DA4"},
   {n:"ViaTrajectoire — Demande d'admission en EHPAD",role:"Finances & aides",desc:"Plateforme publique nationale par laquelle passent les demandes d'entrée en EHPAD en France. Un dossier unique — un volet administratif que vous remplissez, un volet médical et un volet autonomie complétés par le médecin traitant — est envoyé en une seule fois à plusieurs établissements. C'est la voie normale d'admission, y compris dans les EHPAD publics, et elle évite de constituer un dossier par établissement.",services:["Dossier unique envoyé simultanément à plusieurs établissements","Suivi en ligne de l'état de chaque demande","Recherche d'établissements par département, statut et niveau de médicalisation","Accompagnement possible par le CCAS, le service autonomie du département ou un travailleur social"],tel:"",site:"viatrajectoire.fr",pays:"fr",col:"#2E6DA4"},
@@ -2079,7 +2081,7 @@ function renderCard(p, type){
     <div class="card-top">${avatarHtml(p, col, type==="hop"?(p.s==="Consultation mémoire / CMRR"?"memoire":"hop"):"prat")}
     <div><div class="cname">${p.n}<span class="flag-badge">${pflag(p.pays)}</span></div><div class="ctitle">${p.t}</div></div></div>
     <span class="cspe ${cspe}">${p.s}</span>${p.etab?`<span class="cspe" style="background:#EDE7DC;color:#5A5040">${p.etab}</span>`:""}${profilBadge}<div class="ptags">${tags}</div>
-    <div class="infos"><div class="irow"><span>📍</span><span>${p.str} · ${p.g}</span></div>${p.adresse&&p.adresse!==p.g?`<div class="irow"><span>🏠</span><span>${p.adresse}</span></div>`:""}<div class="irow"><span>🗣</span><span>${p.l}</span></div>${p.note?`<div class="irow" style="background:#FFF6E6;border-left:2px solid #C8860A;padding:6px 8px;border-radius:4px;margin-top:4px"><span>ℹ️</span><span style="color:#8A5A0F">${p.note}</span></div>`:""}</div>
+    <div class="infos"><div class="irow"><span>📍</span><span>${p.str} · ${p.g}${(p.pays&&p.pays.includes(","))?" · "+p.pays.split(",").map(x=>pflag(x.trim())).join(" ")+" Exerce dans plusieurs pays":""}</span></div>${p.adresse&&p.adresse!==p.g?`<div class="irow"><span>🏠</span><span>${p.adresse}</span></div>`:""}<div class="irow"><span>🗣</span><span>${p.l}</span></div>${p.note?`<div class="irow" style="background:#FFF6E6;border-left:2px solid #C8860A;padding:6px 8px;border-radius:4px;margin-top:4px"><span>ℹ️</span><span style="color:#8A5A0F">${p.note}</span></div>`:""}</div>
     <div class="foot">${tbadge(p.tele)}${p.dom?'<span class="tbadge tb-dom">🏠 Se déplace à domicile</span>':""}${contact}</div></div>`;
 }
 
@@ -2147,11 +2149,11 @@ function renderMin(m){
 }
 
 function updateStats(){if(!document.getElementById("s-prat"))return;
-  document.getElementById("s-prat").textContent=ALL_PRAT.filter(x=>x.pays===pays).length;
-  document.getElementById("s-hop").textContent=ALL_HOP.filter(x=>x.pays===pays).length;
-  document.getElementById("s-douce").textContent=ALL_DOUCE.filter(x=>x.pays===pays).length;
-  document.getElementById("s-asso").textContent=ALL_ASSO.filter(x=>x.pays===pays).length;
-  document.getElementById("s-ecoute").textContent=ALL_ECOUTE.filter(x=>x.pays===pays).length;
+  document.getElementById("s-prat").textContent=ALL_PRAT.filter(x=>ficheDansPays(x,pays)).length;
+  document.getElementById("s-hop").textContent=ALL_HOP.filter(x=>ficheDansPays(x,pays)).length;
+  document.getElementById("s-douce").textContent=ALL_DOUCE.filter(x=>ficheDansPays(x,pays)).length;
+  document.getElementById("s-asso").textContent=ALL_ASSO.filter(x=>ficheDansPays(x,pays)).length;
+  document.getElementById("s-ecoute").textContent=ALL_ECOUTE.filter(x=>ficheDansPays(x,pays)).length;
 }
 
 // ── URGENCES PAR PAYS ────────────────────────────────────────────────────────
@@ -2295,7 +2297,10 @@ const ALL_CENTRE=[
 ];
 const ALL_TRANSPORT=[];
 const ALL_SOCIETES=[
-  {n:"Adiam — Service Autonomie à Domicile",stype:"Service autonomie à domicile (SSIAD / SAD)",statut:"Privé associatif (à but non lucratif)",g:"Paris (75)",pays:"fr",zone:"Paris 8e, 9e, 10e, 17e, 18e et 19e arrondissements",adresse:"Paris",h24:"",tel:"",e:"",site:"adiam.net",desc:"Aides-soignantes diplômées et infirmiers intervenant 7 jours sur 7 au domicile, sur prescription médicale, avec prise en charge à 100 % par l'Assurance Maladie et sans avance de frais. Le service s'adresse explicitement aux aidants familiaux : il peut prendre le relais ou compléter les soins que vous assurez déjà, notamment pour les actes techniques. Anciennement SSIAD puis SPASAD, devenu SAD mixte depuis la réforme de juin 2023.",col:"#7A5FBF"},
+  {n:"HAD Tunisie — Soins et assistance à domicile",stype:"Services à la personne",statut:"Privé commercial",g:"Tunis",pays:"tn",zone:"Grand Tunis",adresse:"Immeuble Cascade, Passage Lac Balbina, Les Berges du Lac 1 — Tunis",h24:"oui",tel:"+216 52 953 954",e:"contact@had-tunisie.com",site:"had-tunisie.com",desc:"Société de services de santé à domicile alliant soins médicaux et assistance non médicale. Met à disposition des auxiliaires de vie pour le quotidien, des chauffeurs privés et des accompagnateurs, ainsi que l'aménagement ergonomique du logement et la livraison de médicaments. Prise en charge des personnes âgées, en situation de handicap, atteintes de maladies chroniques ou en sortie d'hospitalisation.",col:"#7A5FBF"},
+  {n:"Trust Multiservices — Aide à la personne",stype:"Services à la personne",statut:"Privé commercial",g:"Tunis",pays:"tn",zone:"Grand Tunis et territoire national",adresse:"Tunis — intervention à domicile",h24:"oui",tel:"+216 24 266 000",e:"",site:"trust-multiservices.tn",desc:"Auxiliaires de vie et gardes-malades, femmes et hommes, pour l'accompagnement des personnes âgées, malades ou en convalescence à domicile : aide à la toilette et à l'habillage, préparation des repas, accompagnement aux déplacements, soins de confort, présence de jour comme de nuit. Intervient dans le Grand Tunis — La Marsa, Gammarth, Sidi Bou Saïd, Carthage, L'Aouina, Ariana — et dans plusieurs régions.",col:"#7A5FBF"},
+  {n:"Yessmine Services — Maintien à domicile",stype:"Services à la personne",statut:"Privé commercial",g:"Tunis",pays:"tn",zone:"Grand Tunis",adresse:"Tunis — intervention à domicile",h24:"oui",tel:"",e:"",site:"yessmine-services.tn",desc:"Auxiliaires de vie formés pour le maintien à domicile des personnes âgées 24h/24 : aide à la toilette, au lever et au coucher, à l'habillage. Accompagnement spécifique pour les malades d'Alzheimer — promenades accompagnées, stimulation, présence rassurante — et maintien du lien social : rendez-vous, visites, sorties, démarches administratives.",col:"#7A5FBF"},
+  {n:"Adiam — Service Autonomie à Domicile",stype:"Service autonomie à domicile (SSIAD / SAD)",statut:"Privé associatif (à but non lucratif)",g:"Paris (75)",pays:"fr",zone:"Paris 8e, 9e, 10e, 17e, 18e et 19e arrondissements",adresse:"Paris",h24:"",tel:"",e:"",site:"adiam.net",desc:"Aides-soignantes diplômées et infirmiers intervenant 7 jours sur 7 au domicile, sur prescription médicale, avec prise en charge à 100 % par l'Assurance Maladie et sans avance de frais. Le service s'adresse explicitement aux aidants familiaux : il peut prendre le relais ou compléter les soins que vous assurez déjà, notamment pour les actes techniques. Propose également un ergothérapeute à domicile pour l'audit du logement avant travaux, afin de cibler les aménagements utiles et les aides mobilisables. Anciennement SSIAD puis SPASAD, devenu SAD mixte depuis la réforme de juin 2023.",col:"#7A5FBF"},
   {n:"SSIAD du CASVP — Ville de Paris",stype:"Service autonomie à domicile (SSIAD / SAD)",statut:"Public",g:"Paris (75)",pays:"fr",zone:"Paris",adresse:"Centre d'Action Sociale de la Ville de Paris",h24:"",tel:"",e:"",site:"paris.fr",desc:"Service public de soins infirmiers à domicile géré par le Centre d'Action Sociale de la Ville de Paris. Soins infirmiers et soins d'hygiène pour les personnes de 60 ans et plus malades ou en perte d'autonomie, et pour les adultes en situation de handicap. Entièrement financé par l'Assurance Maladie.",col:"#7A5FBF"},
   {n:"El Yosr HAD",stype:"Soins à domicile",statut:"Privé commercial",g:"Sousse",pays:"tn",zone:"Sousse et Sahel",adresse:"Rue Ahmed El Kafsi — 4000 Sousse",h24:"oui",tel:"+216 58 400 000",e:"contact@elyosr-had.com",site:"elyosr-had.com",desc:"Hospitalisation à domicile : soins aux personnes âgées, soins post-chirurgicaux, soins palliatifs, physiothérapie, traitements intraveineux et pansements complexes (ulcères, escarres, plaies cancéreuses). Location et vente de matériel médical : lit médicalisé, matelas anti-escarres, concentrateur d'oxygène, soulève-personne. Service d'ambulances associé.",col:"#7A5FBF"},
   {n:"Infirmerie 24 À Domicile",stype:"Soins à domicile",statut:"Privé commercial",g:"Tunis",pays:"tn",zone:"Grand Tunis",adresse:"",h24:"oui",tel:"+216 21 909 021",e:"",site:"infirmerie24h7.tn",desc:"Infirmiers diplômés d'État à domicile : injections, perfusions, pansements, prélèvements sanguins, pose de sonde vésicale et nasogastrique, aspiration trachéale. Accompagnement quotidien infirmier et aide-soignant pour les personnes âgées ou dépendantes. Disponible week-ends et jours fériés.",col:"#7A5FBF"},
@@ -2360,7 +2365,7 @@ function goCentre(){
     if(stC&&(c.statut||"")!==stC)return false;
     const sgC=(document.getElementById("sg-centre")||{value:""}).value;
     if(sgC&&!((c.n||"")+(c.g||"")+(c.adresse||"")).toLowerCase().includes(sgC.toLowerCase()))return false;
-    if(c.pays&&c.pays!==pays)return false;
+    if(!ficheDansPays(c,pays))return false;
     const txt=((c.n||"")+(c.g||"")+(c.adresse||"")+(c.desc||"")+(c.ctype||c.type||"")).toLowerCase();
     if(q&&!txt.includes(q))return false;
     if(ss&&(c.ctype||c.type||"")!==ss)return false;
@@ -2376,7 +2381,7 @@ function goTransport(){
   const q=(document.getElementById("sq-transport")||{value:""}).value.toLowerCase();
   const ss=(document.getElementById("ss-transport")||{value:""}).value;
   const f=ALL_TRANSPORT.filter(c=>{
-    if(c.pays&&c.pays!==pays)return false;
+    if(!ficheDansPays(c,pays))return false;
     const txt=((c.n||"")+(c.g||"")+(c.zone||"")+(c.desc||"")+(c.ttype||c.type||"")).toLowerCase();
     if(q&&!txt.includes(q))return false;
     if(ss&&(c.ttype||c.type||"")!==ss)return false;
@@ -2394,7 +2399,7 @@ function goSocietes(){
   const f=ALL_SOCIETES.filter(c=>{
     const stS=(document.getElementById("sst-societes")||{value:""}).value;
     if(stS&&(c.statut||"")!==stS)return false;
-    if(c.pays&&c.pays!==pays)return false;
+    if(!ficheDansPays(c,pays))return false;
     const txt=((c.n||"")+(c.g||"")+(c.zone||"")+(c.desc||"")+(c.stype||c.type||"")).toLowerCase();
     if(q&&!txt.includes(q))return false;
     if(ss&&(c.stype||c.type||"")!==ss)return false;
@@ -2415,9 +2420,28 @@ function showProfilFilter(){
   }
 }
 
+// Une fiche peut exercer dans plusieurs pays : pays peut être "fr" ou "fr,tn"
+function ficheDansPays(f, paysId){
+  if(!f.pays) return false;
+  return f.pays.split(",").map(x=>x.trim()).includes(paysId);
+}
+
+
 // Repère pédagogique affiché lorsqu'une spécialité fonctionne différemment selon le pays
 function bandeauInfo(spe, paysId){
   const REPERES = {
+    tn: {
+      "Auxiliaire de vie": {
+        titre:"L'auxiliaire de vie passe par une société de services en Tunisie",
+        texte:"Il n'existe pas de profession libérale d'auxiliaire de vie en Tunisie, ni d'annuaire officiel. L'accompagnement au quotidien — aide à la toilette, repas, présence de jour ou de nuit — s'organise par l'intermédiaire d'une <strong>société de services à la personne</strong>, ou par emploi direct de gré à gré. Vérifiez que la personne proposée est formée et que la société établit un contrat. En emploi direct, pensez à la <strong>déclarer à la CNSS</strong> au régime des gens de maison — voir la fiche dédiée dans l'onglet Ministères.",
+        onglet:"societes", lien:"Voir les sociétés de services"
+      },
+      "Aide-soignant(e)": {
+        titre:"Aide-soignant à domicile : par une société de soins",
+        texte:"En Tunisie, les soins d'hygiène et de nursing à domicile s'organisent par une <strong>société de soins à domicile</strong> ou d'hospitalisation à domicile, qui emploie infirmiers et aides-soignants. C'est la voie la plus sûre : le personnel est encadré et les interventions sont coordonnées.",
+        onglet:"societes", lien:"Voir les sociétés de services"
+      }
+    },
     fr: {
       "Aide-soignant(e)": {
         titre:"L'aide-soignante n'exerce pas en libéral en France",
@@ -2438,6 +2462,11 @@ function bandeauInfo(spe, paysId){
         titre:"Demander une tutelle ne nécessite pas d'avocat",
         texte:"La demande se dépose <strong>directement auprès du juge des contentieux de la protection</strong>, au tribunal judiciaire, sans avocat obligatoire. Elle exige en revanche un <strong>certificat médical circonstancié</strong> rédigé par un médecin inscrit sur la liste du procureur de la République — pensez à l'anticiper, il est payant et non remboursé. L'avocat devient utile en cas de conflit entre proches, d'appel d'une décision, d'abus de faiblesse ou de succession contestée.",
         onglet:"min", lien:"Voir les ressources officielles"
+      },
+      "Ergothérapie": {
+        titre:"Non remboursée par la Sécurité sociale — mais finançable autrement",
+        texte:"Les séances d'ergothérapie en libéral ne sont <strong>pas prises en charge par l'Assurance Maladie</strong> : comptez 150 à 230 € pour un bilan à domicile avec rapport, 45 à 55 € la séance de suivi. Beaucoup de familles renoncent en l'ignorant, alors que plusieurs voies existent : la <strong>caisse de retraite</strong>, l'<strong>APA</strong>, ou <strong>MaPrimeAdapt'</strong> peuvent mandater et financer l'évaluation. L'ergothérapeute est le professionnel qui dira si le maintien à domicile est réellement tenable, et à quelles conditions.",
+        onglet:"min", lien:"Voir les aides et financements"
       },
       "Auxiliaire de vie": {
         titre:"L'auxiliaire de vie passe par un service, non par un cabinet",
@@ -2470,7 +2499,7 @@ function go(){
   const f=ALL_PRAT.filter(p=>{
     const sdVal=(document.getElementById("sd")||{value:""}).value;
     if(sdVal==="dom"&&!p.dom)return false;
-    if(p.pays!==pays)return false;
+    if(!ficheDansPays(p,pays))return false;
     const txt=(p.n+p.str+p.g+p.s+p.p.join(" ")).toLowerCase();
     if(q&&!txt.includes(q))return false;
     if(ss&&p.s!==ss)return false;
@@ -2504,7 +2533,7 @@ function goHop(){
   const pObj=PAYS.find(x=>x.id===pays);
   if(!hasData(pays)){document.getElementById("grid-hop").innerHTML=construction(pObj,"Services hospitaliers");document.getElementById("rcount-hop").textContent="";return;}
   const f=ALL_HOP.filter(p=>{
-    if(p.pays!==pays)return false;
+    if(!ficheDansPays(p,pays))return false;
     const txt=(p.n+p.str+p.g+p.s+p.p.join(" ")).toLowerCase();
     if(q&&!txt.includes(q))return false;
     if(ss&&p.s!==ss)return false;
@@ -2526,7 +2555,7 @@ function goEcoute(){
   const pObj=PAYS.find(x=>x.id===pays);
   if(!hasData(pays)){document.getElementById("grid-ecoute").innerHTML=construction(pObj,"Plateformes d'écoute");document.getElementById("rcount-ecoute").textContent="";return;}
   const f=ALL_ECOUTE.filter(e=>{
-    if(e.pays!==pays)return false;
+    if(!ficheDansPays(e,pays))return false;
     const txt=(e.n+e.t+e.desc+e.type).toLowerCase();
     if(q&&!txt.includes(q))return false;
     if(sf&&e.type!==sf)return false;
@@ -2541,7 +2570,7 @@ function goDouce(){
   const pObj=PAYS.find(x=>x.id===pays);
   if(!hasData(pays)){document.getElementById("grid-douce").innerHTML=construction(pObj,"Médecine douce");document.getElementById("rcount-douce").textContent="";return;}
   const f=ALL_DOUCE.filter(p=>{
-    if(p.pays!==pays)return false;
+    if(!ficheDansPays(p,pays))return false;
     if(subdouce&&p.d!==subdouce)return false;
     const txt=(p.n+p.t+p.g+p.desc+p.d).toLowerCase();
     if(q&&!txt.includes(q))return false;
@@ -2563,7 +2592,7 @@ function goAsso(){
     return;
   }
   const f=ALL_ASSO.filter(a=>{
-    if(a.pays!==pays) return false;
+    if(!ficheDansPays(a,pays))return false;
     // Filtre pathologie
     if(sf && !a.p.some(x=>x===sf||x==="Toutes pathologies")) return false;
     // Filtre texte
@@ -2592,7 +2621,7 @@ function goMin(){
   const pObj=PAYS.find(x=>x.id===pays);
   if(!hasData(pays)){document.getElementById("grid-min").innerHTML=construction(pObj,"Ministères");document.getElementById("rcount-min").textContent="";return;}
   const f=ALL_MIN.filter(m=>{
-    if(m.pays!==pays)return false;
+    if(!ficheDansPays(m,pays))return false;
     const txt=(m.n+m.desc+m.services.join(" ")+m.role).toLowerCase();
     if(q&&!txt.includes(q))return false;
     if(sf&&m.role!==sf)return false;
@@ -2611,27 +2640,27 @@ function rechercheGlobale(q){
   const ql=q.toLowerCase();
   let found=[];
   // Chercher dans tous les tableaux
-  ALL_PRAT.filter(p=>p.pays===pays).forEach(p=>{
+  ALL_PRAT.filter(p=>ficheDansPays(p,pays)).forEach(p=>{
     const txt=(p.n+p.t+(p.g||"")+(p.s||"")+(p.p||[]).join(" ")+(p.adresse||"")).toLowerCase();
     if(txt.includes(ql)) found.push({type:"👨‍⚕️ Praticien",name:p.n,detail:p.s+" — "+(p.g||""),tab:"prat"});
   });
-  ALL_HOP.filter(p=>p.pays===pays).forEach(p=>{
+  ALL_HOP.filter(p=>ficheDansPays(p,pays)).forEach(p=>{
     const txt=(p.n+p.t+(p.g||"")+(p.s||"")).toLowerCase();
     if(txt.includes(ql)) found.push({type:"🏥 Hôpital",name:p.n,detail:p.s+" — "+(p.g||""),tab:"hop"});
   });
-  ALL_DOUCE.filter(p=>p.pays===pays).forEach(p=>{
+  ALL_DOUCE.filter(p=>ficheDansPays(p,pays)).forEach(p=>{
     const txt=(p.n+p.t+(p.g||"")+(p.d||"")+(p.desc||"")).toLowerCase();
     if(txt.includes(ql)) found.push({type:"🌿 Médecine douce",name:p.n,detail:(p.d||"")+" — "+(p.g||""),tab:"douce"});
   });
-  ALL_ASSO.filter(a=>a.pays===pays).forEach(a=>{
+  ALL_ASSO.filter(a=>ficheDansPays(a,pays)).forEach(a=>{
     const txt=(a.n+a.mission+(a.p||[]).join(" ")+(a.v||"")).toLowerCase();
     if(txt.includes(ql)) found.push({type:"🤝 Association",name:a.n,detail:(a.v||""),tab:"asso"});
   });
-  ALL_ECOUTE.filter(e=>e.pays===pays).forEach(e=>{
+  ALL_ECOUTE.filter(e=>ficheDansPays(e,pays)).forEach(e=>{
     const txt=(e.n+e.t+(e.desc||"")).toLowerCase();
     if(txt.includes(ql)) found.push({type:"📞 Écoute",name:e.n,detail:e.type||"",tab:"ecoute"});
   });
-  ALL_MIN.filter(m=>m.pays===pays).forEach(m=>{
+  ALL_MIN.filter(m=>ficheDansPays(m,pays)).forEach(m=>{
     const txt=(m.n+m.desc+(m.services||[]).join(" ")).toLowerCase();
     if(txt.includes(ql)) found.push({type:"🏛️ Ministère",name:m.n,detail:m.role||"",tab:"min"});
   });
@@ -3501,6 +3530,7 @@ function afficherFormAdmin(){
   const c=document.getElementById("admin-form-container");
   if(!type){c.innerHTML="";return;}
   const pays=PAYS.map(p=>`<option value="${p.id}">${p.flag} ${p.nom}</option>`).join("");
+  const paysCheckboxes=PAYS.map(p=>`<label style="display:inline-flex;align-items:center;gap:5px;margin:0 10px 6px 0;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif"><input type="checkbox" class="a-pays-cb" value="${p.id}"> ${p.flag} ${p.nom}</label>`).join("");
   const specs=["Aide-soignant(e)","Auxiliaire de vie","Avocat & juriste — Droit des personnes âgées","Cardio-gériatrie","Ergothérapie","Gériatrie","Infirmier(e) libéral(e)","Kinésithérapie","Médecine générale","Néphro-gériatrie","Neurologie","Neuropsychologie","Nutrition & diététique","Onco-gériatrie","Orthophonie","Podologie","Psychiatrie","Psychologie clinique","Psychomotricien(ne)","Sexologie","Soins palliatifs","Travail social"].map(s=>`<option>${s}</option>`).join("");
   const discs=DISCIPLINES.filter(d=>d.id).map(d=>`<option value="${d.id}">${d.nom}</option>`).join("");
   const cols=["#534AB7","#1A3C5E","#2E7DAA","#0F6E56","#8A5200","#C8860A","#A32D2D","#3A6B8A","#4A7C59","#2E6DA4"];
@@ -3511,7 +3541,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Nom *</label><input class="admin-input" id="a-n" placeholder="Nom du service ou praticien"></div>
       <div><label class="admin-label">Titre *</label><input class="admin-input" id="a-t" placeholder="Ex: Neurologie, Bilan cognitif…"></div>
       <div><label class="admin-label">Spécialité *</label><select class="admin-select" id="a-s"><option value="">Choisir</option>${specs}</select></div>
-      <div><label class="admin-label">Pays *</label><select class="admin-select" id="a-pays"><option value="">Choisir</option>${pays}</select></div>
+      <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis, Paris…"></div>
       <div><label class="admin-label">Établissement *</label><input class="admin-input" id="a-str" placeholder="Ex: CHU Charles Nicolle"></div>
       ${type==="hop"?`<div><label class="admin-label">Type d'établissement *</label><select class="admin-select" id="a-etab"><option value="">Choisir</option><option>CHU / Centre hospitalier universitaire</option><option>Centre hospitalier</option><option>Hôpital régional</option><option>Institut / hôpital spécialisé</option><option>Hôpital de proximité</option><option>Clinique privée</option></select></div>`:""}
@@ -3533,7 +3563,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Nom *</label><input class="admin-input" id="a-n" placeholder="Nom du cabinet"></div>
       <div><label class="admin-label">Titre *</label><input class="admin-input" id="a-t" placeholder="Description courte"></div>
       <div><label class="admin-label">Discipline *</label><select class="admin-select" id="a-d"><option value="">Choisir</option>${discs}</select></div>
-      <div><label class="admin-label">Pays *</label><select class="admin-select" id="a-pays"><option value="">Choisir</option>${pays}</select></div>
+      <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis"></div>
       <div><label class="admin-label">Secteur</label><select class="admin-select" id="a-str"><option>Privé</option><option>Associatif</option><option>Public</option></select></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel"></div>
@@ -3550,7 +3580,7 @@ function afficherFormAdmin(){
   } else if(type==="asso"){
     c.innerHTML=`<div class="admin-form">
       <div><label class="admin-label">Nom *</label><input class="admin-input" id="a-n" placeholder="Nom de l'association"></div>
-      <div><label class="admin-label">Pays *</label><select class="admin-select" id="a-pays"><option value="">Choisir</option>${pays}</select></div>
+      <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ville du siège"></div>
       <div><label class="admin-label">Région (si France)</label><input class="admin-input" id="a-region" placeholder="Ex: Île-de-France"></div>
       <div><label class="admin-label">Département (si France)</label><input class="admin-input" id="a-dept" placeholder="Ex: Paris (75)"></div>
@@ -3580,7 +3610,7 @@ function afficherFormAdmin(){
         <option>Centre pour senior</option>
       </select></div>
       <div><label class="admin-label">Statut *</label><select class="admin-select" id="a-statut"><option value="">Choisir</option><option>Public</option><option>Privé associatif (à but non lucratif)</option><option>Privé commercial</option></select></div>
-      <div><label class="admin-label">Pays *</label><select class="admin-select" id="a-pays"><option value="">Choisir</option>${pays}</select></div>
+      <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis"></div>
       <div><label class="admin-label">Nombre de places</label><input class="admin-input" id="a-places" placeholder="Ex: 40"></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel" placeholder="+216 XX XXX XXX"></div>
@@ -3603,7 +3633,7 @@ function afficherFormAdmin(){
         <option>Services à la personne</option>
         <option>Soins à domicile</option>
       </select></div>
-      <div><label class="admin-label">Pays *</label><select class="admin-select" id="a-pays"><option value="">Choisir</option>${pays}</select></div>
+      <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Ville / Siège *</label><input class="admin-input" id="a-g" placeholder="Ex: Sousse"></div>
       <div><label class="admin-label">Zone d'intervention</label><input class="admin-input" id="a-zone" placeholder="Ex: Grand Tunis, Sahel, national…"></div>
       <div><label class="admin-label">Disponibilité</label><select class="admin-select" id="a-h24">
@@ -3632,7 +3662,7 @@ function afficherFormAdmin(){
         <option>Transport adapté PMR</option>
         <option>Transport associatif</option>
       </select></div>
-      <div><label class="admin-label">Pays *</label><select class="admin-select" id="a-pays"><option value="">Choisir</option>${pays}</select></div>
+      <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis"></div>
       <div><label class="admin-label">Zone desservie</label><input class="admin-input" id="a-zone" placeholder="Ex: Grand Tunis, national…"></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel" placeholder="+216 XX XXX XXX"></div>
@@ -3648,7 +3678,7 @@ function afficherFormAdmin(){
     c.innerHTML=`<div class="admin-form">
       <div><label class="admin-label">Nom *</label><input class="admin-input" id="a-n" placeholder="Nom de la plateforme"></div>
       <div><label class="admin-label">Titre *</label><input class="admin-input" id="a-t" placeholder="Description courte"></div>
-      <div><label class="admin-label">Pays *</label><select class="admin-select" id="a-pays"><option value="">Choisir</option>${pays}</select></div>
+      <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Téléphone *</label><input class="admin-input" id="a-tel" placeholder="Ex: 80 105 050"></div>
       <div><label class="admin-label">Email</label><input class="admin-input" id="a-e"></div>
       <div><label class="admin-label">Site web</label><input class="admin-input" id="a-site"></div>
@@ -3723,7 +3753,7 @@ function ajouterFiche(){
   const type=document.getElementById("a-type").value;
   if(!type){alert("Sélectionnez un type de fiche");return;}
   const n=(document.getElementById("a-n")||{value:""}).value.trim();
-  const paysVal=(document.getElementById("a-pays")||{value:""}).value;
+  const paysVal=Array.from(document.querySelectorAll(".a-pays-cb:checked")).map(x=>x.value).join(",");
   if(!n||!paysVal){alert("Le nom et le pays sont obligatoires");return;}
 
   const pRaw=(document.getElementById("a-p")||{value:"Toutes pathologies"}).value;
@@ -4192,12 +4222,12 @@ function rechercheGlobale(q){
   };
 
   const sections_data=[
-    {id:"prat",icon:"👨‍⚕️",label:"Praticiens libéraux",data:ALL_PRAT.filter(f=>f.pays===pays&&match(f)),render:f=>renderCard(f,"prat")},
-    {id:"hop",icon:"🏥",label:"Services hospitaliers",data:ALL_HOP.filter(f=>f.pays===pays&&match(f)),render:f=>renderCard(f,"hop")},
-    {id:"ecoute",icon:"📞",label:"Plateformes d'écoute",data:ALL_ECOUTE.filter(f=>f.pays===pays&&match(f)),render:renderEcoute},
-    {id:"douce",icon:"🌿",label:"Médecine douce",data:ALL_DOUCE.filter(f=>f.pays===pays&&match(f)),render:renderDouce},
-    {id:"asso",icon:"🤝",label:"Associations",data:ALL_ASSO.filter(f=>f.pays===pays&&match(f)),render:renderAsso},
-    {id:"min",icon:"🏛️",label:"Ministères",data:ALL_MIN.filter(f=>f.pays===pays&&match(f)),render:renderMin},
+    {id:"prat",icon:"👨‍⚕️",label:"Praticiens libéraux",data:ALL_PRAT.filter(f=>ficheDansPays(f,pays)&&match(f)),render:f=>renderCard(f,"prat")},
+    {id:"hop",icon:"🏥",label:"Services hospitaliers",data:ALL_HOP.filter(f=>ficheDansPays(f,pays)&&match(f)),render:f=>renderCard(f,"hop")},
+    {id:"ecoute",icon:"📞",label:"Plateformes d'écoute",data:ALL_ECOUTE.filter(f=>ficheDansPays(f,pays)&&match(f)),render:renderEcoute},
+    {id:"douce",icon:"🌿",label:"Médecine douce",data:ALL_DOUCE.filter(f=>ficheDansPays(f,pays)&&match(f)),render:renderDouce},
+    {id:"asso",icon:"🤝",label:"Associations",data:ALL_ASSO.filter(f=>ficheDansPays(f,pays)&&match(f)),render:renderAsso},
+    {id:"min",icon:"🏛️",label:"Ministères",data:ALL_MIN.filter(f=>ficheDansPays(f,pays)&&match(f)),render:renderMin},
   ];
 
   const total=sections_data.reduce((s,d)=>s+d.data.length,0);
@@ -4408,8 +4438,8 @@ function carteAfficher(mode){
 
   // Construire liste des fiches à afficher
   let fiches = [];
-  if(mode==="prat"||mode==="tous") fiches.push(...ALL_PRAT.filter(f=>f.pays===pays));
-  if(mode==="hop"||mode==="tous") fiches.push(...ALL_HOP.filter(f=>f.pays===pays));
+  if(mode==="prat"||mode==="tous") fiches.push(...ALL_PRAT.filter(f=>ficheDansPays(f,pays)));
+  if(mode==="hop"||mode==="tous") fiches.push(...ALL_HOP.filter(f=>ficheDansPays(f,pays)));
 
   let affichees = 0;
   const cardsHtml = [];
@@ -5028,7 +5058,7 @@ function soumettreFormulairePrat(){
   const prenom=document.getElementById("p-prenom").value.trim();
   const titre=document.getElementById("p-titre").value.trim();
   const spe=document.getElementById("p-spe").value;
-  const pays=document.getElementById("p-pays").value;
+  const pays=Array.from(document.querySelectorAll(".p-pays-cb:checked")).map(x=>x.value).join(", ");
   const ville=document.getElementById("p-ville").value.trim();
   const adresse=document.getElementById("p-adresse").value.trim();
   const etab=(document.getElementById("p-etab")||{value:""}).value;
@@ -5586,12 +5616,17 @@ ${mission}
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Pays <span>*</span></label>
-          <select id="p-pays" class="form-select">
-            <option value="">Sélectionner</option>
-            <option>Algérie</option><option>Espagne</option><option>France</option>
-            <option>Grèce</option><option>Italie</option><option>Libye</option>
-            <option>Maroc</option><option>Monaco</option><option>Tunisie</option>
-          </select>
+          <div id="p-pays-group" style="display:flex;flex-wrap:wrap;gap:2px 14px;padding:6px 0">
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Tunisie"> 🇹🇳 Tunisie</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="France"> 🇫🇷 France</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Algérie"> 🇩🇿 Algérie</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Maroc"> 🇲🇦 Maroc</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Italie"> 🇮🇹 Italie</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Espagne"> 🇪🇸 Espagne</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Libye"> 🇱🇾 Libye</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Grèce"> 🇬🇷 Grèce</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Monaco"> 🇲🇨 Monaco</label>
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label">Ville <span>*</span></label>
@@ -6374,7 +6409,7 @@ if('serviceWorker' in navigator){
 <a href="https://ko-fi.com/porosaidant" target="_blank" rel="noopener noreferrer"
    id="floating-support-btn"
    aria-label="Soutenir Poros-Aidant"
-   style="position:fixed;top:26%;right:20px;z-index:9998;background:#C8860A;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:12px 20px;border-radius:26px;text-decoration:none;display:flex;align-items:center;gap:8px;box-shadow:0 4px 18px rgba(200,134,10,0.35),0 2px 6px rgba(0,0,0,0.12);cursor:pointer;transition:background 0.2s,transform 0.2s,box-shadow 0.2s"
+   style="position:fixed;top:15%;right:20px;z-index:9998;background:#C8860A;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:12px 20px;border-radius:26px;text-decoration:none;display:flex;align-items:center;gap:8px;box-shadow:0 4px 18px rgba(200,134,10,0.35),0 2px 6px rgba(0,0,0,0.12);cursor:pointer;transition:background 0.2s,transform 0.2s,box-shadow 0.2s"
    onmouseover="this.style.background='#A87205';this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 22px rgba(200,134,10,0.5),0 3px 8px rgba(0,0,0,0.15)'"
    onmouseout="this.style.background='#C8860A';this.style.transform='';this.style.boxShadow='0 4px 18px rgba(200,134,10,0.35),0 2px 6px rgba(0,0,0,0.12)'">
   <span style="font-size:16px">💛</span>
@@ -6383,7 +6418,7 @@ if('serviceWorker' in navigator){
 <style>
 @media (max-width: 600px) {
   #floating-support-btn {
-    top: 22% !important;
+    top: 13% !important;
     right: 12px !important;
     font-size: 12px !important;
     padding: 10px 15px !important;
