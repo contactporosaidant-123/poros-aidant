@@ -940,6 +940,7 @@ function googleTranslateElementInit(){
         <option>Psychiatrie</option>
         <option>Psychologie clinique</option>
         <option>Psychomotricien(ne)</option>
+        <option>Psychogérontologie</option>
         <option>Sexologie</option>
         <option>Soins palliatifs</option>
         <option>Travail social</option>
@@ -1329,7 +1330,7 @@ const DISCIPLINES=[
   {id:"sophrologie",nom:"💆 Sophrologie"},
   {id:"zootherapie",nom:"🐾 Zoothérapie & thérapies par l'animal"},
 ];
-const PRAT_COLS={"Neurologie":"#1A3C5E","Gériatrie":"#2E6DA4","Psychiatrie":"#4A6B8A","Psychologie clinique":"#3A6B8A","Travail social":"#1E7D6B","Ergothérapie":"#4A7C59","Kinésithérapie":"#2E7DAA","Orthophonie":"#8A5200","Neuropsychologie":"#534AB7","Soins palliatifs":"#8A5200","Nutrition & diététique":"#C8860A","Infirmier(e) libéral(e)":"#1D6E8A","Aide-soignant(e)":"#2E6B4A","Auxiliaire de vie":"#4A7C59","Médecine générale":"#5A3A7C","Podologie":"#6B4A2E","Sexologie":"#8A2E6B","Avocat & juriste — Droit des personnes âgées":"#2E4A8A","Cardio-gériatrie":"#8A2E2E","Onco-gériatrie":"#6B2E8A","Néphro-gériatrie":"#2E6B8A","Psychomotricien(ne)":"#4A8A2E"};
+const PRAT_COLS={"Neurologie":"#1A3C5E","Gériatrie":"#2E6DA4","Psychiatrie":"#4A6B8A","Psychologie clinique":"#3A6B8A","Travail social":"#1E7D6B","Ergothérapie":"#4A7C59","Kinésithérapie":"#2E7DAA","Orthophonie":"#8A5200","Neuropsychologie":"#534AB7","Soins palliatifs":"#8A5200","Nutrition & diététique":"#C8860A","Infirmier(e) libéral(e)":"#1D6E8A","Aide-soignant(e)":"#2E6B4A","Auxiliaire de vie":"#4A7C59","Médecine générale":"#5A3A7C","Podologie":"#6B4A2E","Sexologie":"#8A2E6B","Avocat & juriste — Droit des personnes âgées":"#2E4A8A","Cardio-gériatrie":"#8A2E2E","Onco-gériatrie":"#6B2E8A","Néphro-gériatrie":"#2E6B8A","Psychogérontologie":"#3E5C8A","Psychomotricien(ne)":"#4A8A2E"};
 const TC={"Alzheimer":"t-alz","Parkinson":"t-par","AVC":"t-avc","Cancer":"t-can","Troubles psychiatriques":"t-psy"};
 const PATHOS=[
   "Alzheimer",
@@ -1859,7 +1860,7 @@ const SPE_CODES = {
   "Cardio-gériatrie":"CG", "Onco-gériatrie":"OG", "Néphro-gériatrie":"NG",
   "Médecine générale":"MG", "Sexologie":"Sx",
   "Kinésithérapie":"K", "Ergothérapie":"E", "Orthophonie":"O",
-  "Psychomotricien(ne)":"PM", "Podologie":"Pod",
+  "Psychomotricien(ne)":"PM", "Psychogérontologie":"PG", "Podologie":"Pod",
   "Nutrition & diététique":"Nut", "Soins palliatifs":"SP",
   "Infirmier(e) libéral(e)":"IDE", "Aide-soignant(e)":"AS",
   "Auxiliaire de vie":"AV", "Travail social":"TS",
@@ -2841,7 +2842,7 @@ function applyLang(lang) {
       "Orthophonie":"Orthophonie","Podologie":"Podologie","Nutrition & diététique":"Nutrition & diététique",
       "Soins palliatifs":"Soins palliatifs","Travail social":"Travail social",
       "Aide-soignant(e)":"Aide-soignant(e)","Auxiliaire de vie":"Auxiliaire de vie",
-      "Infirmier(e) libéral(e)":"Infirmier(e) libéral(e)","Psychomotricien(ne)":"Psychomotricien(ne)",
+      "Infirmier(e) libéral(e)":"Infirmier(e) libéral(e)","Psychomotricien(ne)":"Psychomotricien(ne)","Psychogérontologie":"Psychogérontologie",
       "Avocat & juriste — Droit des personnes âgées":"Avocat & juriste — Droit des personnes âgées",
       // Pathologies
       "Alzheimer":"Alzheimer","Parkinson":"Parkinson","AVC":"AVC",
@@ -2861,7 +2862,7 @@ function applyLang(lang) {
       "Orthophonie":"Speech therapy","Podologie":"Podiatry","Nutrition & diététique":"Nutrition & dietetics",
       "Soins palliatifs":"Palliative care","Travail social":"Social work",
       "Aide-soignant(e)":"Care assistant","Auxiliaire de vie":"Home help",
-      "Infirmier(e) libéral(e)":"Nurse practitioner","Psychomotricien(ne)":"Psychomotor therapist",
+      "Infirmier(e) libéral(e)":"Nurse practitioner","Psychomotricien(ne)":"Psychomotor therapist","Psychogérontologie":"Psychogerontology",
       "Avocat & juriste — Droit des personnes âgées":"Lawyer — Elderly law",
       // Pathologies
       "Alzheimer":"Alzheimer","Parkinson":"Parkinson","AVC":"Stroke",
@@ -2881,7 +2882,7 @@ function applyLang(lang) {
       "Orthophonie":"علاج النطق","Podologie":"تقويم القدم","Nutrition & diététique":"تغذية وحمية",
       "Soins palliatifs":"رعاية تلطيفية","Travail social":"عمل اجتماعي",
       "Aide-soignant(e)":"مساعد رعاية","Auxiliaire de vie":"مساعد منزلي",
-      "Infirmier(e) libéral(e)":"ممرض(ة) مستقل(ة)","Psychomotricien(ne)":"علاج حركي نفسي",
+      "Infirmier(e) libéral(e)":"ممرض(ة) مستقل(ة)","Psychomotricien(ne)":"علاج حركي نفسي","Psychogérontologie":"علم نفس الشيخوخة",
       "Avocat & juriste — Droit des personnes âgées":"محامي — قانون كبار السن",
       // Pathologies
       "Alzheimer":"الزهايمر","Parkinson":"باركنسون","AVC":"السكتة الدماغية",
@@ -5299,6 +5300,7 @@ ${mission}
             <option>Psychiatrie</option>
             <option>Psychologie clinique</option>
             <option>Psychomotricien(ne)</option>
+            <option>Psychogérontologie</option>
             <option>Sexologie</option>
             <option>Soins palliatifs</option>
             <option>Travail social</option>
