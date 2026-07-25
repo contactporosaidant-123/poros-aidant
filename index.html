@@ -1735,6 +1735,7 @@ const ALL_ASSO=[
 
 // MINISTÈRES
 const ALL_MIN=[
+  {n:"Déclarer une auxiliaire de vie à la CNSS (emploi direct)",role:"Social & handicap",desc:"Beaucoup de familles tunisiennes emploient directement une auxiliaire de vie certifiée, sans passer par une société. Cet emploi peut et doit être déclaré : la loi n°1960-30 assimile l'employé de maison à un salarié du régime général, et la personne employée accède alors à la couverture sociale, aux soins et à la retraite. Sans déclaration, l'auxiliaire n'a aucun droit, et la famille s'expose à un rappel de cotisations avec pénalités. Depuis 2026, l'ensemble des démarches se fait en ligne sur cnss.nat.tn.",services:["1. Établir un contrat de travail écrit et le faire viser par l'inspection du travail","2. Affilier la famille comme employeur particulier auprès de l'agence CNSS du lieu de résidence : formulaire d'affiliation, copie CIN, RIB et autorisation de prélèvement","3. Immatriculer l'auxiliaire si elle ne l'est pas déjà (dossier à son nom)","4. Déclarer et payer les cotisations chaque mois — prélèvement automatique, paiement en ligne ou au guichet bancaire","Cotisation : environ 5% du salaire à la charge de l'employée, 13% à la charge de la famille (personnel de maison)","En pratique : la déclaration est rare, mais elle protège l'auxiliaire — et c'est la seule voie qui lui ouvre des droits sociaux"],tel:"+216 71 150 000",site:"cnss.nat.tn",pays:"tn",col:"#534AB7"},
   {n:"Déclarer une auxiliaire de vie ou un garde-malade (CNSS)",role:"Santé",desc:"En Tunisie, une auxiliaire de vie ou un garde-malade employé directement par une famille relève du régime des « gens de maison » de la CNSS. La déclaration est possible et légale — beaucoup de familles l'ignorent et emploient au noir, ce qui prive l'employée de toute couverture (maladie, retraite, accident du travail) et expose l'employeur en cas de contrôle ou d'accident à domicile. La déclarer, c'est la protéger et se protéger.",services:["L'employeur particulier s'affilie à la CNSS comme employeur de gens de maison, dans le mois suivant l'embauche","Pièces : demande d'affiliation, CIN de l'employeur, CIN et immatriculation CNSS de l'employée (ou demande d'immatriculation si elle n'en a pas)","Autorisation de prélèvement bancaire automatique des cotisations","Assiette de cotisation forfaitaire prévue pour les gens de maison, sans avoir à détailler chaque acte","Déclaration et démarches en ligne sur cnss.nat.tn depuis 2026","Ouvre à l'employée l'accès à la CNAM, aux allocations familiales et aux droits à la retraite"],tel:"+216 71 150 100",site:"cnss.nat.tn",pays:"tn",col:"#1A3C5E"},
   {n:"MaPrimeAdapt' — Adaptation du logement",role:"Finances & aides",desc:"Aide de l'État versée par l'Agence nationale de l'habitat, entrée en vigueur en 2024, qui finance les travaux d'adaptation du logement au vieillissement et à la perte d'autonomie. Elle couvre une part importante du coût — jusqu'à 70 % selon les ressources — et intègre le diagnostic préalable réalisé par un ergothérapeute ou un professionnel de l'habitat. Deux millions de logements français ne sont pas adaptés à l'âge de leurs occupants : c'est la première cause de chute évitable au domicile.",services:["Remplacement d'une baignoire par une douche de plain-pied","Installation de barres d'appui, de sols antidérapants, d'un chemin lumineux","Monte-escalier, élévateur, élargissement des passages de porte","Adaptation de la cuisine et de la chambre","Diagnostic à domicile par un ergothérapeute inclus dans le dispositif","Accompagnement gratuit par un assistant à maîtrise d'ouvrage pour monter le dossier"],tel:"0 806 703 803",site:"france-renov.gouv.fr",pays:"fr",col:"#2E6DA4"},
   {n:"Annuaire Santé de l'Assurance Maladie",role:"Santé",desc:"Annuaire officiel de tous les professionnels de santé conventionnés en France, consultable par adresse. C'est l'outil qui permet de trouver un infirmier libéral, un kinésithérapeute ou un orthophoniste réellement proche du domicile de votre proche — ce qui compte, car ces praticiens interviennent sur de petits secteurs et refusent souvent les patients trop éloignés. L'annuaire indique le secteur de conventionnement, donc les dépassements d'honoraires éventuels.",services:["Recherche par profession et par adresse précise, pas seulement par ville","Infirmiers libéraux, kinésithérapeutes, orthophonistes, pédicures-podologues, ergothérapeutes","Secteur de conventionnement et tarifs pratiqués","Indication des professionnels acceptant la carte Vitale et le tiers payant","Coordonnées téléphoniques directes"],tel:"3646",site:"annuairesante.ameli.fr",pays:"fr",col:"#2E6DA4"},
@@ -1915,7 +1916,7 @@ PAYS.forEach(p=>{
   const b=document.createElement("button");
   b.className="pays-btn"+(p.id==="tn"?" on":"");
   b.innerHTML=p.flag+" "+p.nom;
-  b.onclick=()=>{pays=p.id;urgencePays=p.id;document.querySelectorAll(".pays-btn").forEach(x=>x.classList.remove("on"));b.classList.add("on");updateVilles();updateUrgences();updateStats();renderAll();};
+  b.onclick=()=>{pays=p.id;urgencePays=p.id;document.querySelectorAll(".pays-btn").forEach(x=>x.classList.remove("on"));b.classList.add("on");["ss","sd","sg","ss-hop","se-hop","sg-hop","sg-region-hop","ss-centre","sst-centre","sg-centre","ss-societes","sst-societes"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});var bi=document.getElementById("info-prat");if(bi)bi.innerHTML="";updateVilles();updateUrgences();updateStats();renderAll();};
   paysBar.appendChild(b);
 });
 
@@ -2423,7 +2424,11 @@ function showProfilFilter(){
 // Une fiche peut exercer dans plusieurs pays : pays peut être "fr" ou "fr,tn"
 function ficheDansPays(f, paysId){
   if(!f.pays) return false;
-  return f.pays.split(",").map(x=>x.trim()).includes(paysId);
+  const NOM2CODE={"tunisie":"tn","france":"fr","algérie":"dz","algerie":"dz","maroc":"ma","italie":"it","espagne":"es","libye":"ly","grèce":"gr","grece":"gr","monaco":"mc"};
+  return f.pays.split(",").map(function(x){
+    x=x.trim().toLowerCase();
+    return NOM2CODE[x]||x;          // convertit un éventuel nom complet en code
+  }).includes(paysId);
 }
 
 
@@ -2433,8 +2438,8 @@ function bandeauInfo(spe, paysId){
     tn: {
       "Auxiliaire de vie": {
         titre:"L'auxiliaire de vie passe par une société de services en Tunisie",
-        texte:"Il n'existe pas de profession libérale d'auxiliaire de vie en Tunisie, ni d'annuaire officiel. L'accompagnement au quotidien — aide à la toilette, repas, présence de jour ou de nuit — s'organise par l'intermédiaire d'une <strong>société de services à la personne</strong>, ou par emploi direct de gré à gré. Vérifiez que la personne proposée est formée et que la société établit un contrat. En emploi direct, pensez à la <strong>déclarer à la CNSS</strong> au régime des gens de maison — voir la fiche dédiée dans l'onglet Ministères.",
-        onglet:"societes", lien:"Voir les sociétés de services"
+        texte:"Il n'existe pas de profession libérale d'auxiliaire de vie en Tunisie, ni d'annuaire officiel. Deux voies : passer par une <strong>société de services à la personne</strong> (onglet Sociétés de services), ou <strong>employer directement</strong> une auxiliaire certifiée — cas très courant. En emploi direct, l'embauche peut être déclarée à la CNSS au régime des gens de maison : c'est ce qui ouvre à l'auxiliaire une couverture sociale et une retraite.",
+        onglet:"min", lien:"Comment déclarer une auxiliaire à la CNSS"
       },
       "Aide-soignant(e)": {
         titre:"Aide-soignant à domicile : par une société de soins",
@@ -5617,15 +5622,15 @@ ${mission}
         <div class="form-group">
           <label class="form-label">Pays <span>*</span></label>
           <div id="p-pays-group" style="display:flex;flex-wrap:wrap;gap:2px 14px;padding:6px 0">
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Tunisie"> 🇹🇳 Tunisie</label>
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="France"> 🇫🇷 France</label>
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Algérie"> 🇩🇿 Algérie</label>
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Maroc"> 🇲🇦 Maroc</label>
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Italie"> 🇮🇹 Italie</label>
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Espagne"> 🇪🇸 Espagne</label>
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Libye"> 🇱🇾 Libye</label>
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Grèce"> 🇬🇷 Grèce</label>
-            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="Monaco"> 🇲🇨 Monaco</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="tn"> 🇹🇳 Tunisie</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="fr"> 🇫🇷 France</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="dz"> 🇩🇿 Algérie</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="ma"> 🇲🇦 Maroc</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="it"> 🇮🇹 Italie</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="es"> 🇪🇸 Espagne</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="ly"> 🇱🇾 Libye</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="gr"> 🇬🇷 Grèce</label>
+            <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" class="p-pays-cb" value="mc"> 🇲🇨 Monaco</label>
           </div>
         </div>
         <div class="form-group">
