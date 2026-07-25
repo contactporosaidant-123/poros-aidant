@@ -3536,7 +3536,7 @@ function afficherFormAdmin(){
   if(!type){c.innerHTML="";return;}
   const pays=PAYS.map(p=>`<option value="${p.id}">${p.flag} ${p.nom}</option>`).join("");
   const paysCheckboxes=PAYS.map(p=>`<label style="display:inline-flex;align-items:center;gap:5px;margin:0 10px 6px 0;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif"><input type="checkbox" class="a-pays-cb" value="${p.id}"> ${p.flag} ${p.nom}</label>`).join("");
-  const specs=["Aide-soignant(e)","Auxiliaire de vie","Avocat & juriste — Droit des personnes âgées","Cardio-gériatrie","Ergothérapie","Gériatrie","Infirmier(e) libéral(e)","Kinésithérapie","Médecine générale","Néphro-gériatrie","Neurologie","Neuropsychologie","Nutrition & diététique","Onco-gériatrie","Orthophonie","Podologie","Psychiatrie","Psychologie clinique","Psychomotricien(ne)","Sexologie","Soins palliatifs","Travail social"].map(s=>`<option>${s}</option>`).join("");
+  const specs=["Aide-soignant(e)","Auxiliaire de vie","Avocat & juriste — Droit des personnes âgées","Cardio-gériatrie","Ergothérapie","Gériatrie","Infirmier(e) libéral(e)","Kinésithérapie","Médecine générale","Néphro-gériatrie","Neurologie","Neuropsychologie","Nutrition & diététique","Onco-gériatrie","Orthophonie","Podologie","Psychiatrie","Psychogérontologie","Psychologie clinique","Psychomotricien(ne)","Sexologie","Soins palliatifs","Travail social"].map(s=>`<option>${s}</option>`).join("");
   const discs=DISCIPLINES.filter(d=>d.id).map(d=>`<option value="${d.id}">${d.nom}</option>`).join("");
   const cols=["#534AB7","#1A3C5E","#2E7DAA","#0F6E56","#8A5200","#C8860A","#A32D2D","#3A6B8A","#4A7C59","#2E6DA4"];
   const colOpts=cols.map(c=>`<option value="${c}">${c}</option>`).join("");
@@ -3548,7 +3548,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Spécialité *</label><select class="admin-select" id="a-s"><option value="">Choisir</option>${specs}</select></div>
       <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis, Paris…"></div>
-      <div><label class="admin-label">Établissement *</label><input class="admin-input" id="a-str" placeholder="Ex: CHU Charles Nicolle"></div>
+      <div><label class="admin-label">Nom du service / structure <span style="color:#9A8E7E;font-weight:400">(facultatif — laisser vide si cabinet privé)</span></label><input class="admin-input" id="a-str" placeholder="Ex: CHU Charles Nicolle, ou vide"></div>
       ${type==="hop"?`<div><label class="admin-label">Type d'établissement *</label><select class="admin-select" id="a-etab"><option value="">Choisir</option><option>CHU / Centre hospitalier universitaire</option><option>Centre hospitalier</option><option>Hôpital régional</option><option>Institut / hôpital spécialisé</option><option>Hôpital de proximité</option><option>Clinique privée</option></select></div>`:""}
       <div class="admin-form-full"><label class="admin-label">Adresse</label><input class="admin-input" id="a-adresse" placeholder="Adresse complète"></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel" placeholder="+216 XX XXX XXX"></div>
@@ -3570,7 +3570,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Discipline *</label><select class="admin-select" id="a-d"><option value="">Choisir</option>${discs}</select></div>
       <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis"></div>
-      <div><label class="admin-label">Secteur</label><select class="admin-select" id="a-str"><option>Privé</option><option>Associatif</option><option>Public</option></select></div>
+      <div><label class="admin-label">Secteur</label><select class="admin-select" id="a-secteur"><option>Privé</option><option>Associatif</option><option>Public</option></select></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel"></div>
       <div><label class="admin-label">Email</label><input class="admin-input" id="a-e"></div>
       <div><label class="admin-label">Téléconsultation</label><select class="admin-select" id="a-tele"><option>Non</option><option>Oui</option><option>Sur demande</option></select></div>
