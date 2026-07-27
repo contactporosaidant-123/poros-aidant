@@ -1855,6 +1855,7 @@ const ALL_EVENTS=[
 ];
 
 const ALL_MIN=[
+  {n:"Employer une auxiliaire de vie en France — les trois statuts",role:"Finances & aides",desc:"Trois façons de faire intervenir une auxiliaire de vie au domicile d'un proche âgé, avec des conséquences très différentes en responsabilité et en coût. Dans les trois cas, si l'intervenante est déclarée en services à la personne, vous bénéficiez d'un crédit d'impôt de 50 % des sommes versées, plafonné à 12 000 € de dépenses par an — plafond majoré de 1 500 € par membre du foyer de plus de 65 ans, et porté à 20 000 € en situation de handicap.",services:["Prestataire : un service emploie l'intervenante. Vous ne gérez ni contrat ni remplacement, mais le tarif horaire est plus élevé","Mandataire : le service recrute pour vous, mais vous restez l'employeur légal","Emploi direct en CESU : vous êtes l'employeur, tarif le plus bas, mais congés, remplacements et licenciement sont à votre charge","Indépendante en micro-entreprise : statut légal (code APE 8810A). Pour une personne âgée dépendante, l'agrément est OBLIGATOIRE — demandez-en la preuve, le seul SIRET ne suffit pas","Avance immédiate URSSAF : le crédit d'impôt est déduit au moment du paiement, sans attendre la déclaration de revenus","Vérifier qu'une structure est bien déclarée : annuaire officiel des organismes de services à la personne"],tel:"",site:"servicesalapersonne.gouv.fr",pays:"fr",col:"#2E6DA4"},
   {n:"Déclarer une auxiliaire de vie à la CNSS (emploi direct)",role:"Social & handicap",desc:"Beaucoup de familles tunisiennes emploient directement une auxiliaire de vie certifiée, sans passer par une société. Cet emploi peut et doit être déclaré : la loi n°1960-30 assimile l'employé de maison à un salarié du régime général, et la personne employée accède alors à la couverture sociale, aux soins et à la retraite. Sans déclaration, l'auxiliaire n'a aucun droit, et la famille s'expose à un rappel de cotisations avec pénalités. Depuis 2026, l'ensemble des démarches se fait en ligne sur cnss.nat.tn.",services:["1. Établir un contrat de travail écrit et le faire viser par l'inspection du travail","2. Affilier la famille comme employeur particulier auprès de l'agence CNSS du lieu de résidence : formulaire d'affiliation, copie CIN, RIB et autorisation de prélèvement","3. Immatriculer l'auxiliaire si elle ne l'est pas déjà (dossier à son nom)","4. Déclarer et payer les cotisations chaque mois — prélèvement automatique, paiement en ligne ou au guichet bancaire","Cotisation : environ 5% du salaire à la charge de l'employée, 13% à la charge de la famille (personnel de maison)","En pratique : la déclaration est rare, mais elle protège l'auxiliaire — et c'est la seule voie qui lui ouvre des droits sociaux"],tel:"+216 71 150 000",site:"cnss.nat.tn",pays:"tn",col:"#534AB7"},
   {n:"Déclarer une auxiliaire de vie ou un garde-malade (CNSS)",role:"Santé",desc:"En Tunisie, une auxiliaire de vie ou un garde-malade employé directement par une famille relève du régime des « gens de maison » de la CNSS. La déclaration est possible et légale — beaucoup de familles l'ignorent et emploient au noir, ce qui prive l'employée de toute couverture (maladie, retraite, accident du travail) et expose l'employeur en cas de contrôle ou d'accident à domicile. La déclarer, c'est la protéger et se protéger.",services:["L'employeur particulier s'affilie à la CNSS comme employeur de gens de maison, dans le mois suivant l'embauche","Pièces : demande d'affiliation, CIN de l'employeur, CIN et immatriculation CNSS de l'employée (ou demande d'immatriculation si elle n'en a pas)","Autorisation de prélèvement bancaire automatique des cotisations","Assiette de cotisation forfaitaire prévue pour les gens de maison, sans avoir à détailler chaque acte","Déclaration et démarches en ligne sur cnss.nat.tn depuis 2026","Ouvre à l'employée l'accès à la CNAM, aux allocations familiales et aux droits à la retraite"],tel:"+216 71 150 100",site:"cnss.nat.tn",pays:"tn",col:"#1A3C5E"},
   {n:"MaPrimeAdapt' — Adaptation du logement",role:"Finances & aides",desc:"Aide de l'État versée par l'Agence nationale de l'habitat, entrée en vigueur en 2024, qui finance les travaux d'adaptation du logement au vieillissement et à la perte d'autonomie. Elle couvre une part importante du coût — jusqu'à 70 % selon les ressources — et intègre le diagnostic préalable réalisé par un ergothérapeute ou un professionnel de l'habitat. Deux millions de logements français ne sont pas adaptés à l'âge de leurs occupants : c'est la première cause de chute évitable au domicile.",services:["Remplacement d'une baignoire par une douche de plain-pied","Installation de barres d'appui, de sols antidérapants, d'un chemin lumineux","Monte-escalier, élévateur, élargissement des passages de porte","Adaptation de la cuisine et de la chambre","Diagnostic à domicile par un ergothérapeute inclus dans le dispositif","Accompagnement gratuit par un assistant à maîtrise d'ouvrage pour monter le dossier"],tel:"0 806 703 803",site:"france-renov.gouv.fr",pays:"fr",col:"#2E6DA4"},
@@ -1920,6 +1921,21 @@ const VILLES={
   es:["Barcelone","Madrid","Séville","Valencia"],
   gr:["Athènes","Thessalonique"],
 };
+
+
+// Autocomplétion des lieux dans les formulaires (gouvernorats TN + départements FR + villes)
+function construireDatalistLieux(){
+  if(document.getElementById("liste-lieux")) return;
+  const dl=document.createElement("datalist");
+  dl.id="liste-lieux";
+  const vals=[];
+  try{ Object.keys(VILLES).forEach(k=>(VILLES[k]||[]).forEach(v=>vals.push(v))); }catch(e){}
+  try{ Object.keys(FR_REGIONS).forEach(r=>FR_REGIONS[r].forEach(d=>vals.push(d))); }catch(e){}
+  [...new Set(vals)].sort((a,b)=>a.localeCompare(b,"fr")).forEach(v=>{
+    const o=document.createElement("option"); o.value=v; dl.appendChild(o);
+  });
+  document.body.appendChild(dl);
+}
 
 function updateVilles(){
   const sgRegion=document.getElementById("sg-region");
@@ -2595,9 +2611,9 @@ function bandeauInfo(spe, paysId){
         onglet:"min", lien:"Voir les aides et financements"
       },
       "Auxiliaire de vie": {
-        titre:"L'auxiliaire de vie passe par un service, non par un cabinet",
-        texte:"Les auxiliaires de vie sont employées par des services d'aide et d'accompagnement à domicile. Leur intervention peut être financée en partie par l'<strong>APA</strong>, l'allocation personnalisée d'autonomie, versée par le conseil départemental.",
-        onglet:"societes", lien:"Voir les sociétés de services"
+        titre:"Trois voies possibles — et un point à vérifier absolument",
+        texte:"Vous pouvez passer par un <strong>service d'aide à domicile</strong>, employer directement en <strong>CESU</strong>, ou faire appel à une auxiliaire <strong>indépendante en micro-entreprise</strong> — ce dernier statut est parfaitement légal et de plus en plus fréquent. Point essentiel : pour intervenir auprès d'une personne âgée dépendante, l'indépendante doit détenir un <strong>agrément</strong> (et parfois une autorisation départementale), pas seulement un numéro SIRET. Demandez-le. Si elle est déclarée en services à la personne, vous bénéficiez d'un <strong>crédit d'impôt de 50 %</strong>, déductible immédiatement via l'Avance immédiate de l'URSSAF. L'<strong>APA</strong> peut compléter le financement.",
+        onglet:"min", lien:"Voir les aides et financements"
       },
       "Gériatrie": {
         titre:"La gériatrie s'exerce surtout à l'hôpital en France",
@@ -3507,6 +3523,7 @@ window.addEventListener('DOMContentLoaded', function(){
   try { chargerStorage(); } catch(e){ }
   try { updateStatsLanding(); } catch(e){ }
   try { chargerA11y(); } catch(e){ }
+  try { construireDatalistLieux(); } catch(e){ }
   try { updateVilles(); } catch(e){ }
   try { remplirBandeauAgenda(); } catch(e){ }
   try { updateUrgences(); } catch(e){ }
@@ -3750,7 +3767,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Titre *</label><input class="admin-input" id="a-t" placeholder="Ex: Neurologie, Bilan cognitif…"></div>
       <div><label class="admin-label">Spécialité *</label><select class="admin-select" id="a-s"><option value="">Choisir</option>${specs}</select></div>
       <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
-      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis, Paris…"></div>
+      <div><label class="admin-label">Ville / Département * <span style="color:#9A8E7E;font-weight:400">(France : choisir le département. Plusieurs pays : séparer par une virgule)</span></label><input class="admin-input" id="a-g" list="liste-lieux" placeholder="Ex: Tunis  ·  Paris (75)  ·  Tunis, Bouches-du-Rhône (13)"></div>
       <div><label class="admin-label">Nom du service / structure <span style="color:#9A8E7E;font-weight:400">(facultatif — laisser vide si cabinet privé)</span></label><input class="admin-input" id="a-str" placeholder="Ex: CHU Charles Nicolle, ou vide"></div>
       ${type==="hop"?`<div><label class="admin-label">Type d'établissement *</label><select class="admin-select" id="a-etab"><option value="">Choisir</option><option>CHU / Centre hospitalier universitaire</option><option>Centre hospitalier</option><option>Hôpital régional</option><option>Institut / hôpital spécialisé</option><option>Hôpital de proximité</option><option>Clinique privée</option></select></div>`:""}
       <div class="admin-form-full"><label class="admin-label">Adresse</label><input class="admin-input" id="a-adresse" placeholder="Adresse complète"></div>
@@ -3772,7 +3789,7 @@ function afficherFormAdmin(){
       <div><label class="admin-label">Titre *</label><input class="admin-input" id="a-t" placeholder="Description courte"></div>
       <div><label class="admin-label">Discipline *</label><select class="admin-select" id="a-d"><option value="">Choisir</option>${discs}</select></div>
       <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
-      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis"></div>
+      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" list="liste-lieux" placeholder="Ex: Tunis"></div>
       <div><label class="admin-label">Secteur</label><select class="admin-select" id="a-secteur"><option>Privé</option><option>Associatif</option><option>Public</option></select></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel"></div>
       <div><label class="admin-label">Email</label><input class="admin-input" id="a-e"></div>
@@ -3789,7 +3806,7 @@ function afficherFormAdmin(){
     c.innerHTML=`<div class="admin-form">
       <div><label class="admin-label">Nom *</label><input class="admin-input" id="a-n" placeholder="Nom de l'association"></div>
       <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
-      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ville du siège"></div>
+      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" list="liste-lieux" placeholder="Ville du siège"></div>
       <div><label class="admin-label">Région (si France)</label><input class="admin-input" id="a-region" placeholder="Ex: Île-de-France"></div>
       <div><label class="admin-label">Département (si France)</label><input class="admin-input" id="a-dept" placeholder="Ex: Paris (75)"></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel"></div>
@@ -3819,7 +3836,7 @@ function afficherFormAdmin(){
       </select></div>
       <div><label class="admin-label">Statut *</label><select class="admin-select" id="a-statut"><option value="">Choisir</option><option>Public</option><option>Privé associatif (à but non lucratif)</option><option>Privé commercial</option></select></div>
       <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
-      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis"></div>
+      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" list="liste-lieux" placeholder="Ex: Tunis"></div>
       <div><label class="admin-label">Nombre de places</label><input class="admin-input" id="a-places" placeholder="Ex: 40"></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel" placeholder="+216 XX XXX XXX"></div>
       <div><label class="admin-label">Email</label><input class="admin-input" id="a-e"></div>
@@ -3842,7 +3859,7 @@ function afficherFormAdmin(){
         <option>Soins à domicile</option>
       </select></div>
       <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
-      <div><label class="admin-label">Ville / Siège *</label><input class="admin-input" id="a-g" placeholder="Ex: Sousse"></div>
+      <div><label class="admin-label">Ville / Siège *</label><input class="admin-input" id="a-g" list="liste-lieux" placeholder="Ex: Sousse"></div>
       <div><label class="admin-label">Zone d'intervention</label><input class="admin-input" id="a-zone" placeholder="Ex: Grand Tunis, Sahel, national…"></div>
       <div><label class="admin-label">Disponibilité</label><select class="admin-select" id="a-h24">
         <option value="">Horaires standard</option>
@@ -3871,7 +3888,7 @@ function afficherFormAdmin(){
         <option>Transport associatif</option>
       </select></div>
       <div class="admin-form-full"><label class="admin-label">Pays d'exercice * <span style="color:#9A8E7E;font-weight:400">(cochez-en plusieurs si besoin)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
-      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" placeholder="Ex: Tunis"></div>
+      <div><label class="admin-label">Ville *</label><input class="admin-input" id="a-g" list="liste-lieux" placeholder="Ex: Tunis"></div>
       <div><label class="admin-label">Zone desservie</label><input class="admin-input" id="a-zone" placeholder="Ex: Grand Tunis, national…"></div>
       <div><label class="admin-label">Téléphone</label><input class="admin-input" id="a-tel" placeholder="+216 XX XXX XXX"></div>
       <div><label class="admin-label">Email</label><input class="admin-input" id="a-e"></div>
@@ -5866,7 +5883,7 @@ ${mission}
         </div>
         <div class="form-group">
           <label class="form-label">Ville <span>*</span></label>
-          <input type="text" id="p-ville" class="form-input" placeholder="Ex : Lyon">
+          <input type="text" id="p-ville" class="form-input" list="liste-lieux" placeholder="Ex : Lyon">
         </div>
       </div>
       <div class="form-group">
