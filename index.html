@@ -317,6 +317,15 @@ body{top:0!important;position:static!important}
   .stat-sep{display:none}
   .header-stats{gap:12px}
 }
+
+/* Bandeau agenda défilant */
+@keyframes marquee-defile { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee-defile 48s linear infinite; }
+#bandeau-agenda:hover .marquee-track, #bandeau-agenda:focus-within .marquee-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; transform: none; }
+  #bandeau-agenda > div > div { overflow-x: auto; }
+}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -510,6 +519,18 @@ function googleTranslateElementInit(){
         <div style="text-align:center">
           <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#fff" id="stat-ecoute-landing">0</div>
           <div id="tx-stat-ecoute" style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Lignes d'écoute</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANDEAU AGENDA DÉFILANT -->
+    <div id="bandeau-agenda" role="region" aria-label="Prochaines dates de l'aidance"
+      style="background:rgba(200,134,10,0.07);border-top:1px solid rgba(200,134,10,0.18);border-bottom:1px solid rgba(200,134,10,0.18);padding:14px 0;overflow:hidden;position:relative;cursor:pointer"
+      onclick="ouvrirAgenda()" title="Voir l'agenda complet">
+      <div style="display:flex;align-items:center;gap:14px;max-width:1200px;margin:0 auto;padding:0 20px">
+        <span style="flex-shrink:0;font-size:11px;color:#C8860A;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif">📅 Prochaines dates</span>
+        <div style="flex:1;overflow:hidden;position:relative;mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent)">
+          <div id="marquee-agenda" class="marquee-track" style="display:inline-flex;gap:36px;white-space:nowrap"></div>
         </div>
       </div>
     </div>
@@ -896,6 +917,7 @@ function googleTranslateElementInit(){
       <button class="tab douce" id="tab-douce" onclick="switchTab('douce')">🌿 Médecine douce</button>
       <button class="tab" id="tab-asso" onclick="switchTab('asso')">🤝 Associations</button>
       <button class="tab" id="tab-min" onclick="switchTab('min')">🏛️ Ministères</button>
+      <button class="tab" id="tab-agenda" onclick="switchTab('agenda')">📅 Agenda</button>
       <button class="tab" id="tab-transport" onclick="switchTab('transport')">🚐 Transport adapté</button>
       <button class="tab" id="tab-soutenir" onclick="switchTab('soutenir')">💛 Soutenir</button>
       <button class="tab" id="tab-carte" onclick="switchTab('carte')">🗺️ Carte</button>
@@ -1212,6 +1234,25 @@ function googleTranslateElementInit(){
   </div>
 
   <!-- MINISTÈRES -->
+  <div id="section-agenda" style="display:none">
+    <div id="agenda-intro" style="background:#FFF6E6;border-left:3px solid #C8860A;padding:14px 16px;border-radius:8px;margin-bottom:16px;line-height:1.7">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#0B2A4A;margin-bottom:6px">Les grandes dates de l'aidance</div>
+      <div style="font-size:13px;color:#5A5040">Autour de ces journées, les associations, les hôpitaux et les municipalités organisent souvent des rencontres, des cafés des aidants, des conférences ou des dépistages gratuits. C'est le bon moment pour se renseigner près de chez vous.</div>
+    </div>
+    <div class="search-row">
+      <input type="text" id="sq-agenda" placeholder="Rechercher une date, un thème…" oninput="goAgenda()">
+      <select id="sf-agenda" onchange="goAgenda()">
+        <option value="">Tous les thèmes</option>
+        <option>Alzheimer & troubles cognitifs</option>
+        <option>Aidants</option>
+        <option>Personnes âgées</option>
+        <option>Autres pathologies</option>
+        <option>Famille & entourage</option>
+      </select>
+    </div>
+    <div class="rcount" id="rcount-agenda"></div>
+    <div class="grid" id="grid-agenda" aria-live="polite" aria-label="Agenda des événements"></div>
+  </div>
   <div id="section-min" style="display:none">
     <div class="search-row">
       <input type="text" id="sq-min" placeholder="Rechercher un ministère, un service…" oninput="goMin()">
@@ -1292,6 +1333,35 @@ function googleTranslateElementInit(){
 
 <script>
 const URGENCES_PAYS={"fr":[{tel:"15",label:"SAMU"},{tel:"18",label:"Pompiers"},{tel:"3114",label:"Crise psychologique"},{tel:"01 42 97 52 41",label:"France Alzheimer"}],"tn":[{tel:"190",label:"SAMU"},{tel:"198",label:"Protection civile"},{tel:"80 105 050",label:"Écoute psychologique"},{tel:"1809",label:"Famille & personnes âgées"},{tel:"+216 98 61 39 76",label:"Alzheimer Tunisie"}],"ma":[{tel:"15",label:"SAMU"},{tel:"19",label:"Police"},{tel:"15",label:"Protection civile"}],"dz":[{tel:"14",label:"SAMU"},{tel:"17",label:"Police"},{tel:"21",label:"Protection civile"}],"it":[{tel:"118",label:"SAMU"},{tel:"115",label:"Pompiers"},{tel:"112",label:"Urgences"}],"es":[{tel:"112",label:"Urgences"},{tel:"061",label:"SAMU"}],"gr":[{tel:"166",label:"SAMU"},{tel:"199",label:"Pompiers"},{tel:"112",label:"Urgences"}],"mc":[{tel:"15",label:"SAMU"},{tel:"18",label:"Pompiers"},{tel:"112",label:"Urgences"}],"ly":[{tel:"1515",label:"Urgences"},{tel:"193",label:"Ambulance"}],};
+
+
+// ── Bandeau agenda de la page d'accueil ──────────────────────────────────────
+function remplirBandeauAgenda(){
+  const el=document.getElementById("marquee-agenda");
+  if(!el || typeof ALL_EVENTS==="undefined") return;
+  const paysCourant=(typeof pays!=="undefined"&&pays)?pays:"tn";
+  const liste=ALL_EVENTS
+    .filter(ev=>ev.pays==="int"||ficheDansPays(ev,paysCourant))
+    .sort((a,b)=>joursAvant(a)-joursAvant(b))
+    .slice(0,6);
+  if(!liste.length){ document.getElementById("bandeau-agenda").style.display="none"; return; }
+  const item=ev=>{
+    const n=joursAvant(ev);
+    const quand = n===0?"aujourd'hui" : n===1?"demain" : "dans "+n+" jour"+(n>1?"s":"");
+    return '<span style="display:inline-flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.72);font-family:\'DM Sans\',sans-serif">'
+      +'<span style="color:#C8860A;font-weight:600">'+ev.j+' '+MOIS_NOMS[ev.m-1]+'</span>'
+      +'<span>'+ev.n+'</span>'
+      +'<span style="color:rgba(255,255,255,0.38);font-size:12px">— '+quand+'</span>'
+      +'</span>';
+  };
+  const bloc=liste.map(item).join('<span style="color:rgba(200,134,10,0.4)">•</span>');
+  el.innerHTML=bloc+'<span style="color:rgba(200,134,10,0.4)">•</span>'+bloc;
+}
+
+function ouvrirAgenda(){
+  try{ entrerAnnuaire(); }catch(e){}
+  try{ switchTab("agenda"); }catch(e){}
+}
 
 function entrerAnnuaire(){
   document.getElementById("landing-page").style.display="none";
@@ -1734,6 +1804,56 @@ const ALL_ASSO=[
 ];
 
 // MINISTÈRES
+
+// ── AGENDA — grandes dates de l'aidance ──────────────────────────────────────
+// m = mois (1-12), j = jour d'ancrage pour le tri. pays "int" = affiché partout.
+const ALL_EVENTS=[
+  {n:"Journée mondiale de la maladie d'Alzheimer",m:9,j:21,pays:"int",th:"Alzheimer & troubles cognitifs",
+   libelle:"21 septembre — tout le mois de septembre est le Mois mondial Alzheimer",
+   desc:"Portée par Alzheimer's Disease International. Partout, des associations ouvrent leurs portes : groupes de parole, conférences, ateliers mémoire, permanences d'information. En Tunisie, l'Association Alzheimer Tunisie est membre d'ADI depuis 2013.",
+   aidant:"Le meilleur moment de l'année pour rencontrer d'autres aidants et découvrir les dispositifs près de chez vous."},
+  {n:"Journée internationale des personnes âgées",m:10,j:1,pays:"int",th:"Personnes âgées",
+   libelle:"1er octobre",
+   desc:"Journée des Nations unies. En Tunisie, le ministère de la Famille et le ministère de la Santé organisent des actions publiques — dépistages gratuits, conseils de prévention, notamment à Tunis.",
+   aidant:"Occasion de faire dépister gratuitement un proche, et de s'informer sur les droits et les aides existantes."},
+  {n:"Journée nationale des aidants",m:10,j:6,pays:"fr",th:"Aidants",
+   libelle:"6 octobre",
+   desc:"Journée dédiée aux proches aidants en France. Les plateformes de répit, les CCAS et les associations proposent des rencontres, des ateliers et des permanences.",
+   aidant:"C'est votre journée. Beaucoup de structures en profitent pour faire connaître le droit au répit, souvent méconnu."},
+  {n:"Semaine bleue",m:10,j:1,pays:"fr",th:"Personnes âgées",
+   libelle:"Première semaine d'octobre",
+   desc:"Semaine nationale des retraités et des personnes âgées. Partout en France, communes et associations organisent des animations intergénérationnelles, des forums et des portes ouvertes.",
+   aidant:"Une bonne occasion de visiter des accueils de jour ou des EHPAD sans engagement, pour se faire une idée."},
+  {n:"Journée mondiale de la santé mentale",m:10,j:10,pays:"int",th:"Aidants",
+   libelle:"10 octobre",
+   desc:"Journée de l'Organisation mondiale de la santé consacrée à la santé psychique.",
+   aidant:"L'épuisement de l'aidant est un enjeu de santé mentale à part entière. Cette journée est souvent l'occasion de consultations et d'ateliers gratuits."},
+  {n:"Journée mondiale des soins palliatifs",m:10,j:11,pays:"int",th:"Autres pathologies",
+   libelle:"Deuxième samedi d'octobre",
+   desc:"Journée internationale de sensibilisation aux soins palliatifs et à l'accompagnement de fin de vie.",
+   aidant:"Moment privilégié pour s'informer sur l'accompagnement de fin de vie à domicile et les droits qui s'y attachent."},
+  {n:"Journée mondiale de l'AVC",m:10,j:29,pays:"int",th:"Autres pathologies",
+   libelle:"29 octobre",
+   desc:"Campagne mondiale de sensibilisation à l'accident vasculaire cérébral : reconnaître les signes, agir vite, comprendre la rééducation.",
+   aidant:"Rappel des signes d'alerte — un visage qui s'affaisse, un bras qui faiblit, une parole troublée : appelez les secours immédiatement."},
+  {n:"Journée nationale de la famille",m:12,j:11,pays:"tn",th:"Famille & entourage",
+   libelle:"11 décembre",
+   desc:"Journée célébrée chaque année en Tunisie, en référence à l'article 12 de la Constitution qui fait de la famille la cellule fondamentale de la société.",
+   aidant:"Le ministère de la Famille y annonce souvent ses programmes et dispositifs pour les personnes âgées et leurs proches."},
+  {n:"Journée mondiale de la maladie de Parkinson",m:4,j:11,pays:"int",th:"Autres pathologies",
+   libelle:"11 avril",
+   desc:"Journée internationale de sensibilisation à la maladie de Parkinson, marquée par des conférences et des ateliers de rééducation.",
+   aidant:"Occasion de découvrir les approches non médicamenteuses : kinésithérapie, orthophonie et méthode LSVT pour la voix."},
+  {n:"Journée internationale des familles",m:5,j:15,pays:"int",th:"Famille & entourage",
+   libelle:"15 mai",
+   desc:"Journée des Nations unies. En Tunisie, le ministère de la Famille y organise des salons et y lance ses dispositifs nationaux.",
+   aidant:"Bon moment pour s'informer sur les aides destinées aux familles qui accompagnent un proche."},
+  {n:"Journée mondiale de lutte contre la maltraitance des personnes âgées",m:6,j:15,pays:"int",th:"Personnes âgées",
+   libelle:"15 juin",
+   desc:"Journée des Nations unies consacrée à la prévention des maltraitances — physiques, psychologiques, financières — envers les aînés.",
+   aidant:"Rappel utile : l'épuisement d'un aidant peut mener à des gestes qu'on regrette. Demander de l'aide n'est pas un aveu d'échec."}
+];
+
 const ALL_MIN=[
   {n:"Déclarer une auxiliaire de vie à la CNSS (emploi direct)",role:"Social & handicap",desc:"Beaucoup de familles tunisiennes emploient directement une auxiliaire de vie certifiée, sans passer par une société. Cet emploi peut et doit être déclaré : la loi n°1960-30 assimile l'employé de maison à un salarié du régime général, et la personne employée accède alors à la couverture sociale, aux soins et à la retraite. Sans déclaration, l'auxiliaire n'a aucun droit, et la famille s'expose à un rappel de cotisations avec pénalités. Depuis 2026, l'ensemble des démarches se fait en ligne sur cnss.nat.tn.",services:["1. Établir un contrat de travail écrit et le faire viser par l'inspection du travail","2. Affilier la famille comme employeur particulier auprès de l'agence CNSS du lieu de résidence : formulaire d'affiliation, copie CIN, RIB et autorisation de prélèvement","3. Immatriculer l'auxiliaire si elle ne l'est pas déjà (dossier à son nom)","4. Déclarer et payer les cotisations chaque mois — prélèvement automatique, paiement en ligne ou au guichet bancaire","Cotisation : environ 5% du salaire à la charge de l'employée, 13% à la charge de la famille (personnel de maison)","En pratique : la déclaration est rare, mais elle protège l'auxiliaire — et c'est la seule voie qui lui ouvre des droits sociaux"],tel:"+216 71 150 000",site:"cnss.nat.tn",pays:"tn",col:"#534AB7"},
   {n:"Déclarer une auxiliaire de vie ou un garde-malade (CNSS)",role:"Santé",desc:"En Tunisie, une auxiliaire de vie ou un garde-malade employé directement par une famille relève du régime des « gens de maison » de la CNSS. La déclaration est possible et légale — beaucoup de familles l'ignorent et emploient au noir, ce qui prive l'employée de toute couverture (maladie, retraite, accident du travail) et expose l'employeur en cas de contrôle ou d'accident à domicile. La déclarer, c'est la protéger et se protéger.",services:["L'employeur particulier s'affilie à la CNSS comme employeur de gens de maison, dans le mois suivant l'embauche","Pièces : demande d'affiliation, CIN de l'employeur, CIN et immatriculation CNSS de l'employée (ou demande d'immatriculation si elle n'en a pas)","Autorisation de prélèvement bancaire automatique des cotisations","Assiette de cotisation forfaitaire prévue pour les gens de maison, sans avoir à détailler chaque acte","Déclaration et démarches en ligne sur cnss.nat.tn depuis 2026","Ouvre à l'employée l'accès à la CNAM, aux allocations familiales et aux droits à la retraite"],tel:"+216 71 150 100",site:"cnss.nat.tn",pays:"tn",col:"#1A3C5E"},
@@ -1943,7 +2063,7 @@ DISCIPLINES.forEach(d=>{
 
 function switchTab(t){
   view=t;
-  ["prat","hop","centre","societes","ecoute","douce","asso","min","transport","soutenir","carte"].forEach(id=>{
+  ["prat","hop","centre","societes","ecoute","douce","asso","min","agenda","transport","soutenir","carte"].forEach(id=>{
     var tabEl=document.getElementById("tab-"+id);
     var secEl=document.getElementById("section-"+id);
     if(tabEl) tabEl.classList.toggle("on",id===t);
@@ -1970,6 +2090,7 @@ function switchTab(t){
   }
   if(t==="asso") goAsso();
   if(t==="min") goMin();
+  if(t==="agenda") goAgenda();
   if(t==="douce") goDouce();
   if(t==="hop") goHop();
   if(t==="ecoute") goEcoute();
@@ -2620,6 +2741,72 @@ function goAsso(){
   document.getElementById("grid-asso").innerHTML=display.length?display.map(renderAsso).join(""):`<div class="empty">Aucune association trouvée pour ce département.<br><br>Utilisez le bouton "Trouver l'antenne de mon département" sur les fiches nationales.</div>`;
 }
 
+
+// ── AGENDA ───────────────────────────────────────────────────────────────────
+const MOIS_NOMS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+
+function prochaineOccurrence(ev){
+  const auj=new Date(); auj.setHours(0,0,0,0);
+  let d=new Date(auj.getFullYear(), ev.m-1, ev.j); d.setHours(0,0,0,0);
+  if(d<auj) d=new Date(auj.getFullYear()+1, ev.m-1, ev.j);
+  return d;
+}
+function joursAvant(ev){
+  const auj=new Date(); auj.setHours(0,0,0,0);
+  return Math.round((prochaineOccurrence(ev)-auj)/86400000);
+}
+function badgeDelai(n){
+  if(n===0) return '<span class="tbadge" style="background:#C8860A;color:#fff">C\'est aujourd\'hui</span>';
+  if(n===1) return '<span class="tbadge" style="background:#C8860A;color:#fff">Demain</span>';
+  if(n<=30) return '<span class="tbadge" style="background:#FFF0D9;color:#8A5A0F">Dans '+n+' jours</span>';
+  if(n<=90) return '<span class="tbadge" style="background:#F0EBE0;color:#7A6E5E">Dans '+Math.round(n/30)+' mois</span>';
+  return '';
+}
+
+function goAgenda(){
+  const grid=document.getElementById("grid-agenda");
+  if(!grid) return;
+  const q=(document.getElementById("sq-agenda")||{value:""}).value.toLowerCase();
+  const th=(document.getElementById("sf-agenda")||{value:""}).value;
+  const f=ALL_EVENTS.filter(ev=>{
+    if(ev.pays!=="int" && !ficheDansPays(ev,pays)) return false;
+    if(th && ev.th!==th) return false;
+    if(q && !((ev.n+" "+(ev.libelle||"")+" "+(ev.desc||"")+" "+(ev.th||"")).toLowerCase().includes(q))) return false;
+    return true;
+  }).sort((a,b)=>joursAvant(a)-joursAvant(b));
+
+  const rc=document.getElementById("rcount-agenda");
+  if(rc) rc.innerHTML='<strong>'+f.length+'</strong> date'+(f.length>1?"s":"")+' à venir';
+
+  if(!f.length){ grid.innerHTML='<div class="empty">Aucune date pour ce thème.</div>'; return; }
+
+  grid.innerHTML=f.map(ev=>{
+    const n=joursAvant(ev);
+    const d=prochaineOccurrence(ev);
+    const jourNum=ev.j, moisNom=MOIS_NOMS[ev.m-1];
+    const drapeaux = ev.pays==="int" ? '<span style="font-size:11px;color:#9A8E7E">International</span>'
+      : ev.pays.split(",").map(x=>pflag(x.trim())).join(" ");
+    return `<div class="card">
+      <div class="chead">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:54px;height:54px;border-radius:12px;background:#0B2A4A;color:#fff;flex-shrink:0">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;line-height:1">${jourNum}</span>
+          <span style="font-size:9px;text-transform:uppercase;letter-spacing:.5px;opacity:.85">${moisNom.slice(0,4)}</span>
+        </div>
+        <div style="flex:1">
+          <div class="cname">${ev.n}</div>
+          <div style="margin-top:4px"><span class="cspe" style="background:#EDE7DC;color:#5A5040">${ev.th}</span>${badgeDelai(n)}</div>
+        </div>
+      </div>
+      <div class="infos">
+        <div class="irow"><span>🗓</span><span>${ev.libelle||(jourNum+" "+moisNom)}</span></div>
+        <div class="irow"><span>🌍</span><span>${drapeaux}</span></div>
+        ${ev.desc?`<div style="font-size:13px;color:#5A5040;line-height:1.6;margin-top:6px">${ev.desc}</div>`:""}
+        ${ev.aidant?`<div class="irow" style="background:#FFF6E6;border-left:2px solid #C8860A;padding:8px 10px;border-radius:4px;margin-top:8px"><span>💛</span><span style="color:#8A5A0F">${ev.aidant}</span></div>`:""}
+      </div>
+    </div>`;
+  }).join("");
+}
+
 function goMin(){
   const q=document.getElementById("sq-min").value.toLowerCase();
   const sf=document.getElementById("sf-min").value;
@@ -2692,7 +2879,7 @@ function clearSearchGlobal(){
   if(results){results.style.display="none";results.innerHTML="";}
 }
 
-function renderAll(){updateStats();go();goHop();goEcoute();goDouce();goAsso();goMin();goCentre();goTransport();goSocietes();if(window._POROS_LANG&&window._POROS_LANG!=='fr'){try{applyLang(window._POROS_LANG);}catch(e){}}}
+function renderAll(){updateStats();go();goAgenda();goHop();goEcoute();goDouce();goAsso();goMin();goCentre();goTransport();goSocietes();if(window._POROS_LANG&&window._POROS_LANG!=='fr'){try{applyLang(window._POROS_LANG);}catch(e){}}}
 // Accessibilité — charger les préférences sauvegardées
 function chargerA11y(){
   const fs=localStorage.getItem("a11y_fontsize");
@@ -3321,6 +3508,7 @@ window.addEventListener('DOMContentLoaded', function(){
   try { updateStatsLanding(); } catch(e){ }
   try { chargerA11y(); } catch(e){ }
   try { updateVilles(); } catch(e){ }
+  try { remplirBandeauAgenda(); } catch(e){ }
   try { updateUrgences(); } catch(e){ }
   try { renderAll(); } catch(e){ }
   (async function(){
@@ -3329,7 +3517,7 @@ window.addEventListener('DOMContentLoaded', function(){
       if(extra){
         localStorage.setItem(STORAGE_KEY, JSON.stringify(extra));
         try{ chargerStorage(); }catch(e){}
-        try{ updateStats(); renderAll(); }catch(e){}
+        try{ updateStats(); renderAll(); remplirBandeauAgenda(); }catch(e){}
       }
     }catch(e){}
   })();
@@ -3536,6 +3724,21 @@ function afficherFormAdmin(){
   if(!type){c.innerHTML="";return;}
   const pays=PAYS.map(p=>`<option value="${p.id}">${p.flag} ${p.nom}</option>`).join("");
   const paysCheckboxes=PAYS.map(p=>`<label style="display:inline-flex;align-items:center;gap:5px;margin:0 10px 6px 0;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif"><input type="checkbox" class="a-pays-cb" value="${p.id}"> ${p.flag} ${p.nom}</label>`).join("");
+
+  if(type==="event"){
+    c.innerHTML=`<div class="admin-form">
+      <div class="admin-form-full"><label class="admin-label">Nom de la date / de l'événement *</label><input class="admin-input" id="a-n" placeholder="Ex: Café des aidants — Tunis"></div>
+      <div><label class="admin-label">Mois *</label><select class="admin-select" id="a-m">${MOIS_NOMS.map((m,i)=>`<option value="${i+1}">${m}</option>`).join("")}</select></div>
+      <div><label class="admin-label">Jour *</label><input class="admin-input" id="a-j" type="number" min="1" max="31" placeholder="Ex: 21"></div>
+      <div class="admin-form-full"><label class="admin-label">Libellé affiché <span style="color:#9A8E7E;font-weight:400">(facultatif — ex : « Première semaine d'octobre »)</span></label><input class="admin-input" id="a-libelle" placeholder="Laisser vide pour afficher la date simple"></div>
+      <div class="admin-form-full"><label class="admin-label">Pays concernés * <span style="color:#9A8E7E;font-weight:400">(ne rien cocher = date internationale, affichée partout)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
+      <div><label class="admin-label">Thème *</label><select class="admin-select" id="a-th"><option>Alzheimer &amp; troubles cognitifs</option><option>Aidants</option><option>Personnes âgées</option><option>Autres pathologies</option><option>Famille &amp; entourage</option></select></div>
+      <div class="admin-form-full"><label class="admin-label">Description</label><textarea class="admin-input" id="a-desc" rows="3" placeholder="Ce qui se passe ce jour-là"></textarea></div>
+      <div class="admin-form-full"><label class="admin-label">Pourquoi c'est utile à un aidant <span style="color:#9A8E7E;font-weight:400">(encart doré)</span></label><textarea class="admin-input" id="a-aidant" rows="2" placeholder="Ex: Occasion de faire dépister gratuitement un proche"></textarea></div>
+    </div>`;
+    return;
+  }
+
   const specs=["Aide-soignant(e)","Auxiliaire de vie","Avocat & juriste — Droit des personnes âgées","Cardio-gériatrie","Ergothérapie","Gériatrie","Infirmier(e) libéral(e)","Kinésithérapie","Médecine générale","Néphro-gériatrie","Neurologie","Neuropsychologie","Nutrition & diététique","Onco-gériatrie","Orthophonie","Podologie","Psychiatrie","Psychogérontologie","Psychologie clinique","Psychomotricien(ne)","Sexologie","Soins palliatifs","Travail social"].map(s=>`<option>${s}</option>`).join("");
   const discs=DISCIPLINES.filter(d=>d.id).map(d=>`<option value="${d.id}">${d.nom}</option>`).join("");
   const cols=["#534AB7","#1A3C5E","#2E7DAA","#0F6E56","#8A5200","#C8860A","#A32D2D","#3A6B8A","#4A7C59","#2E6DA4"];
@@ -3759,12 +3962,39 @@ function ajouterFiche(){
   if(!type){alert("Sélectionnez un type de fiche");return;}
   const n=(document.getElementById("a-n")||{value:""}).value.trim();
   const paysVal=Array.from(document.querySelectorAll(".a-pays-cb:checked")).map(x=>x.value).join(",");
-  if(!n||!paysVal){alert("Le nom et le pays sont obligatoires");return;}
+  if(!n){alert("Le nom est obligatoire");return;}
+  if(!paysVal && type!=="event"){alert("Le pays est obligatoire");return;}
 
   const pRaw=(document.getElementById("a-p")||{value:"Toutes pathologies"}).value;
   const pathos=pRaw.split(",").map(x=>x.trim()).filter(Boolean);
 
   let fiche={};
+  if(type==="event"){
+    fiche={
+      n,
+      m:parseInt((document.getElementById("a-m")||{value:"1"}).value)||1,
+      j:parseInt((document.getElementById("a-j")||{value:"1"}).value)||1,
+      pays:paysVal||"int",
+      th:(document.getElementById("a-th")||{value:"Aidants"}).value,
+      libelle:(document.getElementById("a-libelle")||{value:""}).value,
+      desc:(document.getElementById("a-desc")||{value:""}).value,
+      aidant:(document.getElementById("a-aidant")||{value:""}).value,
+      _uid:Date.now(), _added:true
+    };
+    ALL_EVENTS.push(fiche);
+    try{
+      const raw=localStorage.getItem(STORAGE_KEY);
+      const d=raw?JSON.parse(raw):{};
+      d.events=d.events||[]; d.events.push(fiche);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+      if(window.PorosCloud) window.PorosCloud.pushFiches(d);
+    }catch(e){}
+    try{ goAgenda(); }catch(e){}
+    toast("📅 Date ajoutée à l'agenda");
+    document.getElementById("a-type").value="";
+    document.getElementById("admin-form-container").innerHTML="";
+    return;
+  }
   if(type==="prat"||type==="hop"){
     fiche={
       n, t:(document.getElementById("a-t")||{value:""}).value,
@@ -4153,6 +4383,7 @@ function chargerStorage(){
     (data.centre||[]).forEach(f=>{if(!ALL_CENTRE.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_CENTRE.push(f);});
     (data.transport||[]).forEach(f=>{if(!ALL_TRANSPORT.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_TRANSPORT.push(f);});
     (data.societes||[]).forEach(f=>{if(!ALL_SOCIETES.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_SOCIETES.push(f);});
+    (data.events||[]).forEach(f=>{if(!ALL_EVENTS.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_EVENTS.push(f);});
     window._poros_modifs=data.modifs||[];
     window._poros_supprs=data.supprs||[];
     const n=(data.prat||[]).length+(data.hop||[]).length+(data.douce||[]).length+(data.asso||[]).length+(data.ecoute||[]).length;
@@ -5871,6 +6102,7 @@ ${mission}
               <option value="douce">🌿 Médecine douce</option>
               <option value="asso">🤝 Association</option>
               <option value="ecoute">📞 Plateforme d'écoute</option>
+              <option value="event">📅 Date / Événement</option>
               <option value="transport">🚐 Transport adapté</option>
             </select>
           </div>
