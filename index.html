@@ -986,9 +986,6 @@ function googleTranslateElementInit(){
   </div>
 
   <div id="section-prat">
-    <button class="btn-referer" onclick="ouvrirModal('prat')">
-      ➕ Référencer mon cabinet / ma pratique
-    </button>
     <div class="search-row">
       <input type="text" id="sq" placeholder="Rechercher nom, ville…" oninput="go()">
       <select id="sd" onchange="go()">
@@ -1044,6 +1041,9 @@ function googleTranslateElementInit(){
       </select>
     <div class="chips" id="chips-prat"></div>
     <div class="rcount" id="rcount-prat"></div>
+    <button class="btn-referer" onclick="ouvrirModal('prat')">
+      ➕ Référencer mon cabinet / ma pratique
+    </button>
     <div id="info-prat"></div>
     <div class="grid" id="grid-prat" aria-live="polite" aria-label="Résultats praticiens"></div>
   </div>
@@ -3136,20 +3136,21 @@ function go(){
     if(apVal&&apVal!=='Toutes pathologies'&&!p.p.some(x=>x===apVal||x==="Toutes pathologies"))return false;
     return true;
   });
-  document.getElementById("rcount-prat").innerHTML=`<strong>${f.length}</strong> praticien${f.length>1?"s":""} trouvé${f.length>1?"s":""}`;
+  const valP=id=>(document.getElementById(id)||{value:""}).value;
+  const filtreP = valP("sq")||valP("sd")||valP("ss")||valP("sg")||valP("sg-region")||(typeof ap!=="undefined"&&ap);
+  const rcP=document.getElementById("rcount-prat");
+  if(rcP) rcP.innerHTML=(!filtreP && !toutAfficher && f.length) ? "" : `<strong>${f.length}</strong> praticien${f.length>1?"s":""} trouvé${f.length>1?"s":""}`;
   try{ afficherGuideArrivee(); }catch(e){}
   const bInfo=document.getElementById("info-prat");
   if(bInfo) bInfo.innerHTML=bandeauInfo((document.getElementById("ss")||{value:""}).value, pays);
-  const valP=id=>(document.getElementById(id)||{value:""}).value;
-  const filtreP = valP("sq")||valP("sd")||valP("ss")||valP("sg")||valP("sg-region")||(typeof ap!=="undefined"&&ap);
   const gridP=document.getElementById("grid-prat");
   if(!f.length){
     gridP.innerHTML=`<div class="empty">Aucun résultat pour cette recherche.</div>`;
   } else if(!filtreP && !toutAfficher){
     gridP.innerHTML=`<div class="teaser">
       <div class="teaser-n">${f.length}</div>
-      <div class="teaser-l">praticien${f.length>1?"s":""} référencé${f.length>1?"s":""} dans ce pays.<br>Utilisez les menus ci-dessus pour trouver celui qu'il vous faut.</div>
-      <button class="teaser-b" onclick="afficherToutesLesFiches()">Afficher tout de même la liste complète</button>
+      <div class="teaser-l">praticien${f.length>1?"s":""} référencé${f.length>1?"s":""} dans ce pays</div>
+      <button class="teaser-b" onclick="afficherToutesLesFiches()">Voir la liste complète</button>
     </div>`;
   } else {
     gridP.innerHTML=f.map(p=>renderCard(p,"prat")).join("");
