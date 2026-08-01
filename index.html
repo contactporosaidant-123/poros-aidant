@@ -1317,6 +1317,14 @@ function googleTranslateElementInit(){
     </div>
     <div class="search-row">
       <input type="text" id="sq-agenda" placeholder="Rechercher une date, un thème…" oninput="goAgenda()">
+      <select id="st-agenda" onchange="goAgenda()">
+        <option value="">Tous les types</option>
+        <option>Journée mondiale ou nationale</option>
+        <option>Congrès ou colloque</option>
+        <option>Séminaire ou formation</option>
+        <option>Rencontre pour aidants</option>
+        <option>Semaine ou mois thématique</option>
+      </select>
       <select id="sf-agenda" onchange="goAgenda()">
         <option value="">Tous les thèmes</option>
         <option>Alzheimer & troubles cognitifs</option>
@@ -1414,12 +1422,12 @@ const URGENCES_PAYS={"fr":[{tel:"15",label:"SAMU"},{tel:"18",label:"Pompiers"},{
 // ── Bandeau agenda de la page d'accueil ──────────────────────────────────────
 function remplirBandeauAgenda(){
   const el=document.getElementById("marquee-agenda");
-  if(!pays){ const b=document.getElementById("bandeau-agenda"); if(b) b.style.display="none"; return; }
   const bb=document.getElementById("bandeau-agenda"); if(bb) bb.style.display="block";
   if(!el || typeof ALL_EVENTS==="undefined") return;
-  const paysCourant=(typeof pays!=="undefined"&&pays)?pays:"tn";
+  // Sans pays choisi (page d'accueil) : afficher les dates internationales
   const liste=ALL_EVENTS
-    .filter(ev=>ev.pays==="int"||ficheDansPays(ev,paysCourant))
+    .filter(ev=>!evenementPasse(ev))
+    .filter(ev=>!ev.pays||ev.pays==="int"||!pays||ficheDansPays(ev,pays))
     .sort((a,b)=>joursAvant(a)-joursAvant(b))
     .slice(0,6);
   if(!liste.length){ document.getElementById("bandeau-agenda").style.display="none"; return; }
@@ -2103,47 +2111,47 @@ const ALL_ASSO=[
 // ── AGENDA — grandes dates de l'aidance ──────────────────────────────────────
 // m = mois (1-12), j = jour d'ancrage pour le tri. pays "int" = affiché partout.
 const ALL_EVENTS=[
-  {n:"Journée mondiale de la maladie d'Alzheimer",m:9,j:21,pays:"int",th:"Alzheimer & troubles cognitifs",
+  {n:"Journée mondiale de la maladie d'Alzheimer",m:9,j:21,pays:"int",th:"Alzheimer & troubles cognitifs",type:"Journée mondiale ou nationale",
    libelle:"21 septembre — tout le mois de septembre est le Mois mondial Alzheimer",
    desc:"Portée par Alzheimer's Disease International. Partout, des associations ouvrent leurs portes : groupes de parole, conférences, ateliers mémoire, permanences d'information. En Tunisie, l'Association Alzheimer Tunisie est membre d'ADI depuis 2013.",
    aidant:"Le meilleur moment de l'année pour rencontrer d'autres aidants et découvrir les dispositifs près de chez vous."},
-  {n:"Journée internationale des personnes âgées",m:10,j:1,pays:"int",th:"Personnes âgées",
+  {n:"Journée internationale des personnes âgées",m:10,j:1,pays:"int",th:"Personnes âgées",type:"Journée mondiale ou nationale",
    libelle:"1er octobre",
    desc:"Journée des Nations unies. En Tunisie, le ministère de la Famille et le ministère de la Santé organisent des actions publiques — dépistages gratuits, conseils de prévention, notamment à Tunis.",
    aidant:"Occasion de faire dépister gratuitement un proche, et de s'informer sur les droits et les aides existantes."},
-  {n:"Journée nationale des aidants",m:10,j:6,pays:"fr",th:"Aidants",
+  {n:"Journée nationale des aidants",m:10,j:6,pays:"fr",th:"Aidants",type:"Journée mondiale ou nationale",
    libelle:"6 octobre",
    desc:"Journée dédiée aux proches aidants en France. Les plateformes de répit, les CCAS et les associations proposent des rencontres, des ateliers et des permanences.",
    aidant:"C'est votre journée. Beaucoup de structures en profitent pour faire connaître le droit au répit, souvent méconnu."},
-  {n:"Semaine bleue",m:10,j:1,pays:"fr",th:"Personnes âgées",
+  {n:"Semaine bleue",m:10,j:1,pays:"fr",th:"Personnes âgées",type:"Semaine ou mois thématique",
    libelle:"Première semaine d'octobre",
    desc:"Semaine nationale des retraités et des personnes âgées. Partout en France, communes et associations organisent des animations intergénérationnelles, des forums et des portes ouvertes.",
    aidant:"Une bonne occasion de visiter des accueils de jour ou des EHPAD sans engagement, pour se faire une idée."},
-  {n:"Journée mondiale de la santé mentale",m:10,j:10,pays:"int",th:"Aidants",
+  {n:"Journée mondiale de la santé mentale",m:10,j:10,pays:"int",th:"Aidants",type:"Journée mondiale ou nationale",
    libelle:"10 octobre",
    desc:"Journée de l'Organisation mondiale de la santé consacrée à la santé psychique.",
    aidant:"L'épuisement de l'aidant est un enjeu de santé mentale à part entière. Cette journée est souvent l'occasion de consultations et d'ateliers gratuits."},
-  {n:"Journée mondiale des soins palliatifs",m:10,j:11,pays:"int",th:"Autres pathologies",
+  {n:"Journée mondiale des soins palliatifs",m:10,j:11,pays:"int",th:"Autres pathologies",type:"Journée mondiale ou nationale",
    libelle:"Deuxième samedi d'octobre",
    desc:"Journée internationale de sensibilisation aux soins palliatifs et à l'accompagnement de fin de vie.",
    aidant:"Moment privilégié pour s'informer sur l'accompagnement de fin de vie à domicile et les droits qui s'y attachent."},
-  {n:"Journée mondiale de l'AVC",m:10,j:29,pays:"int",th:"Autres pathologies",
+  {n:"Journée mondiale de l'AVC",m:10,j:29,pays:"int",th:"Autres pathologies",type:"Journée mondiale ou nationale",
    libelle:"29 octobre",
    desc:"Campagne mondiale de sensibilisation à l'accident vasculaire cérébral : reconnaître les signes, agir vite, comprendre la rééducation.",
    aidant:"Rappel des signes d'alerte — un visage qui s'affaisse, un bras qui faiblit, une parole troublée : appelez les secours immédiatement."},
-  {n:"Journée nationale de la famille",m:12,j:11,pays:"tn",th:"Famille & entourage",
+  {n:"Journée nationale de la famille",m:12,j:11,pays:"tn",th:"Famille & entourage",type:"Journée mondiale ou nationale",
    libelle:"11 décembre",
    desc:"Journée célébrée chaque année en Tunisie, en référence à l'article 12 de la Constitution qui fait de la famille la cellule fondamentale de la société.",
    aidant:"Le ministère de la Famille y annonce souvent ses programmes et dispositifs pour les personnes âgées et leurs proches."},
-  {n:"Journée mondiale de la maladie de Parkinson",m:4,j:11,pays:"int",th:"Autres pathologies",
+  {n:"Journée mondiale de la maladie de Parkinson",m:4,j:11,pays:"int",th:"Autres pathologies",type:"Journée mondiale ou nationale",
    libelle:"11 avril",
    desc:"Journée internationale de sensibilisation à la maladie de Parkinson, marquée par des conférences et des ateliers de rééducation.",
    aidant:"Occasion de découvrir les approches non médicamenteuses : kinésithérapie, orthophonie et méthode LSVT pour la voix."},
-  {n:"Journée internationale des familles",m:5,j:15,pays:"int",th:"Famille & entourage",
+  {n:"Journée internationale des familles",m:5,j:15,pays:"int",th:"Famille & entourage",type:"Journée mondiale ou nationale",
    libelle:"15 mai",
    desc:"Journée des Nations unies. En Tunisie, le ministère de la Famille y organise des salons et y lance ses dispositifs nationaux.",
    aidant:"Bon moment pour s'informer sur les aides destinées aux familles qui accompagnent un proche."},
-  {n:"Journée mondiale de lutte contre la maltraitance des personnes âgées",m:6,j:15,pays:"int",th:"Personnes âgées",
+  {n:"Journée mondiale de lutte contre la maltraitance des personnes âgées",m:6,j:15,pays:"int",th:"Personnes âgées",type:"Journée mondiale ou nationale",
    libelle:"15 juin",
    desc:"Journée des Nations unies consacrée à la prévention des maltraitances — physiques, psychologiques, financières — envers les aînés.",
    aidant:"Rappel utile : l'épuisement d'un aidant peut mener à des gestes qu'on regrette. Demander de l'aide n'est pas un aveu d'échec."}
@@ -3530,9 +3538,18 @@ const MOIS_NOMS=["janvier","février","mars","avril","mai","juin","juillet","ao�
 
 function prochaineOccurrence(ev){
   const auj=new Date(); auj.setHours(0,0,0,0);
+  if(ev.annee){                       // événement ponctuel, daté
+    const d=new Date(ev.annee, ev.m-1, ev.j); d.setHours(0,0,0,0);
+    return d;
+  }
   let d=new Date(auj.getFullYear(), ev.m-1, ev.j); d.setHours(0,0,0,0);
   if(d<auj) d=new Date(auj.getFullYear()+1, ev.m-1, ev.j);
   return d;
+}
+// Un événement ponctuel dont la date est passée n'est plus affiché
+function evenementPasse(ev){
+  if(!ev.annee) return false;
+  return joursAvant(ev) < 0;
 }
 function joursAvant(ev){
   const auj=new Date(); auj.setHours(0,0,0,0);
@@ -3556,8 +3573,11 @@ function goAgenda(){
   const q=(document.getElementById("sq-agenda")||{value:""}).value.toLowerCase();
   const th=(document.getElementById("sf-agenda")||{value:""}).value;
   const f=ALL_EVENTS.filter(ev=>{
-    if(ev.pays!=="int" && !ficheDansPays(ev,pays)) return false;
+    if(evenementPasse(ev)) return false;
+    if(ev.pays && ev.pays!=="int" && !ficheDansPays(ev,pays)) return false;
     if(th && ev.th!==th) return false;
+    const tp=(document.getElementById("st-agenda")||{value:""}).value;
+    if(tp && (ev.type||"Journée mondiale ou nationale")!==tp) return false;
     if(q && !((ev.n+" "+(ev.libelle||"")+" "+(ev.desc||"")+" "+(ev.th||"")).toLowerCase().includes(q))) return false;
     return true;
   }).sort((a,b)=>joursAvant(a)-joursAvant(b));
@@ -3581,11 +3601,11 @@ function goAgenda(){
         </div>
         <div style="flex:1">
           <div class="cname">${ev.n}</div>
-          <div style="margin-top:4px"><span class="cspe" style="background:#EDE7DC;color:#5A5040">${ev.th}</span>${badgeDelai(n)}</div>
+          <div style="margin-top:4px">${(()=>{const T={"Journée mondiale ou nationale":"#3E5C8A","Congrès ou colloque":"#7A4E7E","Séminaire ou formation":"#2E7D8A","Rencontre pour aidants":"#C8860A","Semaine ou mois thématique":"#3E7A4E"};const t=ev.type||"Journée mondiale ou nationale";return `<span class="cspe" style="background:${T[t]||"#5A5040"}18;color:${T[t]||"#5A5040"}">${t}</span>`;})()}<span class="cspe" style="background:#EDE7DC;color:#5A5040">${ev.th}</span>${badgeDelai(n)}</div>
         </div>
       </div>
       <div class="infos">
-        <div class="irow"><span>🗓</span><span>${ev.libelle||(jourNum+" "+moisNom)}</span></div>
+        <div class="irow"><span>🗓</span><span>${ev.libelle||(jourNum+" "+moisNom+(ev.annee?" "+ev.annee:""))}${ev.annee?'':' <span style="color:#9A8E7E;font-size:11px">— chaque année</span>'}</span></div>
         <div class="irow"><span>🌍</span><span>${drapeaux}</span></div>
         ${ev.desc?`<div style="font-size:13px;color:#5A5040;line-height:1.6;margin-top:6px">${ev.desc}</div>`:""}
         ${ev.aidant?`<div class="irow" style="background:#FFF6E6;border-left:2px solid #C8860A;padding:8px 10px;border-radius:4px;margin-top:8px"><span>💛</span><span style="color:#8A5A0F">${ev.aidant}</span></div>`:""}
@@ -4522,8 +4542,10 @@ function afficherFormAdmin(){
       <div class="admin-form-full"><label class="admin-label">Nom de la date / de l'événement *</label><input class="admin-input" id="a-n" placeholder="Ex: Café des aidants — Tunis"></div>
       <div><label class="admin-label">Mois *</label><select class="admin-select" id="a-m">${MOIS_NOMS.map((m,i)=>`<option value="${i+1}">${m}</option>`).join("")}</select></div>
       <div><label class="admin-label">Jour *</label><input class="admin-input" id="a-j" type="number" min="1" max="31" placeholder="Ex: 21"></div>
+      <div><label class="admin-label">Année <span style="color:#9A8E7E;font-weight:400">(laisser vide si la date revient chaque année)</span></label><input class="admin-input" id="a-annee" type="number" min="2026" max="2040" placeholder="Ex: 2026 pour un congrès"></div>
       <div class="admin-form-full"><label class="admin-label">Libellé affiché <span style="color:#9A8E7E;font-weight:400">(facultatif — ex : « Première semaine d'octobre »)</span></label><input class="admin-input" id="a-libelle" placeholder="Laisser vide pour afficher la date simple"></div>
       <div class="admin-form-full"><label class="admin-label">Pays concernés * <span style="color:#9A8E7E;font-weight:400">(ne rien cocher = date internationale, affichée partout)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
+      <div><label class="admin-label">Type *</label><select class="admin-select" id="a-evtype"><option>Journée mondiale ou nationale</option><option>Congrès ou colloque</option><option>Séminaire ou formation</option><option>Rencontre pour aidants</option><option>Semaine ou mois thématique</option></select></div>
       <div><label class="admin-label">Thème *</label><select class="admin-select" id="a-th"><option>Alzheimer &amp; troubles cognitifs</option><option>Aidants</option><option>Personnes âgées</option><option>Autres pathologies</option><option>Famille &amp; entourage</option></select></div>
       <div class="admin-form-full"><label class="admin-label">Description</label><textarea class="admin-input" id="a-desc" rows="3" placeholder="Ce qui se passe ce jour-là"></textarea></div>
       <div class="admin-form-full"><label class="admin-label">Pourquoi c'est utile à un aidant <span style="color:#9A8E7E;font-weight:400">(encart doré)</span></label><textarea class="admin-input" id="a-aidant" rows="2" placeholder="Ex: Occasion de faire dépister gratuitement un proche"></textarea></div>
@@ -4767,8 +4789,10 @@ function ajouterFiche(){
       n,
       m:parseInt((document.getElementById("a-m")||{value:"1"}).value)||1,
       j:parseInt((document.getElementById("a-j")||{value:"1"}).value)||1,
-      pays:paysVal||"int",
+      annee:parseInt((document.getElementById("a-annee")||{value:""}).value)||null,
+      pays:(paysVal&&paysVal.trim())?paysVal:"int",
       th:(document.getElementById("a-th")||{value:"Aidants"}).value,
+      type:(document.getElementById("a-evtype")||{value:"Journée mondiale ou nationale"}).value,
       libelle:(document.getElementById("a-libelle")||{value:""}).value,
       desc:(document.getElementById("a-desc")||{value:""}).value,
       aidant:(document.getElementById("a-aidant")||{value:""}).value,
@@ -5070,6 +5094,39 @@ function normPays(v){
   }).filter(Boolean).join(",") || "tn";
 }
 
+
+// Confirmation adressée au praticien après validation de sa fiche
+function envoyerConfirmation(d){
+  const dd=d.data||{};
+  const dest=dd.email||dd.email_contact||"";
+  if(!dest) return false;
+  const paysNom=(PAYS.find(x=>x.id===normPays(dd.pays_code||dd.pays).split(",")[0])||{}).nom||"";
+  const corps=
+"Bonjour,\n\n"+
+"Votre demande de référencement sur Poros-Aidant a été validée : votre fiche est désormais visible dans l'annuaire.\n\n"+
+"Nom publié : "+(dd.nom||"")+"\n"+
+(dd.specialite?("Spécialité : "+dd.specialite+"\n"):"")+
+(dd.ville?("Lieu : "+dd.ville+(paysNom?(" — "+paysNom):"")+"\n"):"")+
+"\nPoros-Aidant est un annuaire gratuit destiné aux proches aidants de personnes âgées, en Tunisie et en France. "+
+"Votre fiche y est consultable librement, sans frais ni contrepartie.\n\n"+
+"Pour toute modification ou retrait, il vous suffit de répondre à ce message.\n\n"+
+"Merci de contribuer à mieux orienter les familles.\n\n"+
+"— L'équipe Poros-Aidant\nporos-aidant.netlify.app";
+  fetch("https://formspree.io/f/mgojkjar", {
+    method:"POST",
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body: JSON.stringify({
+      _replyto: dest,
+      _subject: "Votre fiche est en ligne sur Poros-Aidant",
+      destinataire: dest,
+      objet: "CONFIRMATION DE VALIDATION — à transférer à "+dest,
+      nom: dd.nom||"",
+      message: corps
+    })
+  }).catch(function(e){});
+  return true;
+}
+
 function validerDemande(id){
   const demandes=getDemandes();
   const d=demandes.find(x=>x.id===id);
@@ -5104,6 +5161,7 @@ function validerDemande(id){
   d.statut="validee";
   saveDemandes(demandes);
   try{ window.PorosCloud.updateDemande(d); }catch(e){}
+  const mailEnvoye=envoyerConfirmation(d);
   sauvegarderStorage();
   // Se placer sur le pays de la fiche pour la voir immédiatement
   const paysFiche=normPays(dd.pays_code||dd.pays).split(",")[0];
@@ -5114,7 +5172,7 @@ function validerDemande(id){
   }
   updateStats();renderAll();
   afficherDemandes();
-  toast(`✅ Fiche "${dd.nom}" validée et publiée !`);
+  toast(mailEnvoye ? `✅ Fiche "${dd.nom}" publiée — confirmation envoyée` : `✅ Fiche "${dd.nom}" publiée (aucun email fourni)`);
 }
 
 function rejeterDemande(id){
@@ -5196,7 +5254,20 @@ function chargerStorage(){
     (data.centre||[]).forEach(f=>{if(!ALL_CENTRE.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_CENTRE.push(f);});
     (data.transport||[]).forEach(f=>{if(!ALL_TRANSPORT.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_TRANSPORT.push(f);});
     (data.societes||[]).forEach(f=>{if(!ALL_SOCIETES.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_SOCIETES.push(f);});
-    (data.events||[]).forEach(f=>{if(!ALL_EVENTS.find(x=>x.n===f.n&&x.pays===f.pays)) ALL_EVENTS.push(f);});
+    (data.events||[]).forEach(f=>{
+      if(!f) return;
+      if(!f.pays) f.pays="int";                       // sans pays => internationale
+      if(!f.type){
+        const nom=(f.n||"").toLowerCase();
+        f.type = /congr[eè]s|colloque/.test(nom) ? "Congrès ou colloque"
+               : /s[ée]minaire|formation|atelier/.test(nom) ? "Séminaire ou formation"
+               : /caf[ée]|rencontre|groupe de parole/.test(nom) ? "Rencontre pour aidants"
+               : /semaine|mois /.test(nom) ? "Semaine ou mois thématique"
+               : "Journée mondiale ou nationale";
+      }
+      const doublon=ALL_EVENTS.find(x=>(f._uid&&x._uid===f._uid)||(x.n===f.n&&x.m===f.m&&x.j===f.j));
+      if(!doublon) ALL_EVENTS.push(f);
+    });
     window._poros_modifs=data.modifs||[];
     window._poros_supprs=data.supprs||[];
     const n=(data.prat||[]).length+(data.hop||[]).length+(data.douce||[]).length+(data.asso||[]).length+(data.ecoute||[]).length;
