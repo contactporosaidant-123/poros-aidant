@@ -392,6 +392,11 @@ body{top:0!important;position:static!important}
 .choixpays-b.soon:hover{background:#FBF8F2;color:#8A7C68;border-color:rgba(11,42,74,.18)}
 .choixpays-sep{font-size:12px;color:#9A8E7E;margin:18px 0 10px;font-family:'DM Sans',sans-serif}
 
+
+/* Infobulle des marqueurs de carte */
+.carte-tip{background:#0B2A4A;color:#F5EFE4;border:none;border-radius:6px;padding:6px 9px;
+  font-family:'DM Sans',sans-serif;font-size:12px;line-height:1.45;box-shadow:0 3px 10px rgba(11,42,74,.3)}
+.carte-tip::before{border-top-color:#0B2A4A !important}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -5805,6 +5810,29 @@ function coordsLieu(g){
   return null;
 }
 
+
+// Depuis la carte : ouvrir l'onglet concerné et isoler la fiche
+
+function basculerListeCarte(){
+  const d=document.getElementById("carte-liste-detail");
+  if(!d) return;
+  const ouvert=d.style.display!=="none";
+  d.style.display=ouvert?"none":"grid";
+  if(!ouvert){ d.style.gridTemplateColumns="repeat(auto-fill,minmax(230px,1fr))"; d.style.gap="10px"; }
+  const b=document.querySelector("#carte-liste .teaser-b");
+  if(b) b.textContent=ouvert?"Afficher la liste sous la carte":"Masquer la liste";
+}
+
+function ouvrirFicheDepuisCarte(cible, nom){
+  try{ switchTab(cible); }catch(e){}
+  const champ = cible==="hop" ? "sq-hop" : "sq";
+  const el=document.getElementById(champ);
+  if(el){ el.value=nom; }
+  try{ cible==="hop" ? goHop() : go(); }catch(e){}
+  const zone=document.getElementById("section-"+cible);
+  if(zone) zone.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
 function initCarte(){
   if(!document.getElementById("carte-map")) return;
   // Centrer sur le pays sélectionné
@@ -5883,12 +5911,21 @@ function carteAfficher(mode){
     });
 
     const marker = L.marker(coords, {icon}).addTo(carteMap);
+    // Infobulle au survol : nom et fonction
+    marker.bindTooltip(
+      `<span style="font-weight:600">${f.n}</span><br><span style="font-size:11px;opacity:.85">${f.s||f.t||""}</span>`,
+      {direction:"top", offset:[0,-14], opacity:0.96, className:"carte-tip"}
+    );
+    const cible = isHop ? "hop" : "prat";
     marker.bindPopup(`
-      <div style="font-family:'DM Sans',sans-serif;min-width:180px">
+      <div style="font-family:'DM Sans',sans-serif;min-width:200px">
         <div style="font-weight:600;color:#0B2A4A;margin-bottom:4px">${f.n}</div>
         <div style="font-size:12px;color:#5A5040;margin-bottom:4px">${f.s||f.t}</div>
         <div style="font-size:12px;color:#9A8E7E">📍 ${f.g}</div>
         ${f.tel?`<div style="font-size:12px;margin-top:6px"><a href="tel:${f.tel}" style="color:#0B2A4A;font-weight:600">${f.tel}</a></div>`:""}
+        <button onclick="ouvrirFicheDepuisCarte('${cible}','${(f.n||"").replace(/'/g,"\\'")}')"
+          style="margin-top:9px;width:100%;font-size:12px;font-weight:600;padding:7px 10px;background:#0B2A4A;color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:'DM Sans',sans-serif">
+          Voir la fiche complète →</button>
       </div>
     `);
     carteMarkers.push(marker);
@@ -5900,7 +5937,18 @@ function carteAfficher(mode){
   });
 
   document.getElementById("carte-count").textContent = `${affichees} établissement${affichees>1?"s":""} affiché${affichees>1?"s":""}`;
-  document.getElementById("carte-liste").innerHTML = cardsHtml.join("");
+  const zoneListe=document.getElementById("carte-liste");
+  if(zoneListe){
+    zoneListe.innerHTML = affichees
+      ? `<div class="teaser" style="margin-top:4px">
+           <div class="teaser-n">${affichees}</div>
+           <div class="teaser-l">structure${affichees>1?"s":""} localisée${affichees>1?"s":""} dans ce pays<br>
+             Survolez un point pour le nom, cliquez pour la fiche complète</div>
+           <button class="teaser-b" onclick="basculerListeCarte()">Afficher la liste sous la carte</button>
+         </div>
+         <div id="carte-liste-detail" style="display:none;margin-top:12px">${cardsHtml.join("")}</div>`
+      : `<div class="empty">Aucune structure localisée pour ce pays.</div>`;
+  }
 
   // Ajuster la vue si des marqueurs existent
   if(carteMarkers.length>0){
