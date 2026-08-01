@@ -4423,6 +4423,7 @@ function toast(msg){
 
 function getAllFiches(){
   return [
+    ...(typeof ALL_EVENTS!=="undefined"?ALL_EVENTS.map((f,i)=>({...f,_type:"event",_idx:i})):[]),
     ...ALL_PRAT.map((f,i)=>({...f,_type:"prat",_idx:i})),
     ...ALL_HOP.map((f,i)=>({...f,_type:"hop",_idx:i})),
     ...ALL_CENTRE.map((f,i)=>({...f,_type:"centre",_idx:i})),
@@ -4431,7 +4432,6 @@ function getAllFiches(){
     ...ALL_DOUCE.map((f,i)=>({...f,_type:"douce",_idx:i})),
     ...ALL_ASSO.map((f,i)=>({...f,_type:"asso",_idx:i})),
     ...ALL_ECOUTE.map((f,i)=>({...f,_type:"ecoute",_idx:i})),
-    ...(typeof ALL_EVENTS!=="undefined"?ALL_EVENTS.map((f,i)=>({...f,_type:"event",_idx:i})):[]),
   ];
 }
 
@@ -4444,9 +4444,11 @@ function chargerListeAdmin(){
 function filtrerFichesAdmin(q,mode){
   const list=document.getElementById("list-"+mode);
   const all=getAllFiches();
-  const filtered=q?all.filter(f=>(f.n||"").toLowerCase().includes(q.toLowerCase())):all;
-  const typeLabels={prat:"👨‍⚕️",hop:"🏥",douce:"🌿",asso:"🤝",ecoute:"📞"};
-  list.innerHTML=filtered.slice(0,50).map(f=>`
+  const LIB={prat:"praticien",hop:"hôpital",douce:"médecine douce",asso:"association",
+             ecoute:"écoute",centre:"centre",societes:"société",transport:"transport",event:"date agenda"};
+  const filtered=q?all.filter(f=>((f.n||"")+" "+(LIB[f._type]||"")+" "+(f.g||f.v||"")).toLowerCase().includes(q.toLowerCase())):all;
+  const typeLabels={prat:"👨‍⚕️",hop:"🏥",douce:"🌿",asso:"🤝",ecoute:"📞",centre:"🏠",societes:"🏢",transport:"🚐",event:"📅"};
+  list.innerHTML=filtered.slice(0,200).map(f=>`
     <div class="admin-item">
       <span class="admin-item-name">${typeLabels[f._type]||""} ${f.n}</span>
       <span class="admin-item-meta">${f.pays?.toUpperCase()||""} · ${f.g||f.v||""}</span>
@@ -5121,6 +5123,8 @@ function afficherDemandes(){
       </div>
     </div>`;
   }).join("");
+  if(filtered.length>200) list.innerHTML+=`<div style="padding:10px;font-size:12px;color:#9A8E7E;text-align:center">${filtered.length} fiches au total — affinez la recherche pour voir les suivantes</div>`;
+  else if(!filtered.length) list.innerHTML=`<div style="padding:14px;font-size:13px;color:#9A8E7E;text-align:center">Aucune fiche ne correspond.</div>`;
 }
 
 function toggleNotes(id){
