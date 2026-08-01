@@ -4431,6 +4431,7 @@ function getAllFiches(){
     ...ALL_DOUCE.map((f,i)=>({...f,_type:"douce",_idx:i})),
     ...ALL_ASSO.map((f,i)=>({...f,_type:"asso",_idx:i})),
     ...ALL_ECOUTE.map((f,i)=>({...f,_type:"ecoute",_idx:i})),
+    ...(typeof ALL_EVENTS!=="undefined"?ALL_EVENTS.map((f,i)=>({...f,_type:"event",_idx:i})):[]),
   ];
 }
 
@@ -4457,7 +4458,7 @@ function filtrerFichesAdmin(q,mode){
 }
 
 function getArray(type){
-  return type==="prat"?ALL_PRAT:type==="hop"?ALL_HOP:type==="douce"?ALL_DOUCE:type==="asso"?ALL_ASSO:type==="centre"?ALL_CENTRE:type==="transport"?ALL_TRANSPORT:type==="societes"?ALL_SOCIETES:ALL_ECOUTE;
+  return type==="event"?ALL_EVENTS:type==="prat"?ALL_PRAT:type==="hop"?ALL_HOP:type==="douce"?ALL_DOUCE:type==="asso"?ALL_ASSO:type==="centre"?ALL_CENTRE:type==="transport"?ALL_TRANSPORT:type==="societes"?ALL_SOCIETES:ALL_ECOUTE;
 }
 
 function supprimerFiche(type,idx){
@@ -4473,12 +4474,56 @@ function supprimerFiche(type,idx){
   toast(`🗑️ "${nom}" supprimée et sauvegardée`);
 }
 
+
+function enregistrerEditionEvent(){
+  const f=ALL_EVENTS[ficheEditIndex];
+  if(!f) return;
+  const v=id=>(document.getElementById(id)||{value:""}).value;
+  f.n=v("edit-n")||f.n;
+  f.m=parseInt(v("edit-m"))||f.m;
+  f.j=parseInt(v("edit-j"))||f.j;
+  f.annee=parseInt(v("edit-annee"))||null;
+  f.type=v("edit-evtype")||f.type;
+  f.th=v("edit-th")||f.th;
+  f.libelle=v("edit-libelle");
+  f.desc=v("edit-desc");
+  f.aidant=v("edit-aidant");
+  f._added=true;
+  if(f.annee){
+    const d=new Date(f.annee,f.m-1,f.j); d.setHours(0,0,0,0);
+    const auj=new Date(); auj.setHours(0,0,0,0);
+    if(d<auj && !confirm("Cette date est passée : elle ne sera pas visible.\n\nOK pour enregistrer quand même.")) return;
+  }
+  sauvegarderStorage();
+  try{ goAgenda(); remplirBandeauAgenda(); }catch(e){}
+  document.getElementById("form-modifier").style.display="none";
+  toast("📅 Date mise à jour");
+}
+
 function editerFiche(type,idx){
   const arr=getArray(type);
   const f=arr[idx];
   ficheEditIndex=idx;ficheEditType=type;
   const container=document.getElementById("form-modifier");
   container.style.display="block";
+  if(type==="event"){
+    container.innerHTML=`
+      <hr style="margin:16px 0;border-color:#E0D8CC">
+      <div style="font-size:13px;font-weight:500;color:#0B2A4A;margin-bottom:12px">📅 Modifier la date : ${f.n}</div>
+      <div class="admin-form">
+        <div class="admin-form-full"><label class="admin-label">Nom</label><input class="admin-input" id="edit-n" value="${(f.n||"").replace(/"/g,'&quot;')}"></div>
+        <div><label class="admin-label">Mois</label><select class="admin-select" id="edit-m">${MOIS_NOMS.map((mo,i)=>`<option value="${i+1}" ${f.m===i+1?"selected":""}>${mo}</option>`).join("")}</select></div>
+        <div><label class="admin-label">Jour</label><input class="admin-input" id="edit-j" type="number" min="1" max="31" value="${f.j||1}"></div>
+        <div><label class="admin-label">Année <span style="color:#9A8E7E;font-weight:400">(vide = chaque année)</span></label><input class="admin-input" id="edit-annee" type="number" min="2026" max="2040" value="${f.annee||""}"></div>
+        <div><label class="admin-label">Type</label><select class="admin-select" id="edit-evtype">${["Journée mondiale ou nationale","Congrès ou colloque","Séminaire ou formation","Rencontre pour aidants","Semaine ou mois thématique"].map(t=>`<option ${f.type===t?"selected":""}>${t}</option>`).join("")}</select></div>
+        <div><label class="admin-label">Thème</label><select class="admin-select" id="edit-th">${["Alzheimer &amp; troubles cognitifs","Aidants","Personnes âgées","Autres pathologies","Famille &amp; entourage"].map(t=>`<option ${f.th===t?"selected":""}>${t}</option>`).join("")}</select></div>
+        <div class="admin-form-full"><label class="admin-label">Libellé affiché <span style="color:#9A8E7E;font-weight:400">(ex : « 16, 17 et 18 octobre 2026 »)</span></label><input class="admin-input" id="edit-libelle" value="${(f.libelle||"").replace(/"/g,'&quot;')}"></div>
+        <div class="admin-form-full"><label class="admin-label">Description</label><textarea class="admin-input" id="edit-desc" rows="3">${f.desc||""}</textarea></div>
+        <div class="admin-form-full"><label class="admin-label">Pourquoi c'est utile à un aidant</label><textarea class="admin-input" id="edit-aidant" rows="2">${f.aidant||""}</textarea></div>
+      </div>
+      <button class="admin-btn" onclick="enregistrerEditionEvent()">💾 Enregistrer</button>`;
+    return;
+  }
   container.innerHTML=`
     <hr style="margin:16px 0;border-color:#E0D8CC">
     <div style="font-size:13px;font-weight:500;color:#0B2A4A;margin-bottom:12px">✏️ Modifier : ${f.n}</div>
@@ -4542,7 +4587,7 @@ function afficherFormAdmin(){
       <div class="admin-form-full"><label class="admin-label">Nom de la date / de l'événement *</label><input class="admin-input" id="a-n" placeholder="Ex: Café des aidants — Tunis"></div>
       <div><label class="admin-label">Mois *</label><select class="admin-select" id="a-m">${MOIS_NOMS.map((m,i)=>`<option value="${i+1}">${m}</option>`).join("")}</select></div>
       <div><label class="admin-label">Jour *</label><input class="admin-input" id="a-j" type="number" min="1" max="31" placeholder="Ex: 21"></div>
-      <div><label class="admin-label">Année <span style="color:#9A8E7E;font-weight:400">(laisser vide si la date revient chaque année)</span></label><input class="admin-input" id="a-annee" type="number" min="2026" max="2040" placeholder="Ex: 2026 pour un congrès"></div>
+      <div><label class="admin-label">Année <span style="color:#9A8E7E;font-weight:400">(laisser vide si la date revient chaque année)</span></label><input class="admin-input" id="a-annee" type="number" min="${new Date().getFullYear()}" max="2040" placeholder="Ex: ${new Date().getFullYear()+1} pour un congrès à venir"></div>
       <div class="admin-form-full"><label class="admin-label">Libellé affiché <span style="color:#9A8E7E;font-weight:400">(facultatif — ex : « Première semaine d'octobre »)</span></label><input class="admin-input" id="a-libelle" placeholder="Laisser vide pour afficher la date simple"></div>
       <div class="admin-form-full"><label class="admin-label">Pays concernés * <span style="color:#9A8E7E;font-weight:400">(ne rien cocher = date internationale, affichée partout)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
       <div><label class="admin-label">Type *</label><select class="admin-select" id="a-evtype"><option>Journée mondiale ou nationale</option><option>Congrès ou colloque</option><option>Séminaire ou formation</option><option>Rencontre pour aidants</option><option>Semaine ou mois thématique</option></select></div>
@@ -4798,6 +4843,16 @@ function ajouterFiche(){
       aidant:(document.getElementById("a-aidant")||{value:""}).value,
       _uid:Date.now(), _added:true
     };
+    // Prévenir si l'événement daté est déjà passé
+    if(fiche.annee){
+      const dEv=new Date(fiche.annee, fiche.m-1, fiche.j); dEv.setHours(0,0,0,0);
+      const auj=new Date(); auj.setHours(0,0,0,0);
+      if(dEv<auj){
+        if(!confirm("Cette date est déjà passée (" + fiche.j + " " + MOIS_NOMS[fiche.m-1] + " " + fiche.annee +
+          ").\n\nUn événement daté disparaît de l'agenda une fois écoulé : il ne sera donc pas visible.\n\n" +
+          "• OK pour l'enregistrer quand même\n• Annuler pour corriger la date")) return;
+      }
+    }
     ALL_EVENTS.push(fiche);
     try{
       const raw=localStorage.getItem(STORAGE_KEY);
