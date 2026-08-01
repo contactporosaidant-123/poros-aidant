@@ -5059,6 +5059,17 @@ function sauvegarderNotes(id){
   }
 }
 
+
+// Convertit un nom de pays en code, et tolère les listes multi-pays
+function normPays(v){
+  if(!v) return "tn";
+  const N={"tunisie":"tn","france":"fr","algérie":"dz","algerie":"dz","maroc":"ma","italie":"it",
+           "espagne":"es","grèce":"gr","grece":"gr","libye":"ly","monaco":"mc"};
+  return String(v).split(",").map(function(x){
+    x=x.trim(); return N[x.toLowerCase()]||x.toLowerCase();
+  }).filter(Boolean).join(",") || "tn";
+}
+
 function validerDemande(id){
   const demandes=getDemandes();
   const d=demandes.find(x=>x.id===id);
@@ -5073,20 +5084,20 @@ function validerDemande(id){
   const pathos=(dd.pathologies||dd.patho||"Toutes pathologies").split(",").map(x=>x.trim()).filter(Boolean);
 
   if(d.type==="prat"){
-    ALL_PRAT.push({n:dd.nom,t:dd.titre||dd.specialite,s:dd.specialite,p:pathos,g:dd.ville,pays:dd.pays_code||"tn",str:dd.adresse,adresse:dd.adresse,tel:dd.tel,e:dd.email||"",tele:dd.teleconsultation||"Non",l:dd.langues||"",_added:true,_uid:Date.now()});
+    ALL_PRAT.push({n:dd.nom,t:dd.titre||dd.specialite,s:dd.specialite,p:pathos,g:dd.ville,pays:normPays(dd.pays_code||dd.pays),str:dd.etablissement||dd.structure||"",adresse:dd.adresse||"",tel:dd.tel||"",e:dd.email||"",site:dd.site||"",tele:dd.teleconsultation||"Non",l:dd.langues||"",etab:dd.etab||"",dom:(dd.domicile==="oui"||dd.dom===true),note:dd.note||"",source:dd.source||"",_added:true,_uid:Date.now()});
   } else if(d.type==="hop"){
-    ALL_HOP.push({n:dd.nom,t:dd.titre||dd.specialite,s:dd.specialite,p:pathos,g:dd.ville,pays:dd.pays_code||"tn",str:dd.adresse,adresse:dd.adresse,tel:dd.tel,e:dd.email||"",tele:"Non",l:dd.langues||"",_added:true,_uid:Date.now()});
+    ALL_HOP.push({n:dd.nom,t:dd.titre||dd.specialite,s:dd.specialite,p:pathos,g:dd.ville,pays:normPays(dd.pays_code||dd.pays),str:dd.etablissement||dd.structure||"",adresse:dd.adresse||"",tel:dd.tel||"",e:dd.email||"",tele:dd.teleconsultation||"Non",l:dd.langues||"",etab:dd.etab||"",note:dd.note||"",source:dd.source||"",_added:true,_uid:Date.now()});
   } else if(d.type==="douce"){
-    ALL_DOUCE.push({n:dd.nom,t:dd.titre,d:dd.discipline,p:pathos,g:dd.ville,pays:dd.pays_code||"tn",str:dd.secteur||"Privé",tel:dd.tel,e:dd.email||"",tele:dd.teleconsultation||"Non",l:dd.langues||"",desc:dd.description||"",_added:true,_uid:Date.now()});
+    ALL_DOUCE.push({n:dd.nom,t:dd.titre,d:dd.discipline,p:pathos,g:dd.ville,pays:normPays(dd.pays_code||dd.pays),str:dd.secteur||"Privé",tel:dd.tel,e:dd.email||"",tele:dd.teleconsultation||"Non",l:dd.langues||"",desc:dd.description||"",_added:true,_uid:Date.now()});
   } else if(d.type==="asso"){
-    ALL_ASSO.push({n:dd.nom,mission:dd.mission,p:pathos,v:dd.ville,dept:dd.dept||"",region:dd.region||"",pays:dd.pays_code||"tn",adresse:dd.adresse||"",tel:dd.tel,e:dd.email||"",site:dd.site||"",col:"#534AB7",_added:true,_uid:Date.now()});
+    ALL_ASSO.push({n:dd.nom,mission:dd.mission,p:pathos,v:dd.ville,dept:dd.dept||"",region:dd.region||"",pays:normPays(dd.pays_code||dd.pays),adresse:dd.adresse||"",tel:dd.tel,e:dd.email||"",site:dd.site||"",col:"#534AB7",_added:true,_uid:Date.now()});
   } else if(d.type==="ecoute"){
-    ALL_ECOUTE.push({n:dd.nom,t:dd.titre,type:dd.public||"Aidants familiaux",pays:dd.pays_code||"tn",tel:dd.tel,e:dd.email||"",site:dd.site||"",horaires:dd.horaires||"",desc:dd.description||"",col:"#6B2E8A",_added:true,_uid:Date.now()});
+    ALL_ECOUTE.push({n:dd.nom,t:dd.titre,type:dd.public||"Aidants familiaux",pays:normPays(dd.pays_code||dd.pays),tel:dd.tel,e:dd.email||"",site:dd.site||"",horaires:dd.horaires||"",desc:dd.description||"",col:"#6B2E8A",_added:true,_uid:Date.now()});
   } else if(d.type==="centre"){
-    var paysCentre={"Tunisie":"tn","France":"fr","Maroc":"ma","Algérie":"dz","Italie":"it","Espagne":"es","Grèce":"gr","Libye":"ly","Monaco":"mc"}[dd.pays]||dd.pays_code||"tn";
+    var paysCentre=normPays(dd.pays_code||dd.pays);
     ALL_CENTRE.push({n:dd.nom,ctype:dd.type,p:pathos,g:dd.ville,pays:paysCentre,adresse:dd.adresse||"",places:dd.places||"",tel:dd.tel,e:dd.email||"",site:dd.site||"",desc:dd.description||"",col:"#1E7D6B",_added:true,_uid:Date.now()});
   } else if(d.type==="transport"){
-    var paysTr={"Tunisie":"tn","France":"fr","Maroc":"ma","Algérie":"dz","Italie":"it","Espagne":"es","Grèce":"gr","Libye":"ly","Monaco":"mc"}[dd.pays]||dd.pays_code||"tn";
+    var paysTr=normPays(dd.pays_code||dd.pays);
     ALL_TRANSPORT.push({n:dd.nom,ttype:dd.type,g:dd.ville,pays:paysTr,zone:dd.zone||"",tel:dd.tel,e:dd.email||"",site:dd.site||"",desc:dd.description||"",col:"#2E6DA4",_added:true,_uid:Date.now()});
   }
 
@@ -5094,6 +5105,13 @@ function validerDemande(id){
   saveDemandes(demandes);
   try{ window.PorosCloud.updateDemande(d); }catch(e){}
   sauvegarderStorage();
+  // Se placer sur le pays de la fiche pour la voir immédiatement
+  const paysFiche=normPays(dd.pays_code||dd.pays).split(",")[0];
+  if(paysFiche && paysFiche!==pays){
+    const btns=document.querySelectorAll(".pays-btn");
+    const nomP=(PAYS.find(x=>x.id===paysFiche)||{}).nom;
+    for(const b of btns){ if(nomP && b.textContent.includes(nomP)){ b.click(); break; } }
+  }
   updateStats();renderAll();
   afficherDemandes();
   toast(`✅ Fiche "${dd.nom}" validée et publiée !`);
@@ -5136,6 +5154,7 @@ function sauvegarderStorage(){
       centre:ALL_CENTRE.filter(f=>f._added),
       transport:ALL_TRANSPORT.filter(f=>f._added),
       societes:ALL_SOCIETES.filter(f=>f._added),
+      events:(typeof ALL_EVENTS!=="undefined"?ALL_EVENTS.filter(f=>f._added):[]),
       modifs: window._poros_modifs||[],
       supprs: window._poros_supprs||[],
       date: new Date().toISOString()
