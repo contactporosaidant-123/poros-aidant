@@ -5675,6 +5675,63 @@ function resetA11y(){
 // ── FIN ACCESSIBILITÉ ─────────────────────────────────────────────────────────
 // ── CARTE GÉOGRAPHIQUE ───────────────────────────────────────────────────────
 const COORDS_VILLES = {
+  "Manouba":[36.808,10.097],
+  "Paris (75)":[48.857,2.352],
+  "Hauts-de-Seine (92)":[48.828,2.219],
+  "Seine-Saint-Denis (93)":[48.914,2.482],
+  "Val-de-Marne (94)":[48.779,2.462],
+  "Yvelines (78)":[48.802,1.9],
+  "Essonne (91)":[48.532,2.263],
+  "Val-d'Oise (95)":[49.079,2.128],
+  "Seine-et-Marne (77)":[48.615,2.94],
+  "Rhône (69)":[45.764,4.836],
+  "Bouches-du-Rhône (13)":[43.297,5.37],
+  "Gironde (33)":[44.838,-0.579],
+  "Haute-Garonne (31)":[43.605,1.444],
+  "Nord (59)":[50.629,3.057],
+  "Alpes-Maritimes (06)":[43.7,7.268],
+  "Hérault (34)":[43.611,3.877],
+  "Ille-et-Vilaine (35)":[48.117,-1.677],
+  "Loire-Atlantique (44)":[47.218,-1.554],
+  "Bas-Rhin (67)":[48.573,7.752],
+  "Haut-Rhin (68)":[47.75,7.339],
+  "Isère (38)":[45.188,5.724],
+  "Marne (51)":[49.258,4.032],
+  "Calvados (14)":[49.183,-0.37],
+  "Seine-Maritime (76)":[49.443,1.099],
+  "Côte-d'Or (21)":[47.322,5.041],
+  "Doubs (25)":[47.238,6.024],
+  "Indre-et-Loire (37)":[47.394,0.689],
+  "Haute-Vienne (87)":[45.833,1.261],
+  "Vienne (86)":[46.58,0.34],
+  "Dordogne (24)":[45.184,0.721],
+  "Somme (80)":[49.894,2.296],
+  "Meurthe-et-Moselle (54)":[48.692,6.184],
+  "Moselle (57)":[49.12,6.176],
+  "Pyrénées-Atlantiques (64)":[43.328,-0.78],
+  "Vaucluse (84)":[43.949,4.806],
+  "Var (83)":[43.124,5.928],
+  "Pas-de-Calais (62)":[50.52,2.63],
+  "Aveyron (12)":[44.35,2.575],
+  "Eure-et-Loir (28)":[48.444,1.489],
+  "Eure (27)":[49.024,1.151],
+  "Maine-et-Loire (49)":[47.472,-0.554],
+  "Mayenne (53)":[48.07,-0.767],
+  "Morbihan (56)":[47.658,-2.76],
+  "Haute-Savoie (74)":[45.899,6.129],
+  "Tarn (81)":[43.928,2.148],
+  "Puy-de-Dôme (63)":[45.777,3.087],
+  "Ardennes (08)":[49.762,4.72],
+  "Pyrénées-Orientales (66)":[42.699,2.895],
+  "Corse-du-Sud (2A)":[41.926,8.736],
+  "Haute-Corse (2B)":[42.7,9.45],
+  "Guadeloupe (971)":[16.265,-61.551],
+  "Martinique (972)":[14.616,-61.058],
+  "Guyane (973)":[4.937,-52.326],
+  "La Réunion (974)":[-20.882,55.45],
+  "Mayotte (976)":[-12.781,45.228],
+  "France entière":[46.5,2.5],
+
   // Tunisie
   "Tunis":     [36.8190, 10.1660],
   "Ariana":    [36.8625, 10.1956],
@@ -5734,6 +5791,20 @@ let carteMap = null;
 let carteMarkers = [];
 let carteMode = "prat";
 
+
+// Trouve les coordonnées d'un lieu, même composé ("Tunis, Bouches-du-Rhône (13)")
+function coordsLieu(g){
+  if(!g) return null;
+  if(COORDS_VILLES[g]) return COORDS_VILLES[g];
+  const parties=String(g).split(/[,/]/).map(x=>x.trim());
+  for(const part of parties){ if(COORDS_VILLES[part]) return COORDS_VILLES[part]; }
+  // Repli : correspondance partielle (ex. "Tunis / La Soukra")
+  for(const cle in COORDS_VILLES){
+    if(parties.some(pp=>pp.toLowerCase().includes(cle.toLowerCase()))) return COORDS_VILLES[cle];
+  }
+  return null;
+}
+
 function initCarte(){
   if(!document.getElementById("carte-map")) return;
   // Centrer sur le pays sélectionné
@@ -5744,14 +5815,28 @@ function initCarte(){
 
   if(!carteMap){
     carteMap = L.map("carte-map").setView(center, zoom);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-      attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom:18
-    }).addTo(carteMap);
+    // Fond de carte CARTO : libellés majoritairement latins, rendu sobre,
+    // et serveurs fiables. Repli automatique sur OSM standard en cas d'échec.
+    const fond = L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{
+      attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · © <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains:'abcd', maxZoom:19
+    });
+    let secoursActif=false;
+    fond.on("tileerror", function(){
+      if(secoursActif) return;
+      secoursActif=true;
+      carteMap.removeLayer(fond);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+        attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom:18
+      }).addTo(carteMap);
+    });
+    fond.addTo(carteMap);
   } else {
     carteMap.setView(center, zoom);
     carteMap.invalidateSize();
   }
+  setTimeout(function(){ if(carteMap) carteMap.invalidateSize(); }, 120);
   carteAfficher(carteMode);
 }
 
@@ -5782,7 +5867,7 @@ function carteAfficher(mode){
   const cardsHtml = [];
 
   fiches.forEach(f=>{
-    const coords = COORDS_VILLES[f.g];
+    const coords = coordsLieu(f.g);
     if(!coords) return;
     affichees++;
 
