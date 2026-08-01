@@ -3549,7 +3549,10 @@ function prochaineOccurrence(ev){
 // Un événement ponctuel dont la date est passée n'est plus affiché
 function evenementPasse(ev){
   if(!ev.annee) return false;
-  return joursAvant(ev) < 0;
+  const auj=new Date(); auj.setHours(0,0,0,0);
+  const fin=new Date(ev.annee, ev.m-1, (ev.jfin&&ev.jfin>=ev.j)?ev.jfin:ev.j);
+  fin.setHours(23,59,59,999);
+  return fin < auj;
 }
 function joursAvant(ev){
   const auj=new Date(); auj.setHours(0,0,0,0);
@@ -3596,7 +3599,7 @@ function goAgenda(){
     return `<div class="card">
       <div class="chead">
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:54px;height:54px;border-radius:12px;background:#0B2A4A;color:#fff;flex-shrink:0">
-          <span style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;line-height:1">${jourNum}</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:${(ev.jfin&&ev.jfin!==ev.j)?"15":"20"}px;font-weight:600;line-height:1">${(ev.jfin&&ev.jfin!==ev.j)?(jourNum+"-"+ev.jfin):jourNum}</span>
           <span style="font-size:9px;text-transform:uppercase;letter-spacing:.5px;opacity:.85">${moisNom.slice(0,4)}</span>
         </div>
         <div style="flex:1">
@@ -3605,7 +3608,7 @@ function goAgenda(){
         </div>
       </div>
       <div class="infos">
-        <div class="irow"><span>🗓</span><span>${ev.libelle||(jourNum+" "+moisNom+(ev.annee?" "+ev.annee:""))}${ev.annee?'':' <span style="color:#9A8E7E;font-size:11px">— chaque année</span>'}</span></div>
+        <div class="irow"><span>🗓</span><span>${ev.libelle||((ev.jfin&&ev.jfin!==ev.j)?(jourNum+" au "+ev.jfin+" "+moisNom+(ev.annee?" "+ev.annee:"")):(jourNum+" "+moisNom+(ev.annee?" "+ev.annee:"")))}${ev.annee?'':' <span style="color:#9A8E7E;font-size:11px">— chaque année</span>'}</span></div>
         <div class="irow"><span>🌍</span><span>${drapeaux}</span></div>
         ${ev.desc?`<div style="font-size:13px;color:#5A5040;line-height:1.6;margin-top:6px">${ev.desc}</div>`:""}
         ${ev.aidant?`<div class="irow" style="background:#FFF6E6;border-left:2px solid #C8860A;padding:8px 10px;border-radius:4px;margin-top:8px"><span>💛</span><span style="color:#8A5A0F">${ev.aidant}</span></div>`:""}
@@ -4446,7 +4449,9 @@ function filtrerFichesAdmin(q,mode){
   const all=getAllFiches();
   const LIB={prat:"praticien",hop:"hôpital",douce:"médecine douce",asso:"association",
              ecoute:"écoute",centre:"centre",societes:"société",transport:"transport",event:"date agenda"};
-  const filtered=q?all.filter(f=>((f.n||"")+" "+(LIB[f._type]||"")+" "+(f.g||f.v||"")).toLowerCase().includes(q.toLowerCase())):all;
+  const cat=(document.getElementById("cat-"+mode)||{value:""}).value;
+  let filtered=cat?all.filter(f=>f._type===cat):all;
+  if(q) filtered=filtered.filter(f=>((f.n||"")+" "+(LIB[f._type]||"")+" "+(f.g||f.v||"")).toLowerCase().includes(q.toLowerCase()));
   const typeLabels={prat:"👨‍⚕️",hop:"🏥",douce:"🌿",asso:"🤝",ecoute:"📞",centre:"🏠",societes:"🏢",transport:"🚐",event:"📅"};
   list.innerHTML=filtered.slice(0,200).map(f=>`
     <div class="admin-item">
@@ -4484,6 +4489,7 @@ function enregistrerEditionEvent(){
   f.n=v("edit-n")||f.n;
   f.m=parseInt(v("edit-m"))||f.m;
   f.j=parseInt(v("edit-j"))||f.j;
+  f.jfin=parseInt(v("edit-jfin"))||null;
   f.annee=parseInt(v("edit-annee"))||null;
   f.type=v("edit-evtype")||f.type;
   f.th=v("edit-th")||f.th;
@@ -4515,7 +4521,8 @@ function editerFiche(type,idx){
       <div class="admin-form">
         <div class="admin-form-full"><label class="admin-label">Nom</label><input class="admin-input" id="edit-n" value="${(f.n||"").replace(/"/g,'&quot;')}"></div>
         <div><label class="admin-label">Mois</label><select class="admin-select" id="edit-m">${MOIS_NOMS.map((mo,i)=>`<option value="${i+1}" ${f.m===i+1?"selected":""}>${mo}</option>`).join("")}</select></div>
-        <div><label class="admin-label">Jour</label><input class="admin-input" id="edit-j" type="number" min="1" max="31" value="${f.j||1}"></div>
+        <div><label class="admin-label">Jour de début</label><input class="admin-input" id="edit-j" type="number" min="1" max="31" value="${f.j||1}"></div>
+        <div><label class="admin-label">Jour de fin <span style="color:#9A8E7E;font-weight:400">(plusieurs jours)</span></label><input class="admin-input" id="edit-jfin" type="number" min="1" max="31" value="${f.jfin||""}"></div>
         <div><label class="admin-label">Année <span style="color:#9A8E7E;font-weight:400">(vide = chaque année)</span></label><input class="admin-input" id="edit-annee" type="number" min="2026" max="2040" value="${f.annee||""}"></div>
         <div><label class="admin-label">Type</label><select class="admin-select" id="edit-evtype">${["Journée mondiale ou nationale","Congrès ou colloque","Séminaire ou formation","Rencontre pour aidants","Semaine ou mois thématique"].map(t=>`<option ${f.type===t?"selected":""}>${t}</option>`).join("")}</select></div>
         <div><label class="admin-label">Thème</label><select class="admin-select" id="edit-th">${["Alzheimer &amp; troubles cognitifs","Aidants","Personnes âgées","Autres pathologies","Famille &amp; entourage"].map(t=>`<option ${f.th===t?"selected":""}>${t}</option>`).join("")}</select></div>
@@ -4588,7 +4595,8 @@ function afficherFormAdmin(){
     c.innerHTML=`<div class="admin-form">
       <div class="admin-form-full"><label class="admin-label">Nom de la date / de l'événement *</label><input class="admin-input" id="a-n" placeholder="Ex: Café des aidants — Tunis"></div>
       <div><label class="admin-label">Mois *</label><select class="admin-select" id="a-m">${MOIS_NOMS.map((m,i)=>`<option value="${i+1}">${m}</option>`).join("")}</select></div>
-      <div><label class="admin-label">Jour *</label><input class="admin-input" id="a-j" type="number" min="1" max="31" placeholder="Ex: 21"></div>
+      <div><label class="admin-label">Jour de début *</label><input class="admin-input" id="a-j" type="number" min="1" max="31" placeholder="Ex: 16"></div>
+      <div><label class="admin-label">Jour de fin <span style="color:#9A8E7E;font-weight:400">(si l'événement dure plusieurs jours)</span></label><input class="admin-input" id="a-jfin" type="number" min="1" max="31" placeholder="Ex: 18"></div>
       <div><label class="admin-label">Année <span style="color:#9A8E7E;font-weight:400">(laisser vide si la date revient chaque année)</span></label><input class="admin-input" id="a-annee" type="number" min="${new Date().getFullYear()}" max="2040" placeholder="Ex: ${new Date().getFullYear()+1} pour un congrès à venir"></div>
       <div class="admin-form-full"><label class="admin-label">Libellé affiché <span style="color:#9A8E7E;font-weight:400">(facultatif — ex : « Première semaine d'octobre »)</span></label><input class="admin-input" id="a-libelle" placeholder="Laisser vide pour afficher la date simple"></div>
       <div class="admin-form-full"><label class="admin-label">Pays concernés * <span style="color:#9A8E7E;font-weight:400">(ne rien cocher = date internationale, affichée partout)</span></label><div style="display:flex;flex-wrap:wrap;padding:4px 0">${paysCheckboxes}</div></div>
@@ -4836,6 +4844,7 @@ function ajouterFiche(){
       n,
       m:parseInt((document.getElementById("a-m")||{value:"1"}).value)||1,
       j:parseInt((document.getElementById("a-j")||{value:"1"}).value)||1,
+      jfin:parseInt((document.getElementById("a-jfin")||{value:""}).value)||null,
       annee:parseInt((document.getElementById("a-annee")||{value:""}).value)||null,
       pays:(paysVal&&paysVal.trim())?paysVal:"int",
       th:(document.getElementById("a-th")||{value:"Aidants"}).value,
@@ -7078,14 +7087,16 @@ ${mission}
 
         <!-- MODIFIER -->
         <div class="admin-section" id="admin-modifier">
-          <input class="admin-search" placeholder="Rechercher une fiche à modifier…" oninput="filtrerFichesAdmin(this.value,'modifier')">
+          <select class="admin-select" id="cat-modifier" onchange="filtrerFichesAdmin(document.getElementById('q-modifier')?.value||'','modifier')" style="margin-bottom:8px"><option value="">Toutes les fiches</option><option value="event">📅 Dates de l'agenda</option><option value="prat">👨‍⚕️ Praticiens libéraux</option><option value="hop">🏥 Services hospitaliers</option><option value="centre">🏠 Centres</option><option value="societes">🏢 Sociétés de services</option><option value="douce">🌿 Médecine douce</option><option value="asso">🤝 Associations</option><option value="ecoute">📞 Plateformes d'écoute</option><option value="transport">🚐 Transport adapté</option></select>
+          <input class="admin-search" id="q-modifier" placeholder="Rechercher une fiche à modifier…" oninput="filtrerFichesAdmin(this.value,'modifier')">
           <div class="admin-list" id="list-modifier"></div>
           <div id="form-modifier" style="margin-top:16px;display:none"></div>
         </div>
 
         <!-- SUPPRIMER -->
         <div class="admin-section" id="admin-supprimer">
-          <input class="admin-search" placeholder="Rechercher une fiche à supprimer…" oninput="filtrerFichesAdmin(this.value,'supprimer')">
+          <select class="admin-select" id="cat-supprimer" onchange="filtrerFichesAdmin(document.getElementById('q-supprimer')?.value||'','supprimer')" style="margin-bottom:8px"><option value="">Toutes les fiches</option><option value="event">📅 Dates de l'agenda</option><option value="prat">👨‍⚕️ Praticiens libéraux</option><option value="hop">🏥 Services hospitaliers</option><option value="centre">🏠 Centres</option><option value="societes">🏢 Sociétés de services</option><option value="douce">🌿 Médecine douce</option><option value="asso">🤝 Associations</option><option value="ecoute">📞 Plateformes d'écoute</option><option value="transport">🚐 Transport adapté</option></select>
+          <input class="admin-search" id="q-supprimer" placeholder="Rechercher une fiche à supprimer…" oninput="filtrerFichesAdmin(this.value,'supprimer')">
           <div class="admin-list" id="list-supprimer"></div>
         </div>
 
