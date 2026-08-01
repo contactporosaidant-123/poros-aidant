@@ -375,6 +375,20 @@ body{top:0!important;position:static!important}
 .teaser-b{font-size:13px;font-weight:600;padding:11px 22px;background:#0B2A4A;color:#fff;border:none;
   border-radius:22px;cursor:pointer;font-family:'DM Sans',sans-serif}
 .teaser-b:hover{background:#C8860A}
+
+/* Invitation à choisir un pays */
+.choixpays{text-align:center;padding:38px 24px;background:linear-gradient(180deg,#FFFDF8,#FFF6E6);
+  border:1px solid rgba(200,134,10,.28);border-radius:14px;margin-bottom:18px}
+.choixpays-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0B2A4A;margin-bottom:10px}
+.choixpays-l{font-size:14px;color:#6A5C48;line-height:1.7;max-width:520px;margin:0 auto 18px}
+.choixpays-f{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.choixpays-b{font-size:14px;font-weight:600;padding:11px 20px;background:#fff;color:#0B2A4A;
+  border:1px solid rgba(11,42,74,.18);border-radius:24px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.choixpays-b:hover{background:#0B2A4A;color:#fff;border-color:#0B2A4A}
+.choixpays-b.soon{opacity:.5;cursor:default;background:#FBF8F2;color:#8A7C68;border-style:dashed}
+.choixpays-b.soon:hover{background:#FBF8F2;color:#8A7C68;border-color:rgba(11,42,74,.18)}
+.choixpays-sep{font-size:12px;color:#9A8E7E;margin:18px 0 10px;font-family:'DM Sans',sans-serif}
+
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1132,6 +1146,7 @@ function googleTranslateElementInit(){
       </select>
     </div>
     <div id="info-transport"></div>
+    <div id="info-transport"></div>
     <div class="rcount" id="rcount-transport"></div>
     <div class="grid" id="grid-transport" aria-live="polite" aria-label="Résultats transport"></div>
   </div>
@@ -1398,6 +1413,8 @@ const URGENCES_PAYS={"fr":[{tel:"15",label:"SAMU"},{tel:"18",label:"Pompiers"},{
 // ── Bandeau agenda de la page d'accueil ──────────────────────────────────────
 function remplirBandeauAgenda(){
   const el=document.getElementById("marquee-agenda");
+  if(!pays){ const b=document.getElementById("bandeau-agenda"); if(b) b.style.display="none"; return; }
+  const bb=document.getElementById("bandeau-agenda"); if(bb) bb.style.display="block";
   if(!el || typeof ALL_EVENTS==="undefined") return;
   const paysCourant=(typeof pays!=="undefined"&&pays)?pays:"tn";
   const liste=ALL_EVENTS
@@ -1446,6 +1463,7 @@ function updateStatsLanding(){
 }
 
 function updateUrgences(){
+  if(!pays) return;
   const nums=document.getElementById("urgence-nums");
   const paysBar=document.getElementById("urgence-pays-bar");
   if(!nums) return;
@@ -1896,6 +1914,20 @@ const ALL_ECOUTE=[
 
 // MÉDECINE DOUCE
 const ALL_DOUCE=[
+  {n:"Dr Gilles Andres",t:"<strong>Médecin</strong> acupuncteur — Membre de l'AFA · Consultation remboursée par l'Assurance Maladie",d:"acupuncture",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Paris (75)",pays:"fr",str:"Cabinet médical",adresse:"82 avenue Émile Zola — 75015 Paris",tel:"01 45 75 51 19",e:"",site:"",tele:"Non",l:"Français",desc:"Étant médecin, sa consultation est <strong>remboursée</strong> comme un acte médical — contrairement à un acupuncteur non médecin. L'acupuncture est utilisée chez la personne âgée sur les douleurs chroniques, arthrosiques ou lombaires, les nausées liées aux traitements et les troubles du sommeil.",source:"Annuaire des médecins acupuncteurs de la FAFORMEC, Fédération des Acupuncteurs pour leur Formation Médicale Continue (<a href='https://acupuncture-medic.fr/trouver-un-medecin-acupuncteur/' target='_blank' rel='noopener noreferrer'>acupuncture-medic.fr</a>). Consulté en juillet 2026."},
+  {n:"Dr Mariam Bellis-Chahim",t:"<strong>Médecin</strong> acupuncteur — Membre de l'ASMAF-EFA · Consultation remboursée",d:"acupuncture",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Paris (75)",pays:"fr",str:"Cabinet médical",adresse:"152 rue de Javel — 75015 Paris",tel:"01 40 60 00 93",e:"",site:"",tele:"Non",l:"Français",desc:"",source:"Annuaire des médecins acupuncteurs de la FAFORMEC, Fédération des Acupuncteurs pour leur Formation Médicale Continue (<a href='https://acupuncture-medic.fr/trouver-un-medecin-acupuncteur/' target='_blank' rel='noopener noreferrer'>acupuncture-medic.fr</a>). Consulté en juillet 2026."},
+  {n:"Dr Reza Bellis",t:"<strong>Médecin</strong> acupuncteur — Dermatologue-vénérologue · Consultation remboursée",d:"acupuncture",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Paris (75)",pays:"fr",str:"Cabinet médical",adresse:"37 rue du Départ — 75014 Paris",tel:"07 66 45 44 72",e:"",site:"",tele:"Non",l:"Français",desc:"",source:"Annuaire des médecins acupuncteurs de la FAFORMEC, Fédération des Acupuncteurs pour leur Formation Médicale Continue (<a href='https://acupuncture-medic.fr/trouver-un-medecin-acupuncteur/' target='_blank' rel='noopener noreferrer'>acupuncture-medic.fr</a>). Consulté en juillet 2026."},
+  {n:"Naturopathe-Iridologue — La Brède",t:"Naturopathe et iridologue",d:"naturopathie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Gironde (33)",pays:"fr",str:"Cabinet de naturopathie",adresse:"5 avenue Viana, appartement n°2, Résidence Montesquieu — 33650 La Brède",tel:"06 64 89 65 76",e:"natiripsye@gmail.com",site:"naturopathe-iridologue-saj.com",tele:"Non",l:"Français",desc:"Rappel : chez une personne âgée qui prend plusieurs médicaments, signalez toujours au médecin traitant les plantes et compléments proposés — certains interagissent avec les traitements.",source:"Annuaires de praticiens en médecines complémentaires. Consulté en juillet 2026."},
+  {n:"PEBES — André Fabre",t:"Naturopathe — Pratique également la réflexologie",d:"naturopathie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Alpes-Maritimes (06)",pays:"fr",str:"PEBES — Les Chardonnerets",adresse:"Bâtiment A, 7 avenue Gravier — 06100 Nice",tel:"06 62 89 62 10",e:"andre.fabre@numericable.fr",site:"",tele:"Non",l:"Français",desc:"",source:"Annuaires de praticiens en médecines complémentaires. Consulté en juillet 2026."},
+  {n:"Nature Ensemble — M.-H. Bonnet",t:"Naturopathe et phytothérapeute — Diététique, réflexologie",d:"naturopathie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Haute-Garonne (31)",pays:"fr",str:"Cabinet Nature Ensemble",adresse:"1361 rue du Tapiau — 31220 Mondavezan",tel:"05 61 87 42 54",e:"mhr.bonnet@free.fr",site:"naturensemble.fr",tele:"Non",l:"Français",desc:"",source:"Annuaires de praticiens en médecines complémentaires. Consulté en juillet 2026."},
+  {n:"Inès Sérizier — Arbor'essences Thérapies",t:"Équithérapeute — Médiation équine et équithérapie · Séances adaptées aux seniors, <strong>en établissement</strong> · Forme aussi de futurs équithérapeutes",d:"equitherapie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Eure (27)",pays:"fr",str:"Arbor'essences Thérapies — Domaine des Hauts de l'Andelle",adresse:"16 chemin de l'Argilière — 27910 Les Hogues · Second site : Les Écuries de l'Andelle, ferme de Ouenville — 76780 Elbeuf-sur-Andelle · Mardi au samedi, sur rendez-vous",tel:"06 59 09 51 53",e:"",site:"arboressences-therapies.net",tele:"Non",l:"Français",dom:true,desc:"Second numéro : 09 70 35 69 82. Elle <strong>transporte ses poneys dans les maisons de retraite</strong> — les animaux sont habitués à entrer dans les bâtiments, et même dans les chambres des résidents à mobilité réduite. Elle intervient à deux pour ce public. Séances individuelles ou en groupe, également contre la dépression. Types d'activités : pansage et soin, travail à pied, parcours de motricité, hypnose et relaxation. Intervient aussi en centres hospitaliers.",source:"Site du cabinet (<a href='https://www.arboressences-therapies.net' target='_blank' rel='noopener noreferrer'>arboressences-therapies.net</a>). Consulté en juillet 2026."},
+  {n:"Madeline Alford — Équithérapie et neuropsychologie",t:"Équithérapeute <strong>et neuropsychologue</strong> — Master consacré à l'équithérapie · Interventions en EHPAD",d:"equitherapie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Pyrénées-Orientales (66)",pays:"fr",str:"Cabinet d'équithérapie",adresse:"Pézilla-la-Rivière et Pyrénées-Orientales — interventions en établissement",tel:"",e:"",site:"",tele:"Non",l:"Français",dom:true,desc:"Double compétence rare : équithérapeute <em>et</em> neuropsychologue, ce qui lui permet d'articuler le travail avec le cheval et la stimulation cognitive. Ses séances travaillent la mémoire immédiate et la mémoire ancienne. Elle observe une nette amélioration du bien-être, une baisse de la dépression et une légère amélioration cognitive chez les résidents. Coordonnées non publiées : contactez l'EHPAD mutualiste de Pézilla-la-Rivière ou cherchez « équithérapeute Pyrénées-Orientales » — la praticienne intervient sur demande des établissements plutôt qu'en cabinet ouvert au public.",source:"Sites des praticiens et reportages en établissement. Consulté en juillet 2026."},
+  {n:"Sophrologie Henriet — Accompagnement des aînés",t:"Sophrologue spécialisée dans l'accompagnement des personnes retraitées — Interventions en EHPAD",d:"sophrologie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Var (83)",pays:"fr",str:"Cabinet Sophrologie Henriet",adresse:"Saint-Cyr-sur-Mer, La Ciotat et communes environnantes — cabinet et interventions en établissement",tel:"",e:"",site:"sophrologie-henriet.fr",tele:"Non",l:"Français",dom:true,desc:"Profil rare : une sophrologue <strong>spécialisée dans le grand âge</strong>, qui intervient au sein d'équipes pluridisciplinaires en maison de retraite. Sa pratique s'appuie sur des exercices respiratoires — notamment la respiration abdominale apaisante — et de la relaxation, adaptés au rythme et aux capacités des résidents.",source:"Sites des praticiens et annuaires municipaux. Consulté en juillet 2026."},
+  {n:"Juliette Vanoverschelde",t:"Sophrologue caycédienne",d:"sophrologie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Pas-de-Calais (62)",pays:"fr",str:"Cabinet Weppes Sophrologie",adresse:"998 rue de la Lys — 62840 Sailly-sur-la-Lys",tel:"06 24 23 10 73",e:"juliettevanoverschelde@outlook.fr",site:"weppessophrologie.fr",tele:"Non",l:"Français",desc:"La sophrologie caycédienne est la méthode originelle, structurée en cycles progressifs.",source:"Sites des praticiens et annuaires municipaux. Consulté en juillet 2026."},
+  {n:"Véronique Verclytte",t:"Sophrologue",d:"sophrologie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Pas-de-Calais (62)",pays:"fr",str:"Cabinet de sophrologie",adresse:"147 rue Bataille — 62840 Sailly-sur-la-Lys",tel:"06 60 59 07 24",e:"veronique.verclytte@gmail.com",site:"",tele:"Non",l:"Français",desc:"",source:"Sites des praticiens et annuaires municipaux. Consulté en juillet 2026."},
+  {n:"Bruno Saint-Maxent",t:"Hypnothérapeute — Diplôme universitaire · Membre du réseau Trèfles (cancers) · Formateur",d:"hypnose",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Pas-de-Calais (62)",pays:"fr",str:"Cabinet d'hypnothérapie",adresse:"3 rue Ervins — 62840 Sailly-sur-la-Lys",tel:"06 88 00 16 32",e:"bruno.saintmaxent@hotmail.fr",site:"bruno-saint-maxent-hypnotherapeute.business.site",tele:"Non",l:"Français",desc:"Deux gages de sérieux : un <strong>diplôme universitaire</strong> — et non une simple certification privée — et l'appartenance au <strong>réseau Trèfles</strong>, dédié à l'accompagnement en cancérologie. L'hypnose y est utilisée sur la douleur, l'anxiété et les effets des traitements.",source:"Sites des praticiens et annuaires municipaux. Consulté en juillet 2026."},
+  {n:"Cabinet d'ostéopathie — Le Thor",t:"Ostéopathe D.O. — Ostéopathie articulaire, vertébrale, viscérale et crânienne · Du nourrisson à la personne âgée",d:"osteopathie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Vaucluse (84)",pays:"fr",str:"Centre Paramédical Victor Hugo",adresse:"48 cours Victor Hugo, Centre Paramédical Victor Hugo — 84250 Le Thor",tel:"",e:"",site:"",tele:"Non",l:"Français",desc:"Exerce depuis 2012. Prise en charge de tous les publics, y compris les personnes âgées. Pensez à signaler une ostéoporose ou un traitement anticoagulant.",source:"Sites des praticiens et annuaires municipaux. Consulté en juillet 2026."},
+  {n:"Morgane Ferré",t:"Réflexologue — Pratique également le shiatsu",d:"reflexologie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Haute-Garonne (31)",pays:"fr",str:"Cabinet de réflexologie",adresse:"58 chemin des Carmes — 31650 Saint-Orens-de-Gameville",tel:"",e:"",site:"",tele:"Non",l:"Français",desc:"Chez la personne âgée, la réflexologie vaut surtout pour le <strong>contact bienveillant</strong> et l'apaisement qu'elle procure — utile avant le coucher.",source:"Sites des praticiens et annuaires municipaux. Consulté en juillet 2026."},
   {n:"Cabinet Santé des Pieds — Réflexologie",t:"Pédicure médicale et réflexologie plantaire — Membre de l'International Council of Reflexologists et du Réseau Africain des Réflexologues",d:"reflexologie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Tunis",pays:"tn",str:"Cabinet Santé des Pieds",adresse:"Tunis — prise de rendez-vous via le cabinet",tel:"",e:"",site:"podologie-reflexologie.com",tele:"Non",l:"Français, Arabe",desc:"La séance se déroule en quatre temps, dont une <strong>anamnèse</strong> préalable pour cibler les besoins — signe d'une pratique structurée. L'association pédicurie médicale et réflexologie est précieuse chez la personne âgée : le praticien voit l'état réel des pieds avant de masser, et repère une plaie ou une mycose qui contre-indiquerait la séance.",source:"Sites des cabinets et annuaires paramédicaux tunisiens. Consulté en juillet 2026."},
   {n:"Domkine — Réflexologie plantaire à domicile",t:"Kinésithérapeute diplômée, spécialisée en réflexologie plantaire — Séances au domicile",d:"reflexologie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Tunis",pays:"tn",str:"Domkine — Kinésithérapie à domicile",adresse:"Grand Tunis — au domicile du patient",tel:"",e:"",site:"domkine-tunisie.com",tele:"Non",l:"Français, Arabe",dom:true,desc:"",source:"Sites des cabinets et annuaires paramédicaux tunisiens. Consulté en juillet 2026."},
   {n:"Kinéfit — Réflexologie plantaire",t:"Centre de kinésithérapie proposant la réflexologie plantaire — Séances de 30 à 45 minutes",d:"reflexologie",p:["Alzheimer","Parkinson","Perte d'autonomie","Toutes pathologies"],g:"Tunis",pays:"tn",str:"Centre Kinéfit",adresse:"Tunis",tel:"",e:"",site:"kinefit.tn",tele:"Non",l:"Français, Arabe",desc:"Le centre précise le déroulé : position allongée, vêtements confortables, séance de 30 à 45 minutes. Utile à savoir pour préparer un proche qui appréhende.",source:"Sites des cabinets et annuaires paramédicaux tunisiens. Consulté en juillet 2026."},
@@ -2199,6 +2231,7 @@ function construireDatalistLieux(){
 }
 
 function updateVilles(){
+  if(!pays){ ["sg","sg-hop","sg-centre"].forEach(function(id){var e=document.getElementById(id); if(e) e.innerHTML='<option value="">Toutes villes</option>';}); return; }
   const sgRegion=document.getElementById("sg-region");
   const sg=document.getElementById("sg");
   if(!sgRegion||!sg) return;
@@ -2305,13 +2338,13 @@ function updateDepts(){
   }
 }
 
-let ap="", pays="tn", view="prat", subdouce="", urgencePays="tn";
+let ap="", pays="", view="prat", subdouce="", urgencePays="tn";
 
 // Pays bar
 const paysBar=document.getElementById("pays-bar");
 PAYS.forEach(p=>{
   const b=document.createElement("button");
-  b.className="pays-btn"+(p.id==="tn"?" on":"");
+  b.className="pays-btn";
   b.innerHTML=p.flag+" "+p.nom;
   b.onclick=()=>{pays=p.id;urgencePays=p.id;document.querySelectorAll(".pays-btn").forEach(x=>x.classList.remove("on"));b.classList.add("on");["ss","sd","sg","ss-hop","se-hop","sg-hop","sg-region-hop","ss-centre","sst-centre","sg-centre","ss-societes","sst-societes"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});var bi=document.getElementById("info-prat");if(bi)bi.innerHTML="";guideMasque=false;toutAfficher=false;toutAfficherDouce=false;var bh=document.getElementById("info-hop");if(bh)bh.innerHTML="";var bd=document.getElementById("info-douce");if(bd)bd.innerHTML="";var bt=document.getElementById("info-transport");if(bt)bt.innerHTML="";updateVilles();updateUrgences();updateStats();renderAll();};
   paysBar.appendChild(b);
@@ -2547,7 +2580,7 @@ function renderMin(m){
     <div class="foot" style="gap:6px">${contact}${site}</div></div>`;
 }
 
-function updateStats(){if(!document.getElementById("s-prat"))return;
+function updateStats(){if(!document.getElementById("s-prat"))return; if(!pays){["s-prat","s-hop","s-centre","s-asso","s-min","s-ecoute","s-douce"].forEach(function(i){var e=document.getElementById(i); if(e) e.textContent="—";}); return;}
   document.getElementById("s-prat").textContent=ALL_PRAT.filter(x=>ficheDansPays(x,pays)).length;
   document.getElementById("s-hop").textContent=ALL_HOP.filter(x=>ficheDansPays(x,pays)).length;
   document.getElementById("s-douce").textContent=ALL_DOUCE.filter(x=>ficheDansPays(x,pays)).length;
@@ -2694,7 +2727,11 @@ const ALL_CENTRE=[
   {n:"Plateforme de répit Le Boucasson",ctype:"Plateforme de répit",statut:"Privé associatif (à but non lucratif)",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Bouches-du-Rhône (13)",pays:"fr",adresse:"Accueil de jour Le Boucasson · Du lundi au vendredi, 8h30-12h et 13h-17h30",places:"",tel:"",e:"",site:"",desc:"Association Le Maillon. Secteur : Istres, Fos-sur-Mer, Miramas, Saint-Mitre-les-Remparts, Port-de-Bouc, Saint-Chamas, Grans, Berre-l'Étang, Martigues, Châteauneuf-les-Martigues et communes environnantes.",col:"#1E7D6B"},
   {n:"Plateforme de répit du Valadou",ctype:"Plateforme de répit",statut:"Privé associatif (à but non lucratif)",p:["Alzheimer","Parkinson","Perte d'autonomie"],g:"Aveyron (12)",pays:"fr",adresse:"Centre de ressources du Valadou — Montézic · Du lundi au vendredi, 9h-12h et 13h-17h",places:"",tel:"",e:"",site:"",desc:"Territoire du Nord-Aveyron : Saint-Amans-des-Côts, Mur-de-Barrez, Estaing, Espalion, Saint-Chély-d'Aubrac, Argence-en-Aubrac, Laguiole, Entraygues. Rendez-vous dans les locaux ou entretiens à domicile.",col:"#1E7D6B"},
 ];
-const ALL_TRANSPORT=[];
+const ALL_TRANSPORT=[
+  {n:"JUSSIEU Secours — Réseau national",ttype:"Ambulance",g:"France entière",pays:"fr",zone:"Réseau national, plus de 200 centres",adresse:"Recherche du centre le plus proche sur le site du réseau",tel:"",e:"",site:"jussieu-secours.fr",col:"#2E6DA4",note:"Réseau national de transport sanitaire. Certains centres disposent de <strong>VSL ou taxis PMR</strong> permettant de rester dans son fauteuil roulant — demandez-le explicitement à la réservation, tous les centres n'en ont pas. Dans les autres véhicules, le fauteuil voyage plié dans le coffre.",source:"Sites des transporteurs et annuaires professionnels. Consulté en juillet 2026."},
+  {n:"PAM — Pour Aider à la Mobilité",ttype:"Transport adapté PMR",g:"Paris (75)",pays:"fr",zone:"Paris et petite couronne selon le département",adresse:"Service départemental — inscription préalable obligatoire",tel:"",e:"",site:"",col:"#2E6DA4",note:"Service public de transport à la demande pour les personnes en perte d'autonomie ou en situation de handicap. Il dessert les rendez-vous médicaux <strong>mais aussi les sorties personnelles</strong> — courses, visites, loisirs — ce que ne couvre jamais le transport sanitaire. Nécessite une <strong>carte d'admission</strong> : anticipez l'inscription, elle prend du temps. Des services équivalents existent dans d'autres départements (PAM 94, etc.).",source:"Sites des transporteurs et annuaires professionnels. Consulté en juillet 2026."},
+  {n:"Ambulances et Taxis Saint-Julien",ttype:"Taxi conventionné",g:"Ardennes (08)",pays:"fr",zone:"Charleville-Mézières et Ardennes",adresse:"Charleville-Mézières — Ardennes",tel:"",e:"",site:"ambulances-taxis-stjulien-charleville.fr",col:"#2E6DA4",note:"Ambulances et taxis VSL acceptant les <strong>fauteuils roulants manuels ou électriques</strong>, avec rampe d'accès. Véhicules TPMR modulables, ambulanciers diplômés.",source:"Sites des transporteurs et annuaires professionnels. Consulté en juillet 2026."},
+];
 const ALL_SOCIETES=[
   {n:"HAD Tunisie — Soins et assistance à domicile",stype:"Services à la personne",statut:"Privé commercial",g:"Tunis",pays:"tn",zone:"Grand Tunis",adresse:"Immeuble Cascade, Passage Lac Balbina, Les Berges du Lac 1 — Tunis",h24:"oui",tel:"+216 52 953 954",e:"contact@had-tunisie.com",site:"had-tunisie.com",desc:"Société de services de santé à domicile alliant soins médicaux et assistance non médicale. Met à disposition des auxiliaires de vie pour le quotidien, des chauffeurs privés et des accompagnateurs, ainsi que l'aménagement ergonomique du logement et la livraison de médicaments. Prise en charge des personnes âgées, en situation de handicap, atteintes de maladies chroniques ou en sortie d'hospitalisation.",col:"#7A5FBF"},
   {n:"Trust Multiservices — Aide à la personne",stype:"Services à la personne",statut:"Privé commercial",g:"Tunis",pays:"tn",zone:"Grand Tunis et territoire national",adresse:"Tunis — intervention à domicile",h24:"oui",tel:"+216 24 266 000",e:"",site:"trust-multiservices.tn",desc:"Auxiliaires de vie et gardes-malades, femmes et hommes, pour l'accompagnement des personnes âgées, malades ou en convalescence à domicile : aide à la toilette et à l'habillage, préparation des repas, accompagnement aux déplacements, soins de confort, présence de jour comme de nuit. Intervient dans le Grand Tunis — La Marsa, Gammarth, Sidi Bou Saïd, Carthage, L'Aouina, Ariana — et dans plusieurs régions.",col:"#7A5FBF"},
@@ -2757,6 +2794,10 @@ function renderTransport(c){
 }
 
 function goCentre(){
+  if(!pays){ const g=document.getElementById("grid-centre"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const q=(document.getElementById("sq-centre")||{value:""}).value.toLowerCase();
   const ss=(document.getElementById("ss-centre")||{value:""}).value;
   const f=ALL_CENTRE.filter(c=>{
@@ -2777,6 +2818,10 @@ function goCentre(){
 }
 
 function goTransport(){
+  if(!pays){ const g=document.getElementById("grid-transport"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const bT=document.getElementById("info-transport");
   if(bT) bT.innerHTML=bandeauInfo("__transport__", pays);
   const q=(document.getElementById("sq-transport")||{value:""}).value.toLowerCase();
@@ -2795,6 +2840,10 @@ function goTransport(){
 }
 
 function goSocietes(){
+  if(!pays){ const g=document.getElementById("grid-societes"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const q=(document.getElementById("sq-societes")||{value:""}).value.toLowerCase();
   const ss=(document.getElementById("ss-societes")||{value:""}).value;
   const f=ALL_SOCIETES.filter(c=>{
@@ -2919,23 +2968,42 @@ const REPERES_COMMUN = {
     },
     "naturopathie": {
       titre:"Prudence sur les interactions médicamenteuses",
-      texte:"La naturopathie propose une approche d'hygiène de vie — alimentation, plantes, compléments. Chez une personne âgée qui prend souvent plusieurs médicaments, le point de vigilance est majeur : <strong>certaines plantes et compléments interagissent avec les traitements</strong> — anticoagulants, antidiabétiques, antihypertenseurs. Signalez systématiquement au médecin traitant tout ce que votre proche prend en dehors de ses ordonnances. Le titre n'est pas réglementé : vérifiez la formation, et méfiez-vous de toute promesse de guérison ou de tout conseil d'arrêter un traitement.<br><br><em>À savoir : ces approches <strong>complètent</strong> un suivi médical, elles ne le remplacent jamais. Sauf quand le praticien est médecin, les séances ne sont pas remboursées et la plupart de ces titres ne sont pas protégés — demandez la formation suivie et la certification.</em>",
+      texte:"La naturopathie propose une approche d'hygiène de vie — alimentation, plantes, compléments. Chez une personne âgée qui prend souvent plusieurs médicaments, le point de vigilance est majeur : <strong>certaines plantes et compléments interagissent avec les traitements</strong> — anticoagulants, antidiabétiques, antihypertenseurs. Signalez systématiquement au médecin traitant tout ce que votre proche prend en dehors de ses ordonnances. Le titre n'est pas réglementé : vérifiez la formation, et méfiez-vous de toute promesse de guérison ou de tout conseil d'arrêter un traitement.<br><br><em>À savoir : ces approches <strong>complètent</strong> un suivi médical, elles ne le remplacent jamais. Sauf quand le praticien est médecin, les séances ne sont pas remboursées et la plupart de ces titres ne sont pas protégés — demandez la formation suivie et la certification.</em> <br><br><strong>Comment vérifier un praticien en France ?</strong> La <strong>FÉNA</strong>, Fédération Française de Naturopathie créée en 1985, agrée les écoles et certifie les naturopathes par un examen fédéral, avec un <strong>numéro de certification unique</strong> — demandez-le. L'<strong>OMNES</strong> est l'autre organisation de référence. Ces certifications ne sont pas des diplômes d'État, mais elles attestent d'une formation sérieuse et d'un code de déontologie.",
       source:"Recommandations de bonne pratique et littérature sur les interventions non médicamenteuses chez la personne âgée ; Fondation Médéric Alzheimer. Consulté en juillet 2026.",
       onglet:"douce", lien:"Voir les praticiens"
     },
     "mesotherapie": {
-      titre:"Un acte médical, contre la douleur locale",
-      texte:"La mésothérapie consiste en de micro-injections superficielles, utilisées surtout contre les <strong>douleurs localisées</strong> — arthrose, tendinites, lombalgies. C'est un <strong>acte médical</strong> : elle ne peut être pratiquée que par un médecin, ce qui la distingue de la plupart des approches de cette rubrique. La consultation peut donc être prise en charge, même si les produits injectés ne le sont pas toujours. Signalez les traitements anticoagulants.<br><br><em>À savoir : ces approches <strong>complètent</strong> un suivi médical, elles ne le remplacent jamais. Sauf quand le praticien est médecin, les séances ne sont pas remboursées et la plupart de ces titres ne sont pas protégés — demandez la formation suivie et la certification.</em> <br><br><strong>Qui peut la pratiquer ?</strong> Uniquement un <strong>médecin</strong> — généraliste ou spécialiste — titulaire d'une formation en mésothérapie. Ni un kinésithérapeute ni un ostéopathe ne sont autorisés à réaliser des injections, quelle que soit leur formation. Si un praticien non médecin vous la propose, c'est un signal d'alerte. En revanche, le kinésithérapeute intervient utilement <em>en complément</em>, sur la mobilité et le renforcement, une fois la douleur calmée.",
-      source:"Recommandations de bonne pratique et littérature sur les interventions non médicamenteuses chez la personne âgée ; Fondation Médéric Alzheimer. Consulté en juillet 2026.",
-      onglet:"douce", lien:"Voir les praticiens"
+      titre:"Réservée aux médecins — où les trouver",
+      texte:"<strong>Un acte réservé aux médecins.</strong> La mésothérapie consiste en de micro-injections superficielles, utilisées surtout contre les <strong>douleurs localisées</strong> — arthrose, tendinites, lombalgies, douleurs cervicales — très fréquentes après 70 ans et souvent sous-traitées. Le principe est d'injecter peu, à faible dose et au plus près de la zone douloureuse, ce qui limite les effets généraux : un avantage réel chez une personne qui prend déjà plusieurs médicaments.<br><br><strong>Qui peut la pratiquer ?</strong> Uniquement un <strong>médecin</strong> — généraliste ou spécialiste — titulaire d'une formation en mésothérapie. Ni kinésithérapeute, ni ostéopathe, ni infirmier ne sont autorisés à réaliser ces injections, quelle que soit leur formation. Si un praticien non médecin vous la propose, c'est un signal d'alerte.<br><br><strong>Pourquoi cette rubrique est vide.</strong> Les médecins mésothérapeutes ne figurent pas dans les annuaires de médecines douces mais dans les <strong>annuaires médicaux</strong>, sous leur spécialité d'origine. Cherchez-les donc parmi les <strong>médecins généralistes</strong> et les <strong>rhumatologues</strong> de votre secteur, ou demandez à votre médecin traitant : beaucoup de généralistes la pratiquent sans l'afficher. L'<strong>Annuaire Santé de l'Assurance Maladie</strong> permet aussi de chercher par orientation.<br><br><strong>Remboursement.</strong> S'agissant d'un acte médical, la <strong>consultation</strong> est prise en charge dans le parcours de soins ; les produits injectés ne le sont pas toujours. Signalez systématiquement un traitement anticoagulant.<br><br><em>À savoir : cette approche complète un suivi médical, elle ne le remplace pas. Le kinésithérapeute intervient utilement <strong>après</strong>, sur la mobilité et le renforcement, une fois la douleur calmée.</em>",
+      source:"Cadre d'exercice de la mésothérapie, réservée aux docteurs en médecine ; Annuaire Santé de l'Assurance Maladie (<a href='https://annuairesante.ameli.fr' target='_blank' rel='noopener noreferrer'>annuairesante.ameli.fr</a>). Consulté en juillet 2026.",
+      spec:"Médecin généraliste", onglet:"prat", lien:"Voir les médecins généralistes"
     },
     "equitherapie": {
-      titre:"Plutôt réservée aux personnes encore mobiles",
-      texte:"L'équithérapie mobilise l'équilibre, le tonus et la relation à l'animal. Chez la personne âgée, elle suppose une <strong>mobilité et un équilibre suffisants</strong> — elle convient donc surtout en début de parcours, ou dans une formule au sol, sans monte : soins au cheval, pansage, marche à ses côtés. Si votre proche est fragile ou chuteur, la <strong>médiation animale classique</strong> (chien, chat, lapin), qui se pratique assis et en intérieur, sera plus adaptée et tout aussi bénéfique.<br><br><em>À savoir : ces approches <strong>complètent</strong> un suivi médical, elles ne le remplacent jamais. Sauf quand le praticien est médecin, les séances ne sont pas remboursées et la plupart de ces titres ne sont pas protégés — demandez la formation suivie et la certification.</em>",
-      source:"Recommandations de bonne pratique et littérature sur les interventions non médicamenteuses chez la personne âgée ; Fondation Médéric Alzheimer. Consulté en juillet 2026.",
+      titre:"Elle convient au grand âge — y compris en fauteuil",
+      texte:"<strong>Contrairement à une idée reçue, elle convient au grand âge — y compris en fauteuil roulant.</strong> L'essentiel des séances se déroule <strong>au sol</strong> : approche du cheval, brossage, caresses, nourrissage, observation. La monte est optionnelle et douce. Mieux : de nombreux praticiens <strong>amènent les chevaux ou les poneys dans les établissements</strong>, parfois jusque dans les chambres des résidents à mobilité réduite. Les chevaux utilisés sont choisis pour leur calme et habitués aux fauteuils.<br><br><strong>Ce qu'elle apporte, documenté en EHPAD.</strong> Diminution des troubles psycho-comportementaux — anxiété, apathie, agressivité —, <strong>baisse de la dépression</strong>, amélioration de l'humeur et des interactions entre résidents. Le contact stimule plusieurs sens à la fois et <strong>ravive des souvenirs anciens</strong> : beaucoup d'aînés ont connu les chevaux dans leur jeunesse, à la ferme ou aux champs, et la mémoire ancienne résiste longtemps. Les soins au cheval sollicitent aussi la motricité fine et l'équilibre.<br><br><strong>En pratique.</strong> Une séance dure environ une heure. Ce n'est pas un loisir mais un <strong>temps d'accompagnement thérapeutique</strong>, indiqué ou prescrit par un médecin. Cherchez un <strong>équithérapeute formé</strong> — certains sont aussi psychomotriciens ou neuropsychologues, ce qui est un vrai plus. Demandez si le praticien se déplace en établissement, si les chevaux sont habitués aux fauteuils, et si les séances sont individuelles ou en groupe.<br><br><em>À savoir : ces approches complètent un suivi médical, elles ne le remplacent jamais. Les séances ne sont pas remboursées ; certains établissements les financent sur leur budget d'animation — demandez-le à la direction.</em>",
+      source:"Reportage France 3 Occitanie sur l'équithérapie en EHPAD à Pézilla-la-Rivière ; Portail national de la Silver économie ; retours d'expérience d'établissements (GCSMS de la Sèvre, Les Jardins d'Henriville). Consulté en juillet 2026.",
       onglet:"douce", lien:"Voir les praticiens"
     },
 };
+
+
+// Écran d'accueil : inviter à choisir un pays avant d'afficher quoi que ce soit
+function ecranChoixPays(){
+  const dispo=PAYS.filter(p=>p.data);
+  const soon=PAYS.filter(p=>!p.data);
+  const boutons=dispo.map(p=>`<button class="choixpays-b" onclick="choisirPays('${p.id}')">${p.flag} ${p.nom}</button>`).join("");
+  const aVenir=soon.map(p=>`<span class="choixpays-b soon" title="Bientôt disponible">${p.flag} ${p.nom}</span>`).join("");
+  return `<div class="choixpays">
+    <div class="choixpays-t">Pour commencer, choisissez un pays</div>
+    <div class="choixpays-l">Les professionnels, les démarches administratives et les aides financières diffèrent d'un pays à l'autre. Sélectionnez celui qui vous concerne pour n'afficher que les informations utiles.</div>
+    <div class="choixpays-f">${boutons}</div>
+    ${aVenir?`<div class="choixpays-sep">Prochainement disponibles — l'annuaire s'étend progressivement à toute la Méditerranée</div><div class="choixpays-f">${aVenir}</div>`:""}
+  </div>`;
+}
+function choisirPays(id){
+  const btns=document.querySelectorAll(".pays-btn");
+  for(const b of btns){ if(b.textContent.trim().includes((PAYS.find(x=>x.id===id)||{}).nom)){ b.click(); return; } }
+}
 
 function bandeauInfo(spe, paysId){
   const REPERES = {
@@ -3082,7 +3150,7 @@ function bandeauInfo(spe, paysId){
     fr: {
       "__transport__": {
         titre:"Remboursé à 100 % en ALD — et attention au logo bleu",
-        texte:"<strong>Trois modes, une seule condition : l'ordonnance.</strong> L'<strong>ambulance</strong> (allongé), le <strong>VSL</strong> — véhicule sanitaire léger, assis — et le <strong>taxi conventionné</strong> ne sont remboursés que sur <strong>prescription médicale de transport</strong>, établie <em>avant</em> le déplacement et valable un an. Le médecin choisit le mode selon l'état de santé : un VSL ou un taxi conventionné se prescrit dès que la personne a besoin d'une aide technique — canne, déambulateur — ou de l'accompagnement d'un tiers.<br><br><strong>Le point qui change tout : 100 % en ALD.</strong> Le remboursement est de 55 % en général, mais de <strong>100 %</strong> pour une personne en <strong>affection de longue durée</strong> — ce qui est le cas de la maladie d'Alzheimer, de Parkinson et des suites d'AVC. Vérifiez que l'ALD de votre proche est bien déclarée : beaucoup de familles paient sans le savoir.<br><br><strong>Vérifiez le logo bleu.</strong> Un taxi conventionné porte un <strong>logo bleu sur la vitre arrière droite</strong>. Sans lui, le trajet reste <strong>intégralement à votre charge</strong>, même avec une ordonnance — c'est l'erreur la plus coûteuse.<br><br><strong>Depuis 2025, le transport partagé.</strong> Si l'ordonnance porte sur un VSL ou un taxi et qu'aucune contre-indication n'est notée, c'est un <strong>trajet partagé à deux patients</strong> qui est proposé, avec un détour limité à 10 km par personne. L'accepter donne droit au <strong>tiers payant</strong> — aucune avance de frais. Le refuser fait perdre cet avantage et réduit le remboursement. Si l'état de votre proche ne s'y prête pas — désorientation, agitation, douleur — <strong>demandez au médecin d'inscrire la contre-indication sur l'ordonnance</strong>.<br><br><strong>Où trouver un transporteur ?</strong> Pour un VSL ou une ambulance, l'annuaire santé de l'Assurance Maladie. Pour un taxi conventionné, appelez le <strong>3646</strong> ou passez par votre compte ameli.",
+        texte:"<strong>Trois modes, une seule condition : l'ordonnance.</strong> L'<strong>ambulance</strong> (allongé), le <strong>VSL</strong> — véhicule sanitaire léger, assis — et le <strong>taxi conventionné</strong> ne sont remboursés que sur <strong>prescription médicale de transport</strong>, établie <em>avant</em> le déplacement et valable un an. Le médecin choisit le mode selon l'état de santé : un VSL ou un taxi conventionné se prescrit dès que la personne a besoin d'une aide technique — canne, déambulateur — ou de l'accompagnement d'un tiers.<br><br><strong>Le point qui change tout : 100 % en ALD.</strong> Le remboursement est de 55 % en général, mais de <strong>100 %</strong> pour une personne en <strong>affection de longue durée</strong> — ce qui est le cas de la maladie d'Alzheimer, de Parkinson et des suites d'AVC. Vérifiez que l'ALD de votre proche est bien déclarée : beaucoup de familles paient sans le savoir.<br><br><strong>Vérifiez le logo bleu.</strong> Un taxi conventionné porte un <strong>logo bleu sur la vitre arrière droite</strong>. Sans lui, le trajet reste <strong>intégralement à votre charge</strong>, même avec une ordonnance — c'est l'erreur la plus coûteuse.<br><br><strong>Depuis 2025, le transport partagé.</strong> Si l'ordonnance porte sur un VSL ou un taxi et qu'aucune contre-indication n'est notée, c'est un <strong>trajet partagé à deux patients</strong> qui est proposé, avec un détour limité à 10 km par personne. L'accepter donne droit au <strong>tiers payant</strong> — aucune avance de frais. Le refuser fait perdre cet avantage et réduit le remboursement. Si l'état de votre proche ne s'y prête pas — désorientation, agitation, douleur — <strong>demandez au médecin d'inscrire la contre-indication sur l'ordonnance</strong>.<br><br><strong>Où trouver un transporteur ?</strong> Pour un VSL ou une ambulance, l'annuaire santé de l'Assurance Maladie. Pour un taxi conventionné, appelez le <strong>3646</strong> ou passez par votre compte ameli. <br><br><strong>La case que personne ne coche : « TPMR ».</strong> Si votre proche doit rester <strong>dans son fauteuil roulant</strong> pendant le trajet, cette case doit être cochée sur la prescription et le véhicule spécialement équipé. Sans elle, le fauteuil voyagera plié dans le coffre et il faudra le transférer — impossible pour certains. Demandez-le explicitement au médecin, puis au transporteur à la réservation.<br><br><strong>Hors soins</strong>, pour des courses ou une visite : renseignez-vous sur les services <strong>PAM</strong> (Pour Aider à la Mobilité) de votre département, les dispositifs des agglomérations, et les aides de la <strong>caisse de retraite</strong> — CARSAT, MSA, Agirc-Arrco. Le transport sanitaire ne couvre jamais ces trajets-là.",
         source:"Décret du 28 février 2025 sur le transport médical partagé ; règles de prise en charge des frais de transport de l'Assurance Maladie. Voir <a href='https://www.ameli.fr/assure/remboursements/rembourse/frais-transport' target='_blank' rel='noopener noreferrer'>ameli.fr</a> et <a href='https://www.service-public.gouv.fr/particuliers/vosdroits/F2951' target='_blank' rel='noopener noreferrer'>service-public.gouv.fr</a>. Consulté en juillet 2026.",
         onglet:"min", lien:"Voir les annuaires officiels"
       },
@@ -3254,6 +3322,10 @@ function bandeauInfo(spe, paysId){
 }
 
 function go(){
+  if(!pays){ const g=document.getElementById("grid-prat"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const q=document.getElementById("sq").value.toLowerCase();
   const ss=document.getElementById("ss").value;
   const profil=(document.getElementById("ss-profil")||{value:""}).value;
@@ -3307,6 +3379,10 @@ function updateDeptsHop(){
 }
 
 function goHop(){
+  if(!pays){ const g=document.getElementById("grid-hop"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const q=document.getElementById("sq-hop").value.toLowerCase();
   const ss=document.getElementById("ss-hop").value;
   const pObj=PAYS.find(x=>x.id===pays);
@@ -3331,6 +3407,10 @@ function goHop(){
 }
 
 function goEcoute(){
+  if(!pays){ const g=document.getElementById("grid-ecoute"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const q=document.getElementById("sq-ecoute").value.toLowerCase();
   const sf=document.getElementById("sf-ecoute").value;
   const pObj=PAYS.find(x=>x.id===pays);
@@ -3347,6 +3427,10 @@ function goEcoute(){
 }
 
 function goDouce(){
+  if(!pays){ const g=document.getElementById("grid-douce"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const q=document.getElementById("sq-douce").value.toLowerCase();
   const bD=document.getElementById("info-douce");
   if(bD) bD.innerHTML=bandeauInfo(subdouce, pays);
@@ -3377,6 +3461,10 @@ function goDouce(){
 }
 
 function goAsso(){
+  if(!pays){ const g=document.getElementById("grid-asso"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const q=(document.getElementById("sq-asso")||{value:""}).value.toLowerCase();
   const sf=(document.getElementById("sf-asso")||{value:""}).value;
   const sfr=(document.getElementById("sf-asso-region")||{value:""}).value;
@@ -3434,6 +3522,10 @@ function badgeDelai(n){
 }
 
 function goAgenda(){
+  if(!pays){ const g=document.getElementById("grid-agenda"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const grid=document.getElementById("grid-agenda");
   if(!grid) return;
   const q=(document.getElementById("sq-agenda")||{value:""}).value.toLowerCase();
@@ -3478,6 +3570,10 @@ function goAgenda(){
 }
 
 function goMin(){
+  if(!pays){ const g=document.getElementById("grid-min"); if(g) g.innerHTML=ecranChoixPays();
+    ["rcount-prat","rcount-hop","rcount-centre","rcount-societes","rcount-douce","rcount-asso","rcount-min","rcount-ecoute","rcount-transport","rcount-agenda"].forEach(function(r){var e=document.getElementById(r);if(e)e.innerHTML="";});
+    var mb=document.getElementById("msg-bienvenue"); if(mb) mb.style.display="none";
+    return; }
   const q=document.getElementById("sq-min").value.toLowerCase();
   const sf=document.getElementById("sf-min").value;
   const pObj=PAYS.find(x=>x.id===pays);
