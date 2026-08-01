@@ -1265,7 +1265,7 @@ function googleTranslateElementInit(){
       <div style="display:flex;gap:6px">
         <button id="carte-btn-prat" onclick="carteAfficher('prat')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #0B2A4A;background:#0B2A4A;color:#fff;cursor:pointer">👨‍⚕️ Praticiens</button>
         <button id="carte-btn-hop" onclick="carteAfficher('hop')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer">🏥 Hôpitaux</button>
-        <button id="carte-btn-tous" onclick="carteAfficher('tous')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer">Tous</button>
+        <button id="carte-btn-centre" onclick="carteAfficher('centre')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer">🏠 Centres</button> <button id="carte-btn-societes" onclick="carteAfficher('societes')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer">🏢 Sociétés</button> <button id="carte-btn-douce" onclick="carteAfficher('douce')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer">🌿 Médecine douce</button> <button id="carte-btn-asso" onclick="carteAfficher('asso')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer">🤝 Associations</button> <button id="carte-btn-transport" onclick="carteAfficher('transport')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer">🚐 Transport</button> <button id="carte-btn-tous" onclick="carteAfficher('tous')" style="font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1.5px solid #E0D8CC;background:#FEFCF8;color:#5A5040;cursor:pointer">Tous</button>
       </div>
       <div style="font-size:12px;color:#9A8E7E" id="carte-count"></div>
     </div>
@@ -5680,6 +5680,65 @@ function resetA11y(){
 // ── FIN ACCESSIBILITÉ ─────────────────────────────────────────────────────────
 // ── CARTE GÉOGRAPHIQUE ───────────────────────────────────────────────────────
 const COORDS_VILLES = {
+  "Saint-Malo":[48.649,-2.026],
+  "Saint-Fargeau-Ponthierry":[48.548,2.523],
+  "Le Raincy":[48.897,2.518],
+  "Bourg-en-Bresse":[46.205,5.226],
+
+  "Ajaccio":[41.926,8.736],
+  "Bastia":[42.7,9.45],
+  "Bardo":[36.809,10.14],
+  "Annecy":[45.899,6.129],
+  "Besançon":[47.238,6.024],
+  "Brest":[48.39,-4.486],
+  "Vannes":[47.658,-2.76],
+  "Tours":[47.394,0.689],
+  "Orléans":[47.902,1.909],
+  "Arras":[50.291,2.778],
+  "Amiens":[49.894,2.296],
+  "Beauvais":[49.43,2.081],
+  "Cergy":[49.036,2.063],
+  "Saint-Lô":[49.115,-1.089],
+  "La Rochelle":[46.16,-1.151],
+  "Pau":[43.296,-0.37],
+  "Rodez":[44.35,2.575],
+  "La Roche-sur-Yon":[46.67,-1.427],
+  "Le Mans":[48.007,0.2],
+  "Avignon":[43.949,4.806],
+  "Gap":[44.559,6.079],
+  "Poitiers":[46.58,0.34],
+  "Limoges":[45.833,1.261],
+  "Saint-Étienne":[45.439,4.387],
+  "Le Havre":[49.494,0.108],
+  "Mulhouse":[47.75,7.339],
+  "Chartres":[48.444,1.489],
+  "Troyes":[48.297,4.075],
+  "Valence":[44.933,4.892],
+  "Bourges":[47.081,2.399],
+  "Niort":[46.324,-0.464],
+  "Laval":[48.07,-0.767],
+  "Blois":[47.586,1.335],
+  "Colmar":[48.078,7.358],
+  "Quimper":[47.996,-4.098],
+  "Lorient":[47.748,-3.367],
+  "Saint-Brieuc":[48.514,-2.765],
+  "Châteauroux":[46.812,1.69],
+  "Auxerre":[47.798,3.573],
+  "Nevers":[46.99,3.163],
+  "Chambéry":[45.564,5.918],
+  "Bayonne":[43.493,-1.475],
+  "Agen":[44.203,0.616],
+  "Albi":[43.928,2.148],
+  "Carcassonne":[43.213,2.351],
+  "Béziers":[43.344,3.216],
+  "Cannes":[43.552,7.017],
+  "Antibes":[43.581,7.125],
+  "Fort-de-France":[14.616,-61.058],
+  "Pointe-à-Pitre":[16.241,-61.533],
+  "Saint-Denis":[-20.882,55.45],
+  "Cayenne":[4.937,-52.326],
+  "Mamoudzou":[-12.781,45.228],
+
   "Manouba":[36.808,10.097],
   "Paris (75)":[48.857,2.352],
   "Hauts-de-Seine (92)":[48.828,2.219],
@@ -5825,10 +5884,13 @@ function basculerListeCarte(){
 
 function ouvrirFicheDepuisCarte(cible, nom){
   try{ switchTab(cible); }catch(e){}
-  const champ = cible==="hop" ? "sq-hop" : "sq";
-  const el=document.getElementById(champ);
-  if(el){ el.value=nom; }
-  try{ cible==="hop" ? goHop() : go(); }catch(e){}
+  const CH={prat:"sq",hop:"sq-hop",centre:"sq-centre",societes:"sq-societes",
+            douce:"sq-douce",asso:"sq-asso",transport:"sq-transport"};
+  const FN={prat:"go",hop:"goHop",centre:"goCentre",societes:"goSocietes",
+            douce:"goDouce",asso:"goAsso",transport:"goTransport"};
+  const el=document.getElementById(CH[cible]||"sq");
+  if(el) el.value=nom;
+  try{ window[FN[cible]||"go"](); }catch(e){}
   const zone=document.getElementById("section-"+cible);
   if(zone) zone.scrollIntoView({behavior:"smooth", block:"start"});
 }
@@ -5871,7 +5933,7 @@ function initCarte(){
 function carteAfficher(mode){
   carteMode = mode;
   // Mettre à jour boutons
-  ["prat","hop","tous"].forEach(m=>{
+  ["prat","hop","centre","societes","douce","asso","transport","tous"].forEach(m=>{
     const btn = document.getElementById("carte-btn-"+m);
     if(btn){
       btn.style.background = m===mode?"#0B2A4A":"#FEFCF8";
@@ -5888,23 +5950,33 @@ function carteAfficher(mode){
 
   // Construire liste des fiches à afficher
   let fiches = [];
-  if(mode==="prat"||mode==="tous") fiches.push(...ALL_PRAT.filter(f=>ficheDansPays(f,pays)));
-  if(mode==="hop"||mode==="tous") fiches.push(...ALL_HOP.filter(f=>ficheDansPays(f,pays)));
+  const add=(arr,cat)=>{ (arr||[]).filter(f=>ficheDansPays(f,pays)).forEach(f=>fiches.push({...f,_cat:cat})); };
+  if(mode==="prat"||mode==="tous")      add(ALL_PRAT,"prat");
+  if(mode==="hop"||mode==="tous")       add(ALL_HOP,"hop");
+  if(mode==="centre"||mode==="tous")    add(ALL_CENTRE,"centre");
+  if(mode==="societes"||mode==="tous")  add(ALL_SOCIETES,"societes");
+  if(mode==="douce"||mode==="tous")     add(ALL_DOUCE,"douce");
+  if(mode==="asso"||mode==="tous")      add(ALL_ASSO,"asso");
+  if(mode==="transport"||mode==="tous") add(ALL_TRANSPORT,"transport");
 
   let affichees = 0;
   const cardsHtml = [];
 
   fiches.forEach(f=>{
-    const coords = coordsLieu(f.g);
+    const coords = coordsLieu(f.g||f.v||f.zone);
     if(!coords) return;
     affichees++;
 
-    const isHop = ALL_HOP.includes(f);
-    const col = isHop?"#2C3E6B":(PRAT_COLS[f.s]||"#1A3C5E");
+    const CAT={prat:{i:"+",c:null},hop:{i:"🏥",c:"#2C3E6B"},centre:{i:"🏠",c:"#1E7D6B"},
+               societes:{i:"🏢",c:"#7A5FBF"},douce:{i:"🌿",c:"#4A7C59"},
+               asso:{i:"🤝",c:"#534AB7"},transport:{i:"🚐",c:"#2E6DA4"}};
+    const cat=CAT[f._cat]||CAT.prat;
+    const isHop = f._cat==="hop";
+    const col = cat.c || PRAT_COLS[f.s] || "#1A3C5E";
 
     // Icône personnalisée
     const icon = L.divIcon({
-      html:`<div style="width:28px;height:28px;border-radius:50%;background:${col};border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700">${isHop?"🏥":"+"}</div>`,
+      html:`<div style="width:28px;height:28px;border-radius:50%;background:${col};border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700">${cat.i}</div>`,
       className:"",
       iconSize:[28,28],
       iconAnchor:[14,14]
@@ -5913,15 +5985,15 @@ function carteAfficher(mode){
     const marker = L.marker(coords, {icon}).addTo(carteMap);
     // Infobulle au survol : nom et fonction
     marker.bindTooltip(
-      `<span style="font-weight:600">${f.n}</span><br><span style="font-size:11px;opacity:.85">${f.s||f.t||""}</span>`,
+      `<span style="font-weight:600">${f.n}</span><br><span style="font-size:11px;opacity:.85">${f.s||f.t||f.ctype||f.stype||f.ttype||""}</span>`,
       {direction:"top", offset:[0,-14], opacity:0.96, className:"carte-tip"}
     );
-    const cible = isHop ? "hop" : "prat";
+    const cible = f._cat || "prat";
     marker.bindPopup(`
       <div style="font-family:'DM Sans',sans-serif;min-width:200px">
         <div style="font-weight:600;color:#0B2A4A;margin-bottom:4px">${f.n}</div>
-        <div style="font-size:12px;color:#5A5040;margin-bottom:4px">${f.s||f.t}</div>
-        <div style="font-size:12px;color:#9A8E7E">📍 ${f.g}</div>
+        <div style="font-size:12px;color:#5A5040;margin-bottom:4px">${f.s||f.t||f.ctype||f.stype||f.ttype||f.mission||""}</div>
+        <div style="font-size:12px;color:#9A8E7E">📍 ${f.g||f.v||""}</div>
         ${f.tel?`<div style="font-size:12px;margin-top:6px"><a href="tel:${f.tel}" style="color:#0B2A4A;font-weight:600">${f.tel}</a></div>`:""}
         <button onclick="ouvrirFicheDepuisCarte('${cible}','${(f.n||"").replace(/'/g,"\\'")}')"
           style="margin-top:9px;width:100%;font-size:12px;font-weight:600;padding:7px 10px;background:#0B2A4A;color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:'DM Sans',sans-serif">
@@ -5931,7 +6003,7 @@ function carteAfficher(mode){
     carteMarkers.push(marker);
     cardsHtml.push(`<div style="background:#FEFCF8;border:1px solid #E0D8CC;border-radius:10px;padding:12px;border-left:3px solid ${col};cursor:pointer" onclick="carteMap.setView([${coords[0]},${coords[1]}],13)">
       <div style="font-size:13px;font-weight:500;color:#2C2416">${f.n}</div>
-      <div style="font-size:12px;color:#9A8E7E">${f.s||f.t} · ${f.g}</div>
+      <div style="font-size:12px;color:#9A8E7E">${f.s||f.t||f.ctype||f.stype||f.ttype||""} · ${f.g||f.v||""}</div>
       ${f.tel?`<div style="font-size:12px;color:#2E6DA4;margin-top:4px">${f.tel}</div>`:""}
     </div>`);
   });
